@@ -39,8 +39,8 @@ export default AdCarouselCard
 const styles = StyleSheet.create({
     card: {
         width: Dimensions.CAROUSEL_CARD_LENGTH,
-        height: 180,
+        height: Dimensions.SCREEN_HEIGHT * 0.2,
         overflow: 'hidden',
-        borderRadius: 20
+        borderRadius: 15
     }
 })
