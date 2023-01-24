@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Image, useWindowDimensions, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
-import Icon, { Icons } from '../components/Icons';
+import Icon, { Icons } from '../components/global/Icons';
 import Dimensions from '../constants/Dimensions';
 import MenuTab from '../components/ClubDetailScreen/MenuTab';
 import QuickLookTab from '../components/ClubDetailScreen/QuickLookTab';

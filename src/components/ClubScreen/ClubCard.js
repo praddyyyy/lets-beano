@@ -1,7 +1,7 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import Dimensions from '../../constants/Dimensions'
-import Icon, { Icons } from '../Icons'
+import Icon, { Icons } from '../global/Icons'
 import { useNavigation } from '@react-navigation/native'
 
 const ClubCard = (props) => {

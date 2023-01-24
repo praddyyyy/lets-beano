@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React from 'react'
-import Icon, { Icons } from '../Icons'
+import Icon, { Icons } from '../global/Icons'
 
 const FilterDateSortButtons = (props) => {
     return (

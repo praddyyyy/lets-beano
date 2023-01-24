@@ -4,7 +4,7 @@ import ImageResizeMode from 'react-native/Libraries/Image/ImageResizeMode'
 import Animated, { interpolate, useAnimatedStyle, Extrapolate, useSharedValue, interpolateNode } from 'react-native-reanimated';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import MapView, { Marker } from 'react-native-maps';
-import Icon, { Icons } from '../components/Icons';
+import Icon, { Icons } from '../components/global/Icons';
 import { MotiView, useDynamicAnimation } from 'moti'
 
 

@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { SearchBar } from 'react-native-elements';
 import Animated, { useCode, spring, Value, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
-import Icon, { Icons } from './Icons';
+import Icon, { Icons } from './global/Icons';
 
 
 const SearchBarReanimated = () => {

@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native'
 import MapView, { Marker } from 'react-native-maps';
-import Icon, { Icons } from '../Icons';
+import Icon, { Icons } from '../global/Icons';
 import React from 'react'
 
 const QuickLookTab = (props) => {

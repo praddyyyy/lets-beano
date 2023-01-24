@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, StatusBar } from 'react-native'
 import React, { useState } from 'react'
-import Icon, { Icons } from '../Icons'
-import FilterSectionButton from '../FilterSectionButton'
+import Icon, { Icons } from '../global/Icons'
+import FilterSectionButton from '../global/FilterSectionButton'
 import { Slider } from 'react-native-elements'
 
 

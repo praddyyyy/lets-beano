@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, useWindowDimensions, Image, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { SceneMap, TabView, TabBar } from 'react-native-tab-view';
-import Icon, { Icons } from '../components/Icons';
+import Icon, { Icons } from '../components/global/Icons';
 import Dimensions from '../constants/Dimensions';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';

@@ -6,7 +6,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import DATA from '../constants/caraousel'
-import AdCarouselCard from '../components/AdCarouselCard'
+import AdCarouselCard from '../components/HomeScreen/AdCarouselCard'
 import Animated, { Extrapolation, interpolate, useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import Dimensions from '../constants/Dimensions'
 import Paginator from '../components/HomeScreen/Paginator'
@@ -14,7 +14,7 @@ import HomeOfferCards from '../components/HomeScreen/HomeOfferCards'
 import HomeBookCards from '../components/HomeScreen/HomeBookCards'
 import HomeTrendingSection from '../components/HomeScreen/HomeTrendingSection'
 import HomeExclusiveSection from '../components/HomeScreen/HomeExclusiveSection'
-import Fab from '../components/Fab'
+import Fab from '../components/global/Fab'
 
 const HomeScreen = ({ navigation }) => {
     const [scrollX, setScrollX] = useState(0)

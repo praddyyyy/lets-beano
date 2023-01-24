@@ -3,7 +3,7 @@ import Animated from 'react-native-reanimated'
 import Dimensions from '../../constants/Dimensions'
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
-import AdCarouselCard from '../AdCarouselCard'
+import AdCarouselCard from './AdCarouselCard'
 import DATA from '../../constants/caraousel'
 import Paginator from './Paginator'
 

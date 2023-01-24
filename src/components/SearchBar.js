@@ -1,7 +1,7 @@
 import { StyleSheet, TouchableOpacity, LayoutAnimation, View } from 'react-native'
 import React, { useState } from 'react'
 import { SearchBar } from 'react-native-elements'
-import Icon, { Icons } from './Icons'
+import Icon, { Icons } from './global/Icons'
 
 // if (Platform.OS === 'android') {
 //     UIManager.setLayoutAnimationEnabledExperimental &&

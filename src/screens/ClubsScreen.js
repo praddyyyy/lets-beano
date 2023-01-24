@@ -1,14 +1,14 @@
 import { StyleSheet, KeyboardAvoidingView } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import FilterDateSort from '../components/FliterDateSort'
+import FilterDateSort from '../components/global/FliterDateSort'
 import ClubFlatlist from '../components/ClubScreen/ClubFlatlist'
-import Fab from '../components/Fab'
-import TopBar from '../components/TopBar'
+import Fab from '../components/global/Fab'
+import TopBar from '../components/global/TopBar'
 import SearchBarComponent from '../components/SearchBar'
 import SearchBarReanimated from '../components/SearchBarReanimated'
 import DATA from '../constants/clubs'
-import SearchBarOld from '../components/SearchBarOld'
+import SearchBarOld from '../components/global/SearchBarOld'
 
 const ClubsScreen = () => {
     const [searchValue, setSearchValue] = useState('')
