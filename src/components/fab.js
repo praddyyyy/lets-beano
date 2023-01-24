@@ -17,7 +17,9 @@ const firstSplitX = dist * 0.866;
 const firstSplitY = dist * 0.5;
 const secondSplitX = dist * 0.5;
 const secondSplitY = dist * 0.866;
-
+// TODO make icon size dynamic
+// TODO make icon text dynamic
+// TODO change icon on each page; its always a plus on every page
 const ActionButton = ({ color, icon, style, goto, text }) => {
     const navigation = useNavigation();
 
@@ -126,7 +128,7 @@ export default function Fab(props) {
     )
     return (
         <View style={styles.container}>
-            <View style={styles.fabContainer}>
+            <View style={[styles.fabContainer, { bottom: props.bottom }]}>
                 <Animated.View style={[styles.expandingCircle, scalingStyles]} />
                 <TouchableWithoutFeedback onPress={() => {
                     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
@@ -142,7 +144,7 @@ export default function Fab(props) {
                 <ActionButton style={translationStyles(true, true, secondSplitX, secondSplitY)} color={props.current == 'Club' ? Colors.red : 'white'} icon="headphones-alt" goto='ClubScreen' text='Clubs' />
                 <ActionButton style={translationStyles(true, true, -firstSplitX, firstSplitY)} color={props.current == 'Media' ? Colors.red : 'white'} icon="play" goto='HomeScreen' text='Media' />
                 <ActionButton style={translationStyles(true, false, -dist, dist)} color={props.current == 'Rewards' ? Colors.red : 'white'} icon="trophy" text='Rewards' />
-                <ActionButton style={translationStyles(true, true, -secondSplitX, secondSplitY)} color={props.current == 'Events' ? Colors.red : 'white'} icon="newspaper" text='Events' />
+                <ActionButton style={translationStyles(true, true, -secondSplitX, secondSplitY)} color={props.current == 'Events' ? Colors.red : 'white'} icon="newspaper" goto='EventsScreen' text='Events' />
             </View>
         </View>
     )
@@ -161,12 +163,13 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Colors.accent,
         zIndex: 99,
-        alignItems: 'center',
+        position: 'absolute',
+        bottom: 40,
+        left: width / 2 - FAB_SIZE / 2
     },
     fabContainer: {
         position: 'absolute',
         zIndex: 99,
-        top: 700,
     },
     fab: {
         ...CircleStyle,
