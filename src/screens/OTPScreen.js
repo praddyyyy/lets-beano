@@ -9,7 +9,7 @@ const OTPScreen = () => {
     const otpRef = useRef(null);
 
     useEffect(() => {
-        otpRef.current.focusField(0);
+        setTimeout(() => otpRef.current.focusField(0), 250);
     }, []);
 
     return (
@@ -25,7 +25,7 @@ const OTPScreen = () => {
                     ref={otpRef}
                     // code={this.state.code} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
                     // onCodeChanged = {code => { this.setState({code})}}
-                    autoFocusOnLoad
+                    autoFocusOnLoad={false}
                     codeInputFieldStyle={styles.underlineStyleBase}
                     codeInputHighlightStyle={styles.underlineStyleHighLighted}
                     onCodeFilled={(code => {
