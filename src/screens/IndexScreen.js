@@ -1,6 +1,5 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, StatusBar } from 'react-native'
 import React, { useCallback, useEffect } from 'react'
-import tw from 'tailwind-react-native-classnames'
 import { useFonts } from 'expo-font';
 import { SafeAreaView } from 'react-native-safe-area-context'
 import * as SplashScreen from 'expo-splash-screen'
@@ -15,6 +14,10 @@ const IndexScreen = () => {
         'Montserrat-SemiBold': require('../../assets/fonts/Montserrat-SemiBold.ttf'),
         'Montserrat-Bold': require('../../assets/fonts/Montserrat-Bold.ttf'),
         'Alata': require('../../assets/fonts/Alata-Regular.ttf'),
+        'Blinker': require('../../assets/fonts/Blinker-Regular.ttf'),
+        'Blinker-SemiBold': require('../../assets/fonts/Blinker-SemiBold.ttf'),
+        'Blinker-Bold': require('../../assets/fonts/Blinker-Bold.ttf'),
+        'Montserrat-Light': require('../../assets/fonts/Montserrat-Light.ttf'),
     });
 
     useEffect(() => {
@@ -34,6 +37,7 @@ const IndexScreen = () => {
 
     return (
         <SafeAreaView style={styles.container} onLayout={onLayout}>
+            <StatusBar />
             <View style={styles.topContainer}>
                 <View style={styles.titleTextView}>
                     <Text style={styles.titleText}>Let's Beano!</Text>
