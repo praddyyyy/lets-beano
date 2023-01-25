@@ -6,6 +6,9 @@ import Dimensions from '../constants/Dimensions';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import QuickLookTab from '../components/EventDetailScreen/QuickLookTab';
+import VenueTab from '../components/EventDetailScreen/VenueTab';
+import ArtistTab from '../components/EventDetailScreen/ArtistTab';
+import TnCTab from '../components/EventDetailScreen/TnCTab';
 // import VenueTab from '../components/EventDetailScreen/VenueTab';
 // import ArtistTab from '../components/EventDetailScreen/ArtistTab';
 // import TnCTab from '../components/EventDetailScreen/TnCTab';
@@ -48,15 +51,21 @@ const EventDetailScreen = ({ route }) => {
     )
 
     const VenueRoute = () => (
-        <View style={{ flex: 1, backgroundColor: 'green' }} />
+        <>
+            <VenueTab />
+        </>
     )
 
     const ArtistRoute = () => (
-        <View style={{ flex: 1, backgroundColor: 'blue' }} />
+        <>
+            <ArtistTab />
+        </>
     )
 
     const TnCRoute = () => (
-        <View style={{ flex: 1, backgroundColor: 'yellow' }} />
+        <>
+            <TnCTab />
+        </>
     )
 
     // This is our placeholder component for the tabs
@@ -81,8 +90,8 @@ const EventDetailScreen = ({ route }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={{ height: 300, width: '100%' }}>
-                <Image source={{ uri: eventImage }} resizeMode='stretch' style={{ height: 300, width: '100%' }} />
+            <View style={{ height: 250, width: '100%' }}>
+                <Image source={{ uri: eventImage }} resizeMode='stretch' style={{ height: 250, width: '100%' }} />
                 <TouchableOpacity style={{ position: 'absolute', top: 20, left: 20 }} onPress={() => navigation.goBack()}>
                     <Icon type={Icons.Ionicons} name='chevron-back-circle' color='white' size={Dimensions.SCREEN_HEIGHT * 0.035} />
                 </TouchableOpacity>
@@ -92,15 +101,15 @@ const EventDetailScreen = ({ route }) => {
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginHorizontal: 15, }}>
                 <View style={{ alignItems: 'center' }}>
-                    <Icon type={Icons.FontAwesome5} name='calendar-alt' color='white' size={Dimensions.SCREEN_HEIGHT * 0.035} />
+                    <Icon type={Icons.FontAwesome5} name='calendar-alt' color='white' size={Dimensions.SCREEN_HEIGHT * 0.03} />
                     <Text style={{ color: '#fff', fontFamily: 'Montserrat', marginVertical: 5 }}>15th Nov</Text>
                 </View>
                 <View style={{ alignItems: 'center' }}>
-                    <Icon type={Icons.FontAwesome5} name='clock' color='white' size={Dimensions.SCREEN_HEIGHT * 0.035} />
+                    <Icon type={Icons.FontAwesome5} name='clock' color='white' size={Dimensions.SCREEN_HEIGHT * 0.03} />
                     <Text style={{ color: '#fff', fontFamily: 'Montserrat', marginVertical: 5 }}>8:00 PM</Text>
                 </View>
                 <View style={{ alignItems: 'center' }}>
-                    <Icon type={Icons.Ionicons} name='location' color='white' size={Dimensions.SCREEN_HEIGHT * 0.035} />
+                    <Icon type={Icons.Ionicons} name='location' color='white' size={Dimensions.SCREEN_HEIGHT * 0.03} />
                     {/* #TODO get address from prop */}
                     <Text style={{ color: '#fff', fontFamily: 'Montserrat', marginVertical: 5 }}>Academy LA</Text>
                 </View>
