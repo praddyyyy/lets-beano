@@ -18,6 +18,7 @@ const QuickLookTab = () => {
         <View style={styles.container}>
             <ScrollView
                 showsVerticalScrollIndicator={false}
+                contentContainerStyle={{ paddingBottom: 100 }}
             >
                 {/* Highlights */}
                 <View style={{ borderWidth: 1, marginVertical: 15, borderRadius: 15, borderColor: '#fff' }}>

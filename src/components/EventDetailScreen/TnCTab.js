@@ -51,7 +51,7 @@ const TnCTab = () => {
     ]
     return (
         <View style={{ marginHorizontal: 15 }}>
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom: 100}}>
                 <View style={{ borderColor: '#fff', borderRadius: 15, borderWidth: 1, marginVertical: 15 }}>
                     <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff', margin: 10, fontSize: 18 }}>By Club and Event Organizers</Text>
                     <View style={{ margin: 10 }}>
