@@ -7,7 +7,7 @@ const QuickLookTab = (props) => {
     const clubName = props.clubName
     const clubLocation = props.clubLocation
     const clubHighlights = props.clubHighlights
-
+// TODO add list of timings for clubs opening and closing
     return (
         <View>
             <ScrollView showsVerticalScrollIndicator={false}>
