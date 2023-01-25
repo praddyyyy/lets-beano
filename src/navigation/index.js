@@ -12,6 +12,8 @@ import ClubDetailScreenEdit from '../screens/ClubDetailScreenEdit';
 import ClubDetailScreenEditEdit from '../screens/ClubDetailScreenEditEdit';
 import EventsScreen from '../screens/EventsScreen';
 import EventDetailScreen from '../screens/EventDetailScreen';
+import EventBookingScreen from '../screens/EventBookingScreen';
+import EventTicketBasketScreen from '../screens/EventTicketBasketScreen';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -55,6 +57,12 @@ const Navigation = () => {
                 }} />
                 <Stack.Screen name='EventDetailScreen' component={EventDetailScreen} options={{
                     animation: 'slide_from_right'
+                }} />
+                <Stack.Screen name='EventBookingScreen' component={EventBookingScreen} options={{
+                    animation: 'slide_from_right'
+                }} />
+                <Stack.Screen name='EventTicketBasketScreen' component={EventTicketBasketScreen} options={{
+                    animation: 'slide_from_bottom'
                 }} />
             </Stack.Navigator>
         </NavigationContainer>
