@@ -25,7 +25,6 @@ const Categories = ({ id, category, price, detail }) => {
         }
         dispatch(removeTicket({ id }))
     }
-    console.log(tickets)
 
     return (
         <View>

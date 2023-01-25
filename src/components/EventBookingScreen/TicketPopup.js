@@ -9,6 +9,9 @@ const TicketPopup = () => {
     const navigation = useNavigation()
     const tickets = useSelector(selectTicket)
     const ticketTotal = useSelector(selectTicketTotal)
+
+    if (tickets.length === 0) return null
+    
     return (
         <View style={{ zIndex: -1, position: 'absolute', top: 0, left: 0, right: 0, bottom: 50, alignItems: 'center', justifyContent: 'flex-end' }}>
             <TouchableOpacity onPress={() => {navigation.navigate('EventTicketBasketScreen')}}>
