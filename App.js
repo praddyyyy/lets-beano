@@ -5,6 +5,7 @@ import store from './store';
 import { Provider } from 'react-redux'
 
 export default function App() {
+
   // TODO fix autorotate
   return (
     <SafeAreaView style={styles.container}>
@@ -15,7 +16,7 @@ export default function App() {
 
   );
 }
-
+// TODO check if we need to add gmaps api in app.json (src: https://www.smashingmagazine.com/2020/05/mobile-app-expo-react-native-firebase-ios-android/)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
