@@ -1,19 +1,64 @@
-import { StyleSheet, KeyboardAvoidingView } from 'react-native'
-import React, { useState } from 'react'
+import { StyleSheet, KeyboardAvoidingView, Text, View, ScrollView } from 'react-native'
+import React, { useState, useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import FilterDateSort from '../components/global/FliterDateSort'
 import ClubFlatlist from '../components/ClubScreen/ClubFlatlist'
 import Fab from '../components/global/Fab'
 import TopBar from '../components/global/TopBar'
-import SearchBarComponent from '../components/SearchBar'
-import SearchBarReanimated from '../components/SearchBarReanimated'
 import DATA from '../constants/clubs'
-import SearchBarOld from '../components/global/SearchBarOld'
+
+import { db } from '../../firebase-config'
+import { collection, getDocs } from "firebase/firestore";
+import Skeleton from '../components/global/Skeleton'
+import SkeletonClubCard from '../components/ClubScreen/SkeletonClubCard'
 
 const ClubsScreen = () => {
     const [searchValue, setSearchValue] = useState('')
 
     const [data, setData] = useState(DATA)
+
+
+    const [clubs, setClubs] = useState([])
+
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        let unsubscribed = false;
+
+        getDocs(collection(db, "clubs"))
+            .then((querySnapshot) => {
+                if (unsubscribed) return; // unsubscribed? do nothing.
+
+                const newClubDataArray = querySnapshot.docs
+                    .map((doc) => ({ ...doc.data(), id: doc.id }));
+
+                setClubs(newClubDataArray);
+                if (loading) {
+                    setLoading(false)
+                }
+            })
+            .catch((err) => {
+                if (unsubscribed) return; // unsubscribed? do nothing.
+
+                // TODO: Handle errors
+                console.error("Failed to retrieve data", err);
+            });
+
+        return () => unsubscribed = true;
+    }, []);
+
+    console.log(clubs)
+    console.log(loading)
+
+
+    // const loc = fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyDr27dLjec3h6AZ_uyfhRXzAmZmEyh7MGA`)
+    //     .then((response) => response.json())
+    //     .then((json) => {
+    //         console.log(json)
+    //     })
+    //     .catch((error) => {
+    //         console.error(error);
+    //     });
 
     const handleSearch = (value) => {
         setSearchValue(value);
@@ -28,13 +73,29 @@ const ClubsScreen = () => {
     };
     return (
         <SafeAreaView style={styles.container}>
-                <TopBar />
-                {/* <SearchBarReanimated handleSearch={handleSearch} placeholder="Search here..." /> */}
-                <FilterDateSort type='clubs' />
-                <ClubFlatlist data={data} />
-                <KeyboardAvoidingView behavior='height'>
-                    <Fab current='Club' bottom={40} />
-                </KeyboardAvoidingView>
+            <TopBar />
+            {/* <SearchBarReanimated handleSearch={handleSearch} placeholder="Search here..." /> */}
+            <FilterDateSort type='clubs' />
+            {
+                loading ? (
+                    <View style={{ flex: 1, padding: 15 }}>
+                        <ScrollView
+                            showsVerticalScrollIndicator={false}
+                        >
+                            <SkeletonClubCard />
+                            <SkeletonClubCard />
+                            <SkeletonClubCard />
+                            <SkeletonClubCard />
+                            <SkeletonClubCard />
+                        </ScrollView>
+                    </View>
+                ) : (
+
+                    <ClubFlatlist data={clubs} />
+                )}
+            <KeyboardAvoidingView behavior='height'>
+                <Fab current='Club' bottom={40} />
+            </KeyboardAvoidingView>
         </SafeAreaView>
     )
 }
@@ -44,6 +105,7 @@ export default ClubsScreen
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#1f1f1f',
+        // TODO change background color (#101010 or #141414)
+        backgroundColor: '#101010',
     },
 })
