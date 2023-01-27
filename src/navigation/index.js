@@ -14,7 +14,7 @@ import EventsScreen from '../screens/EventsScreen';
 import EventDetailScreen from '../screens/EventDetailScreen';
 import EventBookingScreen from '../screens/EventBookingScreen';
 import EventTicketBasketScreen from '../screens/EventTicketBasketScreen';
-
+import DJScreen from '../screens/DJScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -63,6 +63,9 @@ const Navigation = () => {
                 }} />
                 <Stack.Screen name='EventTicketBasketScreen' component={EventTicketBasketScreen} options={{
                     animation: 'slide_from_bottom'
+                }} />
+                <Stack.Screen name='DJScreen' component={DJScreen} options={{
+                    animation: 'slide_from_left'
                 }} />
             </Stack.Navigator>
         </NavigationContainer>
