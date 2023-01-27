@@ -15,6 +15,7 @@ const ClubFlatlist = (props) => {
     return (
         <View style={{ flex: 1, alignItems: 'center' }}>
             <FlatList
+                contentContainerStyle={{ paddingBottom: 50 }}
                 refreshControl={
                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} progressViewOffset={40} />
                 }
@@ -24,8 +25,19 @@ const ClubFlatlist = (props) => {
                 renderItem={({ item, index }) => {
                     return (
                         <>
-                            <ClubCard source={item.src} clubName={item.name} clubRating={item.rating} clubHighlights={item.highlights} clubLocation={item.location} />
-                            <Divider style={{marginTop: 15}} />
+                            <ClubCard
+                                clubId={item.id}
+                                image={item.image}
+                                clubName={item.name}
+                                clubRating={item.rating}
+                                clubHighlights={item.highlights}
+                                clubPhone={item.contact.phone}
+                                clubEmail={item.contact.email}
+                                clubFeatures={item.features}
+                            />
+                            {
+                                index === props.data.length - 1 ? null : <Divider style={{ marginTop: 15 }} />
+                            }
                         </>
                     )
                 }}

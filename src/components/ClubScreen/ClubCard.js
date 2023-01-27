@@ -8,7 +8,6 @@ const ClubCard = (props) => {
     const navigation = useNavigation()
 
     var myloop = [];
-
     for (let i = 0; i < props.clubHighlights.length; i++) {
         myloop.push(
             <View key={i}>
@@ -25,9 +24,9 @@ const ClubCard = (props) => {
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('ClubDetailScreen', { 'title': props.clubName, 'imageSrc': props.source, 'clubLocation': props.clubLocation, 'clubHighlights': props.clubHighlights })}
+                    onPress={() => navigation.navigate('ClubDetailScreen', { 'title': props.clubName, 'imageSrc': props.image, 'clubHighlights': props.clubHighlights })}
                 >
-                    <Image style={{ height: 170, width: '100%', resizeMode: 'stretch', borderTopLeftRadius: 15, borderTopRightRadius: 15 }} source={props.source} />
+                    <Image style={{ height: 170, width: '100%', resizeMode: 'stretch', borderTopLeftRadius: 15, borderTopRightRadius: 15 }} source={{ uri: props.image }} />
                 </TouchableOpacity>
             </View>
             {/* TODO Add TouchableOpacity to navigate to club detail screen */}
@@ -43,7 +42,7 @@ const ClubCard = (props) => {
                     <View>
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', marginTop: 5, marginLeft: 10 }}>
                             <Icon type={Icons.Ionicons} name='ios-location' color='white' size={25} />
-                            <Text style={{ color: 'white', fontFamily: 'Alata', left: 0 }} > {props.clubLocation} | 360 Kms</Text>
+                            {/* <Text style={{ color: 'white', fontFamily: 'Alata', left: 0 }} > {props.clubLocation} | 360 Kms</Text> */}
                         </View>
                         <Text style={{ color: 'white', fontFamily: 'Alata', marginLeft: 15 }}>INR 1800 for two approx.</Text>
                         <Text style={{ color: '#FF4C68', fontFamily: 'Alata', fontSize: 17, left: 15 }}>20% off using Beano Pay</Text>
