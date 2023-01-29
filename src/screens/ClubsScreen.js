@@ -1,21 +1,17 @@
-import { StyleSheet, KeyboardAvoidingView, Text, View, ScrollView } from 'react-native'
+import { StyleSheet, KeyboardAvoidingView, View, ScrollView } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import FilterDateSort from '../components/global/FliterDateSort'
 import ClubFlatlist from '../components/ClubScreen/ClubFlatlist'
 import Fab from '../components/global/Fab'
 import TopBar from '../components/global/TopBar'
-import DATA from '../constants/clubs'
 
 import { db } from '../../firebase-config'
 import { collection, getDocs } from "firebase/firestore";
-import Skeleton from '../components/global/Skeleton'
 import SkeletonClubCard from '../components/ClubScreen/SkeletonClubCard'
 
 const ClubsScreen = () => {
     const [searchValue, setSearchValue] = useState('')
-
-    const [data, setData] = useState(DATA)
 
 
     const [clubs, setClubs] = useState([])
@@ -48,7 +44,6 @@ const ClubsScreen = () => {
     }, []);
 
     console.log(clubs)
-    console.log(loading)
 
 
     // const loc = fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyDr27dLjec3h6AZ_uyfhRXzAmZmEyh7MGA`)
@@ -60,17 +55,18 @@ const ClubsScreen = () => {
     //         console.error(error);
     //     });
 
-    const handleSearch = (value) => {
-        setSearchValue(value);
-        if (value === '') {
-            setData(DATA)
-            return;
-        }
-        let tempList = DATA.filter((item) => {
-            return item.name.toLowerCase().indexOf(value.toLowerCase()) > -1;
-        });
-        setData(tempList);
-    };
+    // const handleSearch = (value) => {
+    //     setSearchValue(value);
+    //     if (value === '') {
+    //         setData(DATA)
+    //         return;
+    //     }
+    //     let tempList = DATA.filter((item) => {
+    //         return item.name.toLowerCase().indexOf(value.toLowerCase()) > -1;
+    //     });
+    //     setData(tempList);
+    // };
+
     return (
         <SafeAreaView style={styles.container}>
             <TopBar />

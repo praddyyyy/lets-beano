@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, FlatList } from 'react-native'
 import MapView, { Marker } from 'react-native-maps';
 import Icon, { Icons } from '../global/Icons';
 import React from 'react'
@@ -7,7 +7,9 @@ const QuickLookTab = (props) => {
     const clubName = props.clubName
     const clubLocation = props.clubLocation
     const clubHighlights = props.clubHighlights
-// TODO add list of timings for clubs opening and closing
+    const clubPriceForTwo = props.clubPriceForTwo
+    const clubFeatures = props.clubFeatures
+    // TODO add list of timings for clubs opening and closing
     return (
         <View>
             <ScrollView showsVerticalScrollIndicator={false}>
@@ -19,12 +21,13 @@ const QuickLookTab = (props) => {
                             <View style={{ marginBottom: 5 }}>
                                 <Text style={{ color: 'white', fontSize: 26, marginTop: 10, fontFamily: 'Montserrat-Bold' }}>{clubName}</Text>
                                 <Text style={{ color: 'white', fontSize: 18, fontFamily: 'Blinker', margin: 3 }}>{clubLocation}</Text>
-                                <View style={{ flexDirection: 'row' }}>
+                                {/* Change alignment of club highlights */}
+                                {/* <View style={{ flexDirection: 'row' }}>
                                     {clubHighlights.map((item, index) => (
                                         <Text key={index} style={{ color: 'white', marginRight: 5, fontFamily: 'Blinker-SemiBold', fontSize: 15, margin: 3 }}>{item}</Text>
                                     ))}
-                                </View>
-                                <Text style={{ color: 'white', fontFamily: 'Blinker', margin: 3, fontSize: 15 }}><Text style={{ fontFamily: 'Blinker-Bold' }}>INR 1800</Text> for two approx</Text>
+                                </View> */}
+                                <Text style={{ color: 'white', fontFamily: 'Blinker', margin: 3, fontSize: 15 }}><Text style={{ fontFamily: 'Blinker-Bold' }}>INR {clubPriceForTwo}</Text> for two approx</Text>
                                 <Text style={{ color: '#FF4C68', fontFamily: 'Blinker', margin: 3, fontSize: 15 }}>Now Open <Text style={{ fontFamily: 'Blinker', color: '#fff' }}>- Closes 11:00 PM</Text></Text>
                                 <Text style={{ color: '#FF4C68', fontFamily: 'Blinker-SemiBold', margin: 3, fontSize: 18 }}>10% off using Beano Pay</Text>
                             </View>
@@ -49,21 +52,28 @@ const QuickLookTab = (props) => {
                     {/* TODO Add icons */}
                     <View style={{ borderColor: '#fff', borderRadius: 15, borderWidth: 1, marginTop: 20 }}>
                         <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff', fontSize: 16, marginHorizontal: 10, marginVertical: 10 }}>Features and Facilities</Text>
-                        <View style={{ marginHorizontal: 15, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
-                            <View>
+                        <View style={{ marginHorizontal: 15, flexWrap: 'wrap', marginBottom: 10 }}>
+                            <ScrollView contentContainerStyle={{ flexWrap: 'wrap', height: 100 }} >
+                                {
+                                    clubFeatures.map((item, index) => (
+                                        <View style={{marginRight: 35}} key={index}>
+                                            <Text style={{ color: '#fff', fontFamily: 'Blinker', fontSize: 16 }}>{item}</Text>
+                                        </View>
+                                    ))
+                                }
+                            </ScrollView>
+                        </View>
+                        {/* <View>
                                 <Text style={{ color: '#fff', fontFamily: 'Blinker', fontSize: 16 }}>Home Delivery</Text>
                                 <Text style={{ color: '#fff', fontFamily: 'Blinker', fontSize: 16 }}>Smoking Area</Text>
                                 <Text style={{ color: '#fff', fontFamily: 'Blinker', fontSize: 16 }}>Take Away</Text>
                                 <Text style={{ color: '#fff', fontFamily: 'Blinker', fontSize: 16 }}>Valet Parking</Text>
                                 <Text style={{ color: '#fff', fontFamily: 'Blinker', fontSize: 16 }}>Bar</Text>
-                            </View>
-                            <View>
                                 <Text style={{ color: '#fff', fontFamily: 'Blinker', fontSize: 16 }}>Alcohol Served</Text>
                                 <Text style={{ color: '#fff', fontFamily: 'Blinker', fontSize: 16 }}>Live Music</Text>
                                 <Text style={{ color: '#fff', fontFamily: 'Blinker', fontSize: 16 }}>Karaoke</Text>
                                 <Text style={{ color: '#fff', fontFamily: 'Blinker', fontSize: 16 }}>Live Sports Screening</Text>
-                            </View>
-                        </View>
+                            </View> */}
                     </View>
 
                     {/* Location Container */}

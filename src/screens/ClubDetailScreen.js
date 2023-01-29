@@ -16,6 +16,12 @@ const ClubDetailScreen = ({ route }) => {
     const clubImage = route.params.imageSrc;
     const clubLocation = route.params.clubLocation;
     const clubHighlights = route.params.clubHighlights;
+    const clubRating = route.params.clubRating;
+    const clubPriceForTwo = route.params.clubPriceForTwo;
+    const clubFeatures = route.params.clubFeatures;
+    const clubPhone = route.params.clubPhone;
+    const clubEmail = route.params.clubEmail;
+    const clubId = route.params.clubId;
 
     const navigation = useNavigation()
 
@@ -55,7 +61,8 @@ const ClubDetailScreen = ({ route }) => {
     );
 
     const QuickLookRoute = () => (
-        <QuickLookTab clubName={clubName} clubLocation={clubLocation} clubHighlights={clubHighlights} />
+        // TODO send club location
+        <QuickLookTab clubName={clubName} clubLocation={clubLocation} clubHighlights={clubHighlights} clubPriceForTwo={clubPriceForTwo} clubFeatures={clubFeatures} />
     );
 
     const MenuRoute = () => (
@@ -100,7 +107,7 @@ const ClubDetailScreen = ({ route }) => {
     return (
         <View style={styles.container}>
             <View style={{ height: index != 1 ? 200 : 0, width: index != 1 ? '100%' : 0 }} >
-                <Image source={clubImage} style={{ height: '100%', width: '100%' }} />
+                <Image source={{ uri: clubImage }} style={{ height: '100%', width: '100%' }} />
                 <TouchableOpacity style={{ position: 'absolute', top: 20, left: 20 }} onPress={() => navigation.goBack()}>
                     <Icon type={Icons.Ionicons} name='chevron-back-circle' color='white' size={Dimensions.SCREEN_HEIGHT * 0.035} />
                 </TouchableOpacity>

@@ -4,6 +4,7 @@ import ClubCard from './ClubCard'
 import { Divider } from 'react-native-elements';
 
 const ClubFlatlist = (props) => {
+    const [data, setData] = useState(props.data)
     const [refreshing, setRefreshing] = useState(false);
 
     const onRefresh = React.useCallback(() => {
@@ -19,7 +20,7 @@ const ClubFlatlist = (props) => {
                 refreshControl={
                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} progressViewOffset={40} />
                 }
-                data={props.data}
+                data={data}
                 keyExtractor={(item) => item.id}
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item, index }) => {
@@ -34,6 +35,7 @@ const ClubFlatlist = (props) => {
                                 clubPhone={item.contact.phone}
                                 clubEmail={item.contact.email}
                                 clubFeatures={item.features}
+                                clubPriceForTwo={item.price}
                             />
                             {
                                 index === props.data.length - 1 ? null : <Divider style={{ marginTop: 15 }} />
