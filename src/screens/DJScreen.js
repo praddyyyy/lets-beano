@@ -1,38 +1,136 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import Skeleton from '../components/global/Skeleton'
-import Dimensions from '../constants/Dimensions'
+import React, { useState, useEffect, useRef } from 'react';
+import {
+    View,
+    FlatList,
+    Text,
+    StyleSheet,
+    Animated,
+    Easing,
+} from 'react-native';
+import LottieView from 'lottie-react-native';
 
-const DJScreen = () => {
+const fruitsAnimation = require('../assets/lottie/loading.json');
+
+const fruits = [
+    'Apple',
+    'Orange',
+    'Watermelon',
+    'Avocado',
+    'Blueberry',
+    'Coconut',
+    'Durian',
+    'Mango',
+];
+
+const refreshingHeight = 100;
+const styles = StyleSheet.create({
+    flatlist: {
+
+    },
+    row: {
+        height: 100,
+        justifyContent: 'center',
+        padding: 20,
+        borderBottomWidth: 3,
+        borderBottomColor: 'black',
+        backgroundColor: 'white',
+    },
+    rowTitle: {
+        fontSize: 30,
+        fontWeight: 'bold',
+    },
+
+    lottieView: {
+        height: refreshingHeight,
+        position: 'absolute',
+        top: 5,
+        left: 0,
+        right: 0,
+    },
+});
+
+function DJScreen() {
+    const [offsetY, setOffsetY] = useState(0);
+    const [isRefreshing, setIsRefreshing] = useState(false);
+    const [extraPaddingTop] = useState(new Animated.Value(0));
+
+    const lottieViewRef = useRef(null);
+
+    useEffect(() => {
+        if (isRefreshing) {
+            Animated.timing(extraPaddingTop, {
+                toValue: refreshingHeight,
+                duration: 0,
+                useNativeDriver: true,
+            }).start();
+            lottieViewRef.current.play();
+        } else {
+            Animated.timing(extraPaddingTop, {
+                toValue: 0,
+                duration: 400,
+                easing: Easing.elastic(1.3),
+                useNativeDriver: true,
+            }).start();
+        }
+    }, [isRefreshing]);
+
+    function renderItem({ item }) {
+        return (
+            <View key={item} style={styles.row}>
+                <Text style={styles.rowTitle}>{item}</Text>
+            </View>
+        );
+    }
+
+    function onScroll(event) {
+        const { nativeEvent } = event;
+        const { contentOffset } = nativeEvent;
+        const { y } = contentOffset;
+        setOffsetY(y);
+    }
+
+    function onRelease() {
+        if (offsetY <= -refreshingHeight && !isRefreshing) {
+            setIsRefreshing(true);
+            setTimeout(() => {
+                setIsRefreshing(false);
+            }, 3000);
+        }
+    }
+
+    let progress = 0;
+    if (offsetY < 0 && !isRefreshing) {
+        progress = offsetY / -refreshingHeight;
+    }
+
     return (
-        <View style={{ flex: 1, padding: 15, backgroundColor: '#000' }}>
-            <Skeleton width={Dimensions.SCREEN_WIDTH - 30} height={170} style={{ borderTopLeftRadius: 15, borderTopRightRadius: 15 }} />
-            <View style={{ width: Dimensions.SCREEN_WIDTH - 30, height: 40, backgroundColor: 'rgba(255,255,255,0.12)', justifyContent: 'center', paddingLeft: 10 }}>
-                <Skeleton width={100} height={15} style={{ borderRadius: 5 }} />
-            </View>
-            <View style={{ width: Dimensions.SCREEN_WIDTH - 30, height: 100, backgroundColor: 'rgba(255,255,255,0.12)', paddingLeft: 10, borderBottomLeftRadius: 15, borderBottomRightRadius: 15 }}>
-                <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' }}>
-                    <View>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                            <Skeleton width={20} height={20} style={{ borderRadius: 50, marginRight: 10 }} />
-                            <Skeleton width={100} height={15} style={{ borderRadius: 5 }} />
-                            <Skeleton width={50} height={15} style={{ borderRadius: 5, marginLeft: 20 }} />
-                        </View>
-                        <Skeleton width={200} height={15} style={{ borderRadius: 5, marginBottom: 10 }} />
-                    </View>
-                    <View>
-                        <Skeleton width={50} height={50} style={{ borderRadius: 15, marginRight: 10 }} />
-                    </View>
-                </View>
-                <Skeleton width={250} height={15} style={{ borderRadius: 5 }} />
-                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
-                    <Skeleton width={200} height={40} style={{ borderRadius: 50, backgroundColor: 'rgba(255,255,255,0.1)' }} />
-                </View>
-            </View>
+        <View>
+            <LottieView
+                ref={lottieViewRef}
+                style={styles.lottieView}
+                source={fruitsAnimation}
+                progress={progress}
+            />
+            <FlatList
+                data={fruits}
+                renderItem={renderItem}
+                style={[
+                    styles.flatlist,
+                    {
+                        paddingTop: 20,
+                    },
+                ]}
+                onScroll={onScroll}
+                onResponderRelease={onRelease}
+                ListHeaderComponent={(
+                    <Animated.View style={{
+                        paddingTop: extraPaddingTop,
+                    }}
+                    />
+                )}
+            />
         </View>
-    )
+    );
 }
 
-export default DJScreen
-
-const styles = StyleSheet.create({})
+export default DJScreen;
