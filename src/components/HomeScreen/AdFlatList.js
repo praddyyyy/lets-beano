@@ -8,7 +8,8 @@ import DATA from '../../constants/caraousel'
 import Paginator from './Paginator'
 
 
-const AdFlatList = () => {
+const AdFlatList = (props) => {
+    const [data, setData] = useState(props.data)
     const navigation = useNavigation()
 
     const [scrollX, setScrollX] = useState(0);
@@ -17,7 +18,7 @@ const AdFlatList = () => {
         <View>
             <Animated.View>
                 <FlatList
-                    data={DATA}
+                    data={data}
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     scrollEventThrottle={16}
@@ -31,7 +32,7 @@ const AdFlatList = () => {
                     renderItem={({ item, index }) => {
                         return (
                             <TouchableOpacity onPress={() => navigation.navigate('ClubScreen')}>
-                                <AdCarouselCard source={item.src} scrollX={scrollX} index={index} />
+                                <AdCarouselCard source={item.image} scrollX={scrollX} index={index} />
                             </TouchableOpacity>
                         )
                     }}
@@ -41,7 +42,7 @@ const AdFlatList = () => {
                     }}
                 />
             </Animated.View>
-            <Paginator data={DATA} scrollX={scrollX} />
+            <Paginator data={data} scrollX={scrollX} />
         </View>
     )
 }

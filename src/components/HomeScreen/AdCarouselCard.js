@@ -4,7 +4,6 @@ import Dimensions from '../../constants/Dimensions'
 import Animated, { interpolate, Extrapolate, useSharedValue, useAnimatedStyle } from 'react-native-reanimated'
 
 const AdCarouselCard = (props) => {
-
     const size = useSharedValue(0.8);
     const inputRange = [
         (props.index - 1) * Dimensions.CAROUSEL_CARD_LENGTH,
@@ -29,7 +28,7 @@ const AdCarouselCard = (props) => {
             marginLeft: props.index === 0 ? Dimensions.CAROUSEL_SIDE_CARD_LENGTH : Dimensions.CAROUSEL_SPACING,
             marginRight: props.index === 2 ? Dimensions.CAROUSEL_SIDE_CARD_LENGTH : Dimensions.CAROUSEL_SPACING
         }]}>
-            <Image source={props.source} style={{ height: '100%', width: '100%' }} />
+            <Image source={{ uri: props.source }} style={{ height: '100%', width: '100%' }} />
         </Animated.View>
     )
 }
