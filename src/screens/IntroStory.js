@@ -1,7 +1,8 @@
-import { Animated, Image, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Animated, Image, Platform, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useRef, useState } from 'react'
 import Dimensions from '../constants/Dimensions'
 import { useNavigation } from '@react-navigation/native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const IntroStory = () => {
     const navigation = useNavigation()
@@ -9,7 +10,7 @@ const IntroStory = () => {
     const [content, setContent] = useState([
         {
             content: require('../assets/images/Dance.jpg'),
-            description: 'Find out the most happening events around you...',
+            description: 'Explore the most happening events around you...',
             type: 'image',
             finish: 0
         },
@@ -74,14 +75,14 @@ const IntroStory = () => {
         navigation.navigate('PhoneNumberScreen');
     }
     return (
-        <View style={{ flex: 1, backgroundColor: '#000' }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#000' }}>
             {/* TODO Check Status Bar for IOS */}
-            <StatusBar style={{ height: 0 }} />
+            {/* <StatusBar style={{ height: 0 }} /> */}
             <Image source={content[current].content} onLoadEnd={() => {
                 progress.setValue(0);
                 start();
             }} style={{ width: Dimensions.SCREEN_WIDTH, height: Dimensions.SCREEN_HEIGHT, resizeMode: 'cover' }} />
-            <View style={{ width: Dimensions.SCREEN_WIDTH, position: 'absolute', top: 10, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' }}>
+            <View style={{ width: Dimensions.SCREEN_WIDTH, position: 'absolute', top: Platform.OS === 'ios' ? Dimensions.SCREEN_HEIGHT * 0.1 : Dimensions.SCREEN_HEIGHT * 0.05, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' }}>
                 {content.map((item, index) => {
                     return (
                         <View key={index} style={{ flex: 1, height: 3, backgroundColor: 'rgba(255, 255, 255, 0.5)', marginHorizontal: 5, flexDirection: 'row' }}>
@@ -111,7 +112,7 @@ const IntroStory = () => {
                     <View></View>
                 </TouchableOpacity>
             </View>
-        </View>
+        </SafeAreaView>
     )
 }
 
