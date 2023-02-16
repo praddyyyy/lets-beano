@@ -22,8 +22,9 @@ const FoodMenuItem = () => {
     return (
         <View style={styles.wrap}>
             <ScrollView
-                onScroll={({ nativeEvent }) => onchange(nativeEvent)}
+                // onScroll={({ nativeEvent }) => onchange(nativeEvent)}
                 showsHorizontalScrollIndicator={false}
+                scrollEventThrottle={16}
                 pagingEnabled
                 horizontal
                 style={styles.wrap}
