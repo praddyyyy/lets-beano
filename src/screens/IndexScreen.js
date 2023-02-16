@@ -45,15 +45,17 @@ const IndexScreen = () => {
                 </View>
             </View>
             <View style={styles.bottomContainer}>
-                <Text style={styles.policyText}>By tapping Sign in/ Create Account, you agree to
-                    our Terms of Service. Learn how we process your data
-                    in our Privacy Policy and Cookies Policy
-                </Text>
+                <View style={styles.policyContainer}>
+                    <Text style={styles.policyText}>By tapping Sign in/ Create Account, you agree to
+                        our Terms of Service. Learn how we process your data
+                        in our Privacy Policy and Cookies Policy
+                    </Text>
+                </View>
                 <TouchableOpacity style={styles.joinNowButton} onPress={() => navigation.navigate('IntroStoryScreen')} activeOpacity={0.7}>
                     <Text style={styles.joinNowText}>JOIN NOW</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.signInButton} onPress={() => navigation.navigate('HomeScreen')} >
-                    <Text style={styles.signInText}>SIGN IN</Text>
+                    <Text style={styles.signInText}>Sign In</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
@@ -98,8 +100,14 @@ const styles = StyleSheet.create({
     policyText: {
         color: '#c9c9c9',
         textAlign: 'center',
-        fontSize: 12,
+        fontSize: 14,
         fontFamily: 'Alata'
+    },
+
+    policyContainer: {
+        marginTop: 20,
+        marginHorizontal: 20
+        
     },
 
     joinNowButton: {
@@ -109,22 +117,22 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 45
+        marginTop: 30
     },
 
     joinNowText: {
         color: 'white',
         fontSize: 18,
-        fontFamily: 'Alata'
+        fontFamily: 'Montserrat-SemiBold'
     },
 
     signInButton: {
-        marginTop: 40
+        marginTop: 30
     },
 
     signInText: {
         color: 'white',
         fontSize: 18,
-        fontFamily: 'Alata'
+        fontFamily: 'Montserrat'
     }
 })
