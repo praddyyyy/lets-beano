@@ -140,7 +140,7 @@ export default function Fab(props) {
                 </TouchableWithoutFeedback>
                 <ActionButton style={translationStyles(false, true, dist, dist)} color={props.current == 'Home' ? Colors.red : 'white'} icon="home" goto='HomeScreen' text='Home' />
                 <ActionButton style={translationStyles(true, true, firstSplitX, firstSplitY)} color={props.current == 'DJ' ? Colors.red : 'white'} icon="user-friends" goto='DJScreen' text='DJs' />
-                <ActionButton style={translationStyles(true, false, dist, dist)} color={props.current == 'Profile' ? Colors.red : 'white'} icon="user-alt" text='Profile' />
+                <ActionButton style={translationStyles(true, false, dist, dist)} color={props.current == 'Profile' ? Colors.red : 'white'} icon="user-alt" goto='ProfileScreen' text='Profile' />
                 <ActionButton style={translationStyles(true, true, secondSplitX, secondSplitY)} color={props.current == 'Club' ? Colors.red : 'white'} icon="headphones-alt" goto='ClubScreen' text='Clubs' />
                 <ActionButton style={translationStyles(true, true, -firstSplitX, firstSplitY)} color={props.current == 'Media' ? Colors.red : 'white'} icon="play" goto='HomeScreen' text='Media' />
                 <ActionButton style={translationStyles(true, false, -dist, dist)} color={props.current == 'Rewards' ? Colors.red : 'white'} icon="trophy" text='Rewards' />
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     expandingCircle: {
         ...CircleStyle,
         // transform: [{ scale: 8 }],
-        backgroundColor: 'rgba(0,0,0,0.7)',
+        backgroundColor: 'rgba(0,0,0,0.9)',
         position: 'absolute',
         zIndex: -1,
     },
