@@ -1,9 +1,11 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import Dimensions from '../../constants/Dimensions'
 import Icon, { Icons } from '../global/Icons'
+import { useNavigation } from '@react-navigation/native'
 
 const TopBar = () => {
+    const navigation = useNavigation()
     return (
         <View style={styles.container}>
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-end' }}>
@@ -13,10 +15,14 @@ const TopBar = () => {
             </View>
             <View style={{ flexDirection: 'row' }}>
                 <View style={{ marginRight: 10 }}>
-                    <Icon type={Icons.MaterialIcons} name='qr-code-scanner' color='white' size={Dimensions.SCREEN_HEIGHT * 0.035} />
+                    <TouchableOpacity onPress={() => { navigation.navigate('QRScannerScreen') }}>
+                        <Icon type={Icons.MaterialIcons} name='qr-code-scanner' color='white' size={Dimensions.SCREEN_HEIGHT * 0.035} />
+                    </TouchableOpacity>
                 </View>
                 <View>
-                    <Icon type={Icons.FontAwesome} name='user-circle-o' color='white' size={Dimensions.SCREEN_HEIGHT * 0.035} />
+                    <TouchableOpacity onPress={() => { navigation.navigate('ProfileScreen') }}>
+                        <Icon type={Icons.FontAwesome} name='user-circle-o' color='white' size={Dimensions.SCREEN_HEIGHT * 0.035} />
+                    </TouchableOpacity>
                 </View>
             </View>
         </View>
