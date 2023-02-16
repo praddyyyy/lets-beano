@@ -1,5 +1,5 @@
-import { View, StyleSheet, ScrollView, RefreshControl } from 'react-native'
-import React, { useState } from 'react'
+import { View, StyleSheet, ScrollView, RefreshControl, Text } from 'react-native'
+import React, { useState, useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import TopBar from '../components/HomeScreen/TopBar'
 import SearchBarOld from '../components/global/SearchBarOld'
@@ -11,20 +11,96 @@ import HomeExclusiveSection from '../components/HomeScreen/HomeExclusiveSection'
 import Fab from '../components/global/Fab'
 import { Divider } from 'react-native-elements'
 import Dimensions from '../constants/Dimensions'
+import { collection, getDocs, doc, query } from 'firebase/firestore'
+import { db } from '../../firebase-config'
+import SkeletonCarouselCard from '../components/HomeScreen/SkeletonCarouselCard'
 
 const HomeScreenNew = () => {
-    const [refreshing, setRefreshing] = React.useState(false);
+    const [refreshing, setRefreshing] = useState(false);
     const [searchValue, setSearchValue] = useState('')
+    const [homeCarouselLoading, sethomeCarouselLoading] = useState(true)
+    const [homeCarousel, setHomeCarousel] = useState([])
+    const [homeOffers, setHomeOffers] = useState([])
+
+    // useEffect(() => {
+    //     let unsubscribed = false;
+
+    //     getDocs(collection(db, "home_carousel"))
+    //         .then((querySnapshot) => {
+    //             if (unsubscribed) return; // unsubscribed? do nothing.
+
+    //             const newHomeCarouselArray = querySnapshot.docs
+    //                 .map((document) => {
+    //                     console.log(document.data().reference)
+    //                     const clubRef = doc(document.data().reference)
+    //                     console.log(clubRef)
+    //                     return { ...document.data(), id: document.id }
+    //                 }
+    //                 );
+    //             setHomeCarousel(newHomeCarouselArray);
+    //             if (homeCarouselLoading) {
+    //                 sethomeCarouselLoading(false)
+    //             }
+    //         })
+    //         .catch((err) => {
+    //             if (unsubscribed) return; // unsubscribed? do nothing.
+    //             // TODO: Handle errors
+    //             console.error("Failed to retrieve data", err);
+    //         })
+    //     return () => unsubscribed = true;
+    // }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const q = query(collection(db, "home_carousel"))
+            const querySnapshot = await getDocs(q)
+            const newHomeCarouselArray = querySnapshot.docs
+                .map((document) => {
+                    // console.log(document.data().reference)
+                    // const clubRef = doc(document.data().reference)
+                    // console.log(clubRef)
+                    // console.log(doc(document.data().reference))
+                    return { ...document.data(), id: document.id }
+                }
+                );
+            setHomeCarousel(newHomeCarouselArray);
+            if (homeCarouselLoading) {
+                sethomeCarouselLoading(false)
+            }
+        };
+
+        fetchData();
+    }, []);
+
 
     const handleSearch = (value) => {
         setSearchValue(value);
     };
-    const onRefresh = React.useCallback(() => {
-        setRefreshing(true);
+    // TODO check the refresh control homeCarouselLoading time (have to wait for 1 sec to load the data beacause used setTimeout)
+
+    const fetchData = async () => {
+        sethomeCarouselLoading(true)
+        const q = query(collection(db, "home_carousel"))
+        const querySnapshot = await getDocs(q)
+        const newHomeCarouselArray = querySnapshot.docs
+            .map((document) => {
+                return { ...document.data(), id: document.id }
+            }
+            );
+        setHomeCarousel(newHomeCarouselArray);
+        // sethomeCarouselLoading(false)
         setTimeout(() => {
-            setRefreshing(false);
-        }, 2000);
-    }, []);
+            sethomeCarouselLoading(false)
+        }
+            , 1000);
+    };
+
+    const onRefresh = async () => {
+        setRefreshing(true)
+        sethomeCarouselLoading(true)
+        await fetchData();
+        setRefreshing(false)
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -39,7 +115,10 @@ const HomeScreenNew = () => {
                 <View style={{ backgroundColor: '#1f1f1f', paddingHorizontal: 15, paddingBottom: 15 }}>
                     <SearchBarOld handleSearch={handleSearch} placeholder="Search Events, Clubs, DJs..." />
                 </View>
-                <AdFlatList />
+                {
+                    (homeCarouselLoading && !refreshing) ? <SkeletonCarouselCard /> : <AdFlatList data={homeCarousel} />
+
+                }
                 <HomeOfferCards />
                 <Divider width={1.5} style={{ top: 40 }} />
                 <HomeBookCards />
