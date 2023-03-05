@@ -1,0 +1,18 @@
+export const COLORS = {
+    black: '#101010',
+    white: '#fff',
+    primary: '#FF4C68',
+    gray: '#6a6a6a',
+    gray2: '#e1e1e1',
+    gray3: '#f5f5f5',
+    gray4: '#f6f6f6',
+    gray5: '#f7f7f7',
+    gray6: '#f8f8f8',
+    gray7: '#f9f9f9',
+    gray8: '#fafafa',
+    gray9: '#fbfbfb',
+    gray10: '#fcfcfc',
+    gray11: '#fdfdfd',
+    gray12: '#fefefe',
+    gray13: '#ffffff',
+}
