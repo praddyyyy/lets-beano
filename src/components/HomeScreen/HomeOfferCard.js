@@ -5,11 +5,9 @@ import Dimensions from '../../constants/Dimensions'
 
 const HomeOfferCard = (props) => {
     return (
-        <Shadow style={{ borderRadius: 10 }} distance={5} startColor={'#000'} endColor={'#1f1f1f'} offset={[2, 2]}>
-            <TouchableOpacity activeOpacity={0.5}>
-                <Image style={styles.ImageStyle} source={props.url} />
-            </TouchableOpacity>
-        </Shadow>
+        <TouchableOpacity activeOpacity={0.5}>
+            <Image style={styles.ImageStyle} source={{ uri: props.url }} />
+        </TouchableOpacity>
     )
 }
 
@@ -17,8 +15,9 @@ export default HomeOfferCard
 
 const styles = StyleSheet.create({
     ImageStyle: {
-        height: Dimensions.SCREEN_HEIGHT * 0.10, 
-        width: Dimensions.SCREEN_WIDTH * 0.25, 
-        borderRadius: 10
+        height: Dimensions.SCREEN_HEIGHT * 0.10,
+        width: Dimensions.SCREEN_WIDTH * 0.25,
+        borderRadius: 10,
+        marginHorizontal: 10,
     }
 })
