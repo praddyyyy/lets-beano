@@ -9,6 +9,9 @@ const EventsFlatlist = (props) => {
             keyExtractor={(item) => item.id}
             numColumns={2}
             showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            horizontal={false}
+            bounces={false}
             renderItem={({ item, index }) => {
                 return (
                     <>
