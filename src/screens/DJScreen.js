@@ -1,136 +1,73 @@
-import React, { useState, useEffect, useRef } from 'react';
-import {
-    View,
-    FlatList,
-    Text,
-    StyleSheet,
-    Animated,
-    Easing,
-} from 'react-native';
-import LottieView from 'lottie-react-native';
+import React, { useEffect, useState } from 'react';
+import { FlatList, View, Text, StyleSheet, Animated } from 'react-native';
 
-const fruitsAnimation = require('../assets/lottie/loading.json');
+const data = [
+    { id: '1', title: 'Title 1' },
+    { id: '2', title: 'Title 2' },
+    { id: '3', title: 'Title 3' },
+    { id: '4', title: 'Title 4' },
+    { id: '5', title: 'Title 5' },
+    { id: '6', title: 'Title 6' },
+    { id: '7', title: 'Title 7' },
+    { id: '8', title: 'Title 8' },
+    { id: '9', title: 'Title 9' },
+    { id: '10', title: 'Title 10' },
+    { id: '11', title: 'Title 11' },
+    { id: '12', title: 'Title 12' },
+    { id: '13', title: 'Title 13' },
+    { id: '14', title: 'Title 14' },
+    { id: '15', title: 'Title 15' },
+    { id: '16', title: 'Title 16' },
+    { id: '17', title: 'Title 17' },
+    { id: '18', title: 'Title 18' },
+    { id: '19', title: 'Title 19' },
+    { id: '20', title: 'Title 20' },
+]
 
-const fruits = [
-    'Apple',
-    'Orange',
-    'Watermelon',
-    'Avocado',
-    'Blueberry',
-    'Coconut',
-    'Durian',
-    'Mango',
-];
-
-const refreshingHeight = 100;
-const styles = StyleSheet.create({
-    flatlist: {
-
-    },
-    row: {
-        height: 100,
-        justifyContent: 'center',
-        padding: 20,
-        borderBottomWidth: 3,
-        borderBottomColor: 'black',
-        backgroundColor: 'white',
-    },
-    rowTitle: {
-        fontSize: 30,
-        fontWeight: 'bold',
-    },
-
-    lottieView: {
-        height: refreshingHeight,
-        position: 'absolute',
-        top: 5,
-        left: 0,
-        right: 0,
-    },
-});
-
-function DJScreen() {
+const DJScreen = () => {
     const [offsetY, setOffsetY] = useState(0);
-    const [isRefreshing, setIsRefreshing] = useState(false);
-    const [extraPaddingTop] = useState(new Animated.Value(0));
-
-    const lottieViewRef = useRef(null);
-
-    useEffect(() => {
-        if (isRefreshing) {
-            Animated.timing(extraPaddingTop, {
-                toValue: refreshingHeight,
-                duration: 0,
-                useNativeDriver: true,
-            }).start();
-            lottieViewRef.current.play();
-        } else {
-            Animated.timing(extraPaddingTop, {
-                toValue: 0,
-                duration: 400,
-                easing: Easing.elastic(1.3),
-                useNativeDriver: true,
-            }).start();
-        }
-    }, [isRefreshing]);
-
-    function renderItem({ item }) {
-        return (
-            <View key={item} style={styles.row}>
-                <Text style={styles.rowTitle}>{item}</Text>
-            </View>
-        );
-    }
-
     function onScroll(event) {
         const { nativeEvent } = event;
         const { contentOffset } = nativeEvent;
         const { y } = contentOffset;
         setOffsetY(y);
+        console.log(offsetY)
     }
-
-    function onRelease() {
-        if (offsetY <= -refreshingHeight && !isRefreshing) {
-            setIsRefreshing(true);
-            setTimeout(() => {
-                setIsRefreshing(false);
-            }, 3000);
+    function handleRelease() {
+        if (this.state.readyToRefresh) {
+            this.flatList.scrollToOffset({ offset: -130 });
         }
     }
-
-    let progress = 0;
-    if (offsetY < 0 && !isRefreshing) {
-        progress = offsetY / -refreshingHeight;
-    }
-
     return (
-        <View>
-            <LottieView
-                ref={lottieViewRef}
-                style={styles.lottieView}
-                source={fruitsAnimation}
-                progress={progress}
-            />
+        <View style={{ flex: 1 }}>
             <FlatList
-                data={fruits}
-                renderItem={renderItem}
-                style={[
-                    styles.flatlist,
-                    {
-                        paddingTop: 20,
-                    },
-                ]}
+                ref={(flatList) => {
+                    flatList = flatList;
+                }}
+                data={data}
+                keyExtractor={item => item.id}
+                contentContainerStyle={{ paddingTop: 120 }}
+                renderItem={({ item }) =>
+                    <View style={styles.container}>
+                        <Text>{item.title}</Text>
+                    </View>
+                }
                 onScroll={onScroll}
-                onResponderRelease={onRelease}
-                ListHeaderComponent={(
-                    <Animated.View style={{
-                        paddingTop: extraPaddingTop,
-                    }}
-                    />
-                )}
+                scrollEventThrottle={16}
+                scrollToOverflowEnabled={true}
+                onResponderRelease={handleRelease}
             />
         </View>
     );
-}
+};
+
+const styles = StyleSheet.create({
+    container: {
+        width: 50,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
 
 export default DJScreen;
