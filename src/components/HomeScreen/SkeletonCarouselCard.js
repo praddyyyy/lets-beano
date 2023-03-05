@@ -14,5 +14,3 @@ const SkeletonCarouselCard = () => {
 }
 
 export default SkeletonCarouselCard
-
-const styles = StyleSheet.create({})
