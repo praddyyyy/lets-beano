@@ -1,83 +1,44 @@
-import IndexScreen from '../screens/IndexScreen';
-import IntroStory from '../screens/IntroStory';
-import SignInScreen from '../screens/SignInScreen';
-import PhoneNumberScreen from '../screens/PhoneNumberScreen';
-// import HomeScreen from '../screens/HomeScreen';
-import HomeScreenNew from '../screens/HomeScreenNew';
-import ClubsScreen from '../screens/ClubsScreen';
-import SearchScreen from '../screens/SearchScreen';
-import OTPScreen from '../screens/OTPScreen';
-import ClubDetailScreen from '../screens/ClubDetailScreen';
-import ClubDetailScreenEdit from '../screens/ClubDetailScreenEdit';
-import ClubDetailScreenEditEdit from '../screens/ClubDetailScreenEditEdit';
-import EventsScreen from '../screens/EventsScreen';
-import EventDetailScreen from '../screens/EventDetailScreen';
-import EventBookingScreen from '../screens/EventBookingScreen';
-import EventTicketBasketScreen from '../screens/EventTicketBasketScreen';
-import DJScreen from '../screens/DJScreen';
-import ProfileScreen from '../screens/ProfileScreen';
-import QRScannerScreen from '../screens/QRScannerScreen';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React, { useEffect, useRef, useState } from 'react'
+import { useAuth } from '../hooks/useAuth'
+import userStack from './userStack'
+import authStack from './authStack'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { auth } from '../../firebase-config'
 
 const Navigation = () => {
-    const Stack = createNativeStackNavigator();
+    // const { user } = useAuth()
+    const [currentUser, setCurrentUser] = useState(false)
+    // const currentUser = useRef(false)
 
+    const userHandler = (user) => {
+        // console.log(auth.currentUser.emailVerified)
+        // (user && auth.currentUser.emailVerified) ? currentUser.current = true : currentUser.current = false
+        (user && auth.currentUser.emailVerified) ? setCurrentUser(true) : setCurrentUser(false)
+
+        // (user && auth.currentUser.emailVerified) ? console.log(true) : console.log(false)
+
+    }
+
+    useEffect(() =>
+        onAuthStateChanged(auth, (user) => {
+            console.log('Auth Stack Change')
+            console.log('User Value: ', user)
+            if (user) {
+                console.log('User Boolean: ', user && auth.currentUser.emailVerified)
+                console.log(auth.currentUser.emailVerified)
+            }
+            userHandler(user)
+            // console.log("Current User: ", currentUser)
+        })
+        , [])
+    console.log("Current User: ", currentUser)
+
+    // const { user } = useRef(null)
     return (
-        <NavigationContainer>
-            <Stack.Navigator initialRouteName='IndexScreen' screenOptions={{
-                headerShown: false,
-                gestureEnabled: true,
-            }}>
-                <Stack.Screen name='IndexScreen' component={IndexScreen} />
-                <Stack.Screen name='IntroStoryScreen' component={IntroStory} options={{
-                    animation: 'fade_from_bottom'
-                }} />
-                <Stack.Screen name='SignInScreen' component={SignInScreen} options={{
-                    animation: 'fade_from_bottom'
-                }} />
-                <Stack.Screen name='PhoneNumberScreen' component={PhoneNumberScreen} options={{
-                    animation: 'slide_from_right'
-                }} />
-                <Stack.Screen name='OTPScreen' component={OTPScreen} options={{
-                    animation: 'slide_from_right'
-                }} />
-                <Stack.Screen name='HomeScreen' component={HomeScreenNew} options={{
-                    animation: 'slide_from_right'
-                }} />
-                <Stack.Screen name='ClubScreen' component={ClubsScreen} options={{
-                    animation: 'slide_from_right'
-                }} />
-                <Stack.Screen name='ClubDetailScreen' component={ClubDetailScreen} options={{
-                    animation: 'slide_from_right'
-                }} />
-                <Stack.Screen name='SearchScreen' component={SearchScreen} options={{
-                    animation: 'slide_from_right'
-                }} />
-                <Stack.Screen name='EventsScreen' component={EventsScreen} options={{
-                    animation: 'slide_from_right'
-                }} />
-                <Stack.Screen name='EventDetailScreen' component={EventDetailScreen} options={{
-                    animation: 'slide_from_right'
-                }} />
-                <Stack.Screen name='EventBookingScreen' component={EventBookingScreen} options={{
-                    animation: 'slide_from_right'
-                }} />
-                <Stack.Screen name='EventTicketBasketScreen' component={EventTicketBasketScreen} options={{
-                    animation: 'slide_from_bottom'
-                }} />
-                <Stack.Screen name='DJScreen' component={DJScreen} options={{
-                    animation: 'slide_from_left'
-                }} />
-                <Stack.Screen name='ProfileScreen' component={ProfileScreen} options={{
-                    animation: 'slide_from_left'
-                }} />
-                <Stack.Screen name='QRScannerScreen' component={QRScannerScreen} options={{
-                    animation: 'slide_from_left'
-                }} />
-            </Stack.Navigator>
-        </NavigationContainer>
-    );
+        currentUser ? userStack() : authStack()
+        // user ? userStack() : authStack()
+
+    )
 }
 
 export default Navigation
