@@ -5,8 +5,8 @@ import { useNavigation } from '@react-navigation/native'
 const BookNowButton = () => {
     const navigation = useNavigation()
     return (
-        <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 50, alignItems: 'center', justifyContent: 'flex-end' }}>
-            <TouchableOpacity style={styles.bookNowButton} onPress={() => {navigation.navigate('EventBookingScreen')}}>
+        <View style={{ position: 'absolute', bottom: 50, right: 0, left: 0, alignItems: 'center' }}>
+            <TouchableOpacity style={styles.bookNowButton} onPress={() => { navigation.navigate('EventBookingScreen') }}>
                 <Text style={{ color: '#fff', fontSize: 18, fontFamily: 'Montserrat-Bold' }}>BOOK NOW</Text>
             </TouchableOpacity>
         </View>
