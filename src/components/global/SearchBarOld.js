@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import { SearchBar } from 'react-native-elements'
+import COLORS from '../../constants/Colors'
 
 const SearchBarOld = (props) => {
     const [search, setSearch] = useState('')
@@ -12,19 +13,22 @@ const SearchBarOld = (props) => {
     return (
         <SearchBar
             containerStyle={{
-                backgroundColor: '#1f1f1f',
+                backgroundColor: COLORS.black,
                 borderBottomColor: 'transparent',
                 borderTopColor: 'transparent',
-                borderRadius: 50
+                paddingHorizontal: 15,
+                paddingVertical: 10
             }}
             inputContainerStyle={{
-                backgroundColor: '#fff',
+                // backgroundColor: '#fff',
                 borderRadius: 15,
-                borderRadius: 50,
+                // borderRadius: 50,
             }}
             placeholder={props.placeholder}
             onChangeText={searchHandler}
             value={search}
+            lightTheme={false}
+            searchIcon={{ color: COLORS.white, size: 24 }}
         />
 
 
