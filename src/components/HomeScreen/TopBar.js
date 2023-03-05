@@ -3,15 +3,17 @@ import React from 'react'
 import Dimensions from '../../constants/Dimensions'
 import Icon, { Icons } from '../global/Icons'
 import { useNavigation } from '@react-navigation/native'
+import { UserLocation } from "react-native-unicons"
 
 const TopBar = () => {
     const navigation = useNavigation()
     return (
         <View style={styles.container}>
-            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-end' }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                 {/* Icon size 28 */}
-                <Icon type={Icons.Ionicons} name='ios-location' color='white' size={Dimensions.SCREEN_HEIGHT * 0.035} />
-                <Text style={{ color: 'white', fontWeight: '600' }}>Kalavakkam, Chennai</Text>
+                {/* <Icon type={Icons.Ionicons} name='ios-location' color='white' size={Dimensions.SCREEN_HEIGHT * 0.035} /> */}
+                <UserLocation width={Dimensions.SCREEN_WIDTH * 0.08} height={Dimensions.SCREEN_WIDTH * 0.08} color='#fff' />
+                <Text style={{ color: 'white', fontWeight: '600', fontSize: 14, marginLeft: 5 }}>Kalavakkam, Chennai</Text>
             </View>
             <View style={{ flexDirection: 'row' }}>
                 <View style={{ marginRight: 10 }}>
@@ -34,7 +36,8 @@ export default TopBar
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        height: Dimensions.SCREEN_HEIGHT * 0.07,
+        // height: Dimensions.SCREEN_HEIGHT * 0.07,
+        paddingVertical: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
