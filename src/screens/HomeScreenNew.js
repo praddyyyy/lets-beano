@@ -1,4 +1,4 @@
-import { View, StyleSheet, ScrollView, RefreshControl, Text } from 'react-native'
+import { View, StyleSheet, ScrollView, RefreshControl } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import TopBar from '../components/HomeScreen/TopBar'
@@ -9,102 +9,119 @@ import HomeOfferCards from '../components/HomeScreen/HomeOfferCards'
 import HomeTrendingSection from '../components/HomeScreen/HomeTrendingSection'
 import HomeExclusiveSection from '../components/HomeScreen/HomeExclusiveSection'
 import Fab from '../components/global/Fab'
-import { Divider } from 'react-native-elements'
 import Dimensions from '../constants/Dimensions'
-import { collection, getDocs, doc, query } from 'firebase/firestore'
+import { collection, getDocs } from 'firebase/firestore'
 import { db } from '../../firebase-config'
 import SkeletonCarouselCard from '../components/HomeScreen/SkeletonCarouselCard'
+import COLORS from '../constants/Colors'
+import SkeletonOffersCard from '../components/HomeScreen/SkeletonOffersCard'
+import SkeletonTrendingCard from '../components/HomeScreen/SkeletonTrendingCard'
+import SkeletonExclusiveCard from '../components/HomeScreen/SkeletonExclusiveCard'
+import HomeHotspotCard from '../components/HomeScreen/HomeHotspotCard'
 
 const HomeScreenNew = () => {
     const [refreshing, setRefreshing] = useState(false);
     const [searchValue, setSearchValue] = useState('')
-    const [homeCarouselLoading, sethomeCarouselLoading] = useState(true)
     const [homeCarousel, setHomeCarousel] = useState([])
+    const [homeCarouselLoading, sethomeCarouselLoading] = useState(true)
     const [homeOffers, setHomeOffers] = useState([])
+    const [homeOffersLoading, setHomeOffersLoading] = useState(true)
+    const [homeTrending, setHomeTrending] = useState([])
+    const [homeTrendingLoading, setHomeTrendingLoading] = useState(true)
+    const [homeExclusive, setHomeExclusive] = useState([])
+    const [homeExclusiveLoading, setHomeExclusiveLoading] = useState(true)
 
-    // useEffect(() => {
-    //     let unsubscribed = false;
 
-    //     getDocs(collection(db, "home_carousel"))
-    //         .then((querySnapshot) => {
-    //             if (unsubscribed) return; // unsubscribed? do nothing.
+    const fetchHomeCarouselData = async () => {
+        const carouselArr = []
+        const querySnapshot = await getDocs(collection(db, "home_carousel"));
+        querySnapshot.forEach((doc) => {
+            const { image, reference, title } = doc.data();
+            carouselArr.push({
+                key: doc.id,
+                image,
+                reference,
+                title
+            })
+        });
+        setHomeCarousel(carouselArr)
+        sethomeCarouselLoading(false)
+    }
 
-    //             const newHomeCarouselArray = querySnapshot.docs
-    //                 .map((document) => {
-    //                     console.log(document.data().reference)
-    //                     const clubRef = doc(document.data().reference)
-    //                     console.log(clubRef)
-    //                     return { ...document.data(), id: document.id }
-    //                 }
-    //                 );
-    //             setHomeCarousel(newHomeCarouselArray);
-    //             if (homeCarouselLoading) {
-    //                 sethomeCarouselLoading(false)
-    //             }
-    //         })
-    //         .catch((err) => {
-    //             if (unsubscribed) return; // unsubscribed? do nothing.
-    //             // TODO: Handle errors
-    //             console.error("Failed to retrieve data", err);
-    //         })
-    //     return () => unsubscribed = true;
-    // }, []);
+    const fetchHomeOffersData = async () => {
+        const offersArr = []
+        const querySnapshot = await getDocs(collection(db, "home_offers"));
+        querySnapshot.forEach((doc) => {
+            const { description, image, reference, title } = doc.data();
+            offersArr.push({
+                key: doc.id,
+                description,
+                image,
+                reference,
+                title
+            })
+        });
+        setHomeOffers(offersArr)
+        setHomeOffersLoading(false)
+    }
+
+    const fetchHomeTrendingData = async () => {
+        const trendingArr = []
+        const querySnapshot = await getDocs(collection(db, "home_trending"));
+        querySnapshot.forEach((doc) => {
+            const { image } = doc.data();
+            trendingArr.push({
+                key: doc.id,
+                image
+            })
+        });
+        setHomeTrending(trendingArr)
+        setHomeTrendingLoading(false)
+    }
+
+    const fetchHomeExclusiveData = async () => {
+        const exclusiveArr = []
+        const querySnapshot = await getDocs(collection(db, "home_exclusive"));
+        querySnapshot.forEach((doc) => {
+            const { image, title } = doc.data();
+            exclusiveArr.push({
+                key: doc.id,
+                title,
+                image
+            })
+        });
+        setHomeExclusive(exclusiveArr)
+        setHomeExclusiveLoading(false)
+    }
+
 
     useEffect(() => {
-        const fetchData = async () => {
-            const q = query(collection(db, "home_carousel"))
-            const querySnapshot = await getDocs(q)
-            const newHomeCarouselArray = querySnapshot.docs
-                .map((document) => {
-                    // console.log(document.data().reference)
-                    // const clubRef = doc(document.data().reference)
-                    // console.log(clubRef)
-                    // console.log(doc(document.data().reference))
-                    return { ...document.data(), id: document.id }
-                }
-                );
-            setHomeCarousel(newHomeCarouselArray);
-            if (homeCarouselLoading) {
-                sethomeCarouselLoading(false)
-            }
-        };
-
-        fetchData();
+        fetchHomeCarouselData();
+        fetchHomeOffersData();
+        fetchHomeTrendingData();
+        fetchHomeExclusiveData();
     }, []);
 
 
     const handleSearch = (value) => {
         setSearchValue(value);
     };
-    // TODO check the refresh control homeCarouselLoading time (have to wait for 1 sec to load the data beacause used setTimeout)
-
-    const fetchData = async () => {
-        sethomeCarouselLoading(true)
-        const q = query(collection(db, "home_carousel"))
-        const querySnapshot = await getDocs(q)
-        const newHomeCarouselArray = querySnapshot.docs
-            .map((document) => {
-                return { ...document.data(), id: document.id }
-            }
-            );
-        setHomeCarousel(newHomeCarouselArray);
-        // sethomeCarouselLoading(false)
-        setTimeout(() => {
-            sethomeCarouselLoading(false)
-        }
-            , 1000);
-    };
 
     const onRefresh = async () => {
         setRefreshing(true)
         sethomeCarouselLoading(true)
-        await fetchData();
+        setHomeOffersLoading(true)
+        setHomeTrendingLoading(true)
+        setHomeExclusiveLoading(true)
+        fetchHomeCarouselData();
+        fetchHomeOffersData();
+        fetchHomeTrendingData();
+        fetchHomeExclusiveData();
         setRefreshing(false)
     }
-
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView stickyHeaderIndices={[1]} contentContainerStyle={styles.scrollView}
+            <ScrollView stickyHeaderIndices={[1]} contentContainerStyle={styles.scrollView} showsVerticalScrollIndicator={false}
                 refreshControl={
                     <RefreshControl progressViewOffset={Dimensions.SCREEN_HEIGHT * 0.19} refreshing={refreshing} onRefresh={onRefresh} />
                 }
@@ -112,18 +129,21 @@ const HomeScreenNew = () => {
                 <View style={{ paddingHorizontal: 15 }}>
                     <TopBar />
                 </View>
-                <View style={{ backgroundColor: '#1f1f1f', paddingHorizontal: 15, paddingBottom: 15 }}>
-                    <SearchBarOld handleSearch={handleSearch} placeholder="Search Events, Clubs, DJs..." />
-                </View>
+                <SearchBarOld handleSearch={handleSearch} placeholder="Search Events, Clubs, DJs..." />
                 {
                     (homeCarouselLoading && !refreshing) ? <SkeletonCarouselCard /> : <AdFlatList data={homeCarousel} />
-
                 }
-                <HomeOfferCards />
-                <Divider width={1.5} style={{ top: 40 }} />
+                {
+                    (homeOffersLoading && !refreshing) ? <SkeletonOffersCard /> : <HomeOfferCards data={homeOffers} />
+                }
                 <HomeBookCards />
-                <HomeTrendingSection />
-                <HomeExclusiveSection />
+                {
+                    (homeTrendingLoading && !refreshing) ? <SkeletonTrendingCard /> : <HomeTrendingSection data={homeTrending} />
+                }
+                {
+                    (homeExclusiveLoading && !refreshing) ? <SkeletonExclusiveCard /> : <HomeExclusiveSection data={homeExclusive} />
+                }
+                <HomeHotspotCard />
             </ScrollView>
             <Fab current='Home' bottom={40} />
         </SafeAreaView>
@@ -135,6 +155,10 @@ export default HomeScreenNew
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#1f1f1f',
+        backgroundColor: COLORS.black,
+    },
+
+    scrollView: {
+        paddingBottom: 150,
     }
 })
