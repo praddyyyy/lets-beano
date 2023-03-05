@@ -1,21 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import Dimensions from '../../constants/Dimensions'
 import HomeOfferCard from './HomeOfferCard'
 
-const HomeOfferCards = () => {
-
-    const ImageData = [
-        {
-            url: require('../../assets/images/Color-Frame-1.jpg')
-        },
-        {
-            url: require('../../assets/images/Color-Frame-2.jpg')
-        },
-        {
-            url: require('../../assets/images/Color-Frame-3.jpg')
-        }
-    ]
+const HomeOfferCards = (props) => {
+    const [data, setData] = useState(props.data)
 
     return (
         // TODO Responsive image sizes
@@ -23,9 +12,9 @@ const HomeOfferCards = () => {
             <View>
                 <Text style={{ color: 'white', fontFamily: 'Montserrat-Bold', fontSize: 22, marginHorizontal: 10 }}>Offers <Text style={{ fontFamily: 'Montserrat', fontSize: 12 }}>(via Beano Pay)</Text></Text>
             </View>
-            <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-around' }}>
-                {ImageData.map((item, index) =>
-                    <HomeOfferCard key={index} url={item.url} />
+            <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'flex-start' }}>
+                {data.map((item, index) =>
+                    <HomeOfferCard key={index} url={item.image} />
                 )}
             </View>
         </View>
