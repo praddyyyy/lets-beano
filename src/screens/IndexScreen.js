@@ -3,10 +3,8 @@ import React, { useCallback, useEffect } from 'react'
 import { useFonts } from 'expo-font';
 import { SafeAreaView } from 'react-native-safe-area-context'
 import * as SplashScreen from 'expo-splash-screen'
-import { useNavigation } from '@react-navigation/native';
 
-const IndexScreen = () => {
-    const navigation = useNavigation();
+const IndexScreen = ({ navigation }) => {
 
     const [fontsLoaded] = useFonts({
         'MontserratAlternates-Black': require('../../assets/fonts/MontserratAlternates-Black.ttf'),
@@ -54,7 +52,7 @@ const IndexScreen = () => {
                 <TouchableOpacity style={styles.joinNowButton} onPress={() => navigation.navigate('IntroStoryScreen')} activeOpacity={0.7}>
                     <Text style={styles.joinNowText}>JOIN NOW</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.signInButton} onPress={() => navigation.navigate('HomeScreen')} >
+                <TouchableOpacity style={styles.signInButton} onPress={() => navigation.navigate('LoginScreen')} >
                     <Text style={styles.signInText}>Sign In</Text>
                 </TouchableOpacity>
             </View>
@@ -107,7 +105,7 @@ const styles = StyleSheet.create({
     policyContainer: {
         marginTop: 20,
         marginHorizontal: 20
-        
+
     },
 
     joinNowButton: {
