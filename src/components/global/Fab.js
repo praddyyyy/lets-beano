@@ -5,9 +5,8 @@ import Icon, { Icons } from './Icons'
 import Animated, { Extrapolate, interpolate, interpolateColor, log, useAnimatedStyle, useDerivedValue, withSpring, withTiming } from 'react-native-reanimated';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import * as Haptics from 'expo-haptics';
-
 const { width } = Dimensions.get('window')
-
+// TODO Change color of FAB from red to primary color
 const FAB_SIZE = 65;
 const circleScale = (width / FAB_SIZE).toFixed(1)
 const circleSize = circleScale * FAB_SIZE;
