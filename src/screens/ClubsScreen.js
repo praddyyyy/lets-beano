@@ -43,7 +43,7 @@ const ClubsScreen = () => {
         return () => unsubscribed = true;
     }, []);
 
-    console.log(clubs)
+    // console.log(clubs)
 
 
     // const loc = fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyDr27dLjec3h6AZ_uyfhRXzAmZmEyh7MGA`)
