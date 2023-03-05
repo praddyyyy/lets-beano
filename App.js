@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Navigation from './src/navigation';
 import store from './store';
 import { Provider } from 'react-redux'
