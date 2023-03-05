@@ -1,15 +1,16 @@
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import TopBar from '../components/global/TopBar'
 import Icon, { Icons } from '../components/global/Icons'
-import { useNavigation } from '@react-navigation/native'
 import Dimensions from '../constants/Dimensions'
 import Fab from '../components/global/Fab'
 import { Divider } from 'react-native-elements'
+import { signOut, getAuth } from 'firebase/auth'
 
-const ProfileScreen = () => {
-    const navigation = useNavigation()
+const auth = getAuth()
+
+const ProfileScreen = ({ navigation }) => {
     const activites = [
         {
             id: 1,
@@ -67,6 +68,32 @@ const ProfileScreen = () => {
             title: 'Terms & Conditions',
         },
     ]
+
+    const logOutHandler = () => {
+        signOut(auth).then(() => {
+            // Sign-out successful.
+            console.log('signed out from profile screen')
+        }).catch((error) => {
+            // An error happened.
+            console.log(error)
+        });
+    }
+
+    const [user, setUser] = useState(auth.currentUser)
+    const [name, setName] = useState(user.displayName)
+    const [email, setEmail] = useState(user.email)
+    const [dateCreated, setDateCreated] = useState(user.metadata.creationTime)
+    const [formattedDate, setFormattedDate] = useState('')
+    useEffect(() => {
+        const date = new Date(dateCreated);
+        const options = { month: 'long', year: 'numeric' };
+        console.log(date.getMonth())
+        setFormattedDate(date.toDateString('en-US', options).replace(/^[a-z]+\s/, '')
+            .replace(/,\s\d{4}/, ''))
+        // setFormattedDate(date.format)
+    }, [])
+
+
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView
@@ -104,12 +131,12 @@ const ProfileScreen = () => {
                             <Icon type={Icons.AntDesign} name='star' color='gold' size={15} />
                             <Text style={{ color: 'black', fontSize: 15, fontFamily: 'Alata', bottom: 2 }}>4.8</Text>
                         </View>
-                        <Text style={{ color: '#fff', fontSize: 14, fontFamily: 'Alata' }}>Member since Oct 2022</Text>
+                        <Text style={{ color: '#fff', fontSize: 8, fontFamily: 'Alata' }}>Member since {formattedDate}</Text>
                     </View>
                     <View style={{ marginHorizontal: 15, marginBottom: 25 }}>
-                        <Text style={{ color: '#fff', fontSize: 18, fontFamily: 'Alata' }}>Danush Gopinath</Text>
-                        <Text style={{ color: '#fff', fontSize: 15, fontFamily: 'Alata' }}>danushgopinath8502@gmail.com</Text>
-                        <Text style={{ color: '#fff', fontSize: 15, fontFamily: 'Alata' }}>9958545037</Text>
+                        <Text style={{ color: '#fff', fontSize: 18, fontFamily: 'Alata' }}>{name}</Text>
+                        <Text style={{ color: '#fff', fontSize: 15, fontFamily: 'Alata' }}>{email}</Text>
+                        <Text style={{ color: '#fff', fontSize: 15, fontFamily: 'Alata' }}>9958545037 (TODO)</Text>
                     </View>
                     <View style={styles.editProfileBtn}>
                         <TouchableOpacity>
@@ -154,7 +181,7 @@ const ProfileScreen = () => {
                     </View>
                 </View>
                 <View style={styles.logoutBtn}>
-                    <TouchableOpacity onPress={() => { navigation.navigate('IndexScreen') }}>
+                    <TouchableOpacity onPress={() => { logOutHandler() }}>
                         <Text style={{ color: '#fff', fontSize: 15, fontFamily: 'Montserrat', alignSelf: 'center' }}>Logout</Text>
                     </TouchableOpacity>
                 </View>
