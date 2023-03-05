@@ -1,11 +1,9 @@
 import { Animated, Image, Platform, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useRef, useState } from 'react'
 import Dimensions from '../constants/Dimensions'
-import { useNavigation } from '@react-navigation/native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-const IntroStory = () => {
-    const navigation = useNavigation()
+const IntroStory = ({ navigation }) => {
     const [current, setCurrent] = useState(0)
     const [content, setContent] = useState([
         {
@@ -72,7 +70,7 @@ const IntroStory = () => {
 
     const close = () => {
         progress.setValue(0);
-        navigation.navigate('PhoneNumberScreen');
+        navigation.navigate('SignUpScreen');
     }
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#000' }}>
@@ -92,13 +90,13 @@ const IntroStory = () => {
                     )
                 })}
             </View>
-            <View style={{ width: Dimensions.SCREEN_WIDTH, height: Dimensions.SCREEN_HEIGHT, position: 'absolute', padding: 10, flex: 1, justifyContent: 'flex-end' }}>
+            <View style={{ width: Dimensions.SCREEN_WIDTH, height: Dimensions.SCREEN_HEIGHT, position: 'absolute', bottom: 60, padding: 10, flex: 1, justifyContent: 'flex-end' }}>
                 <Text style={{ fontSize: 25, color: 'white', fontFamily: 'MontserratAlternates-Black' }}>{content[current].description}</Text>
-                <TouchableOpacity style={styles.nextButton} activeOpacity={0.7} onPress={() => {
+                {/* <TouchableOpacity style={styles.nextButton} activeOpacity={0.7} onPress={() => {
                     next()
                 }}>
                     <Text style={styles.nextText}>NEXT</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
             <View style={{ width: Dimensions.SCREEN_WIDTH, height: Dimensions.SCREEN_HEIGHT, position: 'absolute', top: 0, flexDirection: 'row', justifyContent: 'space-between' }}>
                 <TouchableOpacity style={{ width: '30%', height: '100%' }} onPress={() => {
@@ -127,7 +125,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 45,
-        marginBottom: 20
+        marginBottom: 20,
+        width: '80%',
+        alignSelf: 'center'
     },
     nextText: {
         color: 'white',
