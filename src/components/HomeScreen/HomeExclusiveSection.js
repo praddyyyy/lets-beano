@@ -1,49 +1,39 @@
 import { StyleSheet, Text, TouchableOpacity, View, FlatList, Image } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
+import SubTitleComponent from './SubTitleComponent'
+import Dimensions from '../../constants/Dimensions'
 
-const HomeExclusiveSection = () => {
-    const DATA = [
-        {
-            id: 1,
-            src: require('../../assets/images/Exculsive-1.jpg')
-        },
-        {
-            id: 2,
-            src: require('../../assets/images/Exculsive-2.jpg')
-        },
-        {
-            id: 3,
-            src: require('../../assets/images/Exculsive-3.jpg')
-        },
-        {
-            id: 4,
-            src: require('../../assets/images/Exculsive-4.jpg')
-        }
-    ]
+const HomeExclusiveSection = (props) => {
+    const [data, setData] = useState(props.data)
     return (
-        <View style={styles.container}>
-            <Text style={{ color: 'white', fontFamily: 'Montserrat-Bold', fontSize: 22, marginBottom: 10 }}>Exculsive</Text>
-            <View>
-                <FlatList
-                    data={DATA}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    scrollEventThrottle={32}
-                    decelerationRate={0.8}
-                    disableIntervalMomentum={true}
-                    disableScrollViewPanResponder={true}
-                    snapToAlignment={'start'}
-                    bounces={false}
-                    pagingEnabled={true}
-                    renderItem={({ item, index }) => {
-                        return (
-                            <TouchableOpacity activeOpacity={0.5}>
-                                <Image style={{ height: 200, width: 140, borderRadius: 10, marginHorizontal: 10 }} source={item.src} />
-                            </TouchableOpacity>
-                        )
-                    }}
-                    keyExtractor={(item) => item.id}
-                />
+        <View>
+            <SubTitleComponent text={'Exclusive'} />
+            <View style={styles.container}>
+                <View>
+                    <FlatList
+                        data={data}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        scrollEventThrottle={32}
+                        decelerationRate={0.8}
+                        disableIntervalMomentum={true}
+                        disableScrollViewPanResponder={true}
+                        snapToAlignment={'start'}
+                        bounces={false}
+                        pagingEnabled={true}
+                        renderItem={({ item, index }) => {
+                            return (
+                                <TouchableOpacity activeOpacity={0.5}>
+                                    <Image style={{ height: Dimensions.SCREEN_HEIGHT * 0.22, width: Dimensions.SCREEN_WIDTH * 0.35, borderRadius: 10, marginHorizontal: 10, opacity: 0.6, borderWidth: 0.5, borderColor: 'rgba(255,255,255,0.3)' }} source={{ uri: item.image }} />
+                                    <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center', borderRadius: 10, marginHorizontal: 15 }}>
+                                        <Text style={{ color: '#fff', fontSize: 20, fontFamily: 'Montserrat-Bold', width: '90%', textAlign: 'center' }}>{item.title}</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            )
+                        }}
+                        keyExtractor={(item) => item.key}
+                    />
+                </View>
             </View>
         </View>
     )
@@ -54,7 +44,8 @@ export default HomeExclusiveSection
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: 280,
+        height: Dimensions.SCREEN_HEIGHT * 0.25,
         marginHorizontal: 15,
+        marginTop: 15
     }
 })
