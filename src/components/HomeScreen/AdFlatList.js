@@ -4,7 +4,6 @@ import Dimensions from '../../constants/Dimensions'
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import AdCarouselCard from './AdCarouselCard'
-import DATA from '../../constants/caraousel'
 import Paginator from './Paginator'
 
 
@@ -36,7 +35,7 @@ const AdFlatList = (props) => {
                             </TouchableOpacity>
                         )
                     }}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => item.key}
                     onScroll={(event) => {
                         setScrollX(event.nativeEvent.contentOffset.x)
                     }}
