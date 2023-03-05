@@ -1,13 +1,12 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, addDoc, collection } from "firebase/firestore";
+// import { getAuth } from "firebase/auth";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+    initializeAuth,
+    getReactNativePersistence
+} from 'firebase/auth/react-native'
 // import { getAnalytics } from "firebase/analytics";
-
-// Optionally import the services that you want to use
-// import {...} from "firebase/auth";
-// import {...} from "firebase/database";
-// import {...} from "firebase/functions";
-// import {...} from "firebase/storage";
-
 // Initialize Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyDr27dLjec3h6AZ_uyfhRXzAmZmEyh7MGA",
@@ -19,6 +18,16 @@ const firebaseConfig = {
     appId: "1:726334210249:web:71f8f9d4a01090937c0d18"
 };
 
+// const firebaseConfig = {
+//     apiKey: "AIzaSyCbmthEoLdwMYJQceClGdkOQ3jkVF02lXI",
+//     authDomain: "beano-89d72.firebaseapp.com",
+//     projectId: "beano-89d72",
+//     storageBucket: "beano-89d72.appspot.com",
+//     messagingSenderId: "13524995040",
+//     appId: "1:13524995040:web:3ce48eb1089881c300b985",
+//     measurementId: "G-9WRC3S35PG"
+// };
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
@@ -26,4 +35,10 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 // const analytics = getAnalytics(app);
 
-export { db }
+const auth = initializeAuth(app, {
+    persistence: getReactNativePersistence(AsyncStorage)
+});
+
+// !firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app();
+
+export { db, auth, app, addDoc }
