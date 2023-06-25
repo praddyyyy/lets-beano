@@ -5,6 +5,7 @@ import IntroStoryScreen from './src/screens/IntroStoryScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
 import PersonalDetailsScreen from './src/screens/PersonalDetailsScreen';
 import HomeScreen from './src/screens/HomeScreen';
+import ClubsScreen from './src/screens/ClubsScreen';
 
 const Stack = createNativeStackNavigator()
 
@@ -27,6 +28,9 @@ export default function App() {
           animation: 'fade_from_bottom'
         }} />
         <Stack.Screen name='HomeScreen' component={HomeScreen} options={{
+          animation: 'fade_from_bottom'
+        }} />
+        <Stack.Screen name='ClubsScreen' component={ClubsScreen} options={{
           animation: 'fade_from_bottom'
         }} />
       </Stack.Navigator>
