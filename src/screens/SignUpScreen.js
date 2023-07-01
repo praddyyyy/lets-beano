@@ -9,7 +9,9 @@ import { moderateScale } from 'react-native-size-matters';
 import { Input, Icon } from '@rneui/themed';
 import LottieView from 'lottie-react-native';
 
-// import { createUserWithEmailAndPassword, sendEmailVerification, ActionCodeSettings } from "firebase/auth";
+import { auth } from '../../firebase-config';
+
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 // import { getAuth } from 'firebase/auth';
 
 // const auth = getAuth();
@@ -17,9 +19,8 @@ import LottieView from 'lottie-react-native';
 const SignUpScreen = ({ navigation }) => {
     const animation = useRef(null);
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('')
+    console.log(auth)
+
     const [loading, setLoading] = useState(false)
     const [verified, setVerified] = useState(false)
 
@@ -33,43 +34,45 @@ const SignUpScreen = ({ navigation }) => {
     });
 
 
-    // const registerUser = (email) => {
-    //     createUserWithEmailAndPassword(auth, email, password)
-    //         .then(() => {
-    //             sendEmailVerification(auth.currentUser)
-    //                 .then(() => {
-    //                     setLoading(true)
-    //                 }).catch((error) => {
-    //                     console.log(error);
-    //                 })
-    //         })
-    //         .catch((error) => {
-    //             console.log(error)
-    //         });
-    // }
+    const registerUser = (email, password) => {
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(() => {
+                sendEmailVerification(auth.currentUser)
+                    .then(() => {
+                        setLoading(true)
+                    }).catch((error) => {
+                        console.log(error);
+                    })
+            })
+            .catch((error) => {
+                console.log(error)
+            });
+    }
 
-    // useEffect(() => {
-    //     if (loading) {
+    useEffect(() => {
+        if (loading) {
+            const intervalId = setInterval(() => {
+                auth.currentUser.reload()
+                if (auth.currentUser?.emailVerified) {
+                    console.log('Email verified')
+                    setVerified(true)
+                    clearInterval(intervalId)
+                    navigation.navigate('PersonalDetailsScreen', { email: data.email })
+                    setLoading(false)
+                } else {
+                    console.log('Email not verified')
+                }
+            }, 3000); // set the interval to 3 seconds
 
-    //         const intervalId = setInterval(() => {
-    //             auth.currentUser.reload()
-    //             if (auth.currentUser?.emailVerified) {
-    //                 console.log('Email verified')
-    //                 setVerified(true)
-    //                 clearInterval(intervalId)
-    //                 navigation.navigate('PersonalScreen', { email: email })
-    //                 setLoading(false)
-    //             } else {
-    //                 console.log('Email not verified')
-    //             }
-    //         }, 3000); // set the interval to 3 seconds
+        }
+        // return () => clearInterval(intervalId); // clean up the interval when the component unmounts
+    }, [loading]);
 
-    //     }
-    //     // return () => clearInterval(intervalId); // clean up the interval when the component unmounts
-    // }, [loading]);
+    const emailRegex =
+        new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
 
     const emailInputChange = (val) => {
-        if (val.length !== 0) {
+        if (emailRegex.test(val)) {
             setData({
                 ...data,
                 email: val,
@@ -121,81 +124,85 @@ const SignUpScreen = ({ navigation }) => {
                     <Text style={styles.titleSubText}>Coz Why Not?</Text>
                 </View>
             </View>
-            {/* <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}> */}
+            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
 
-            <Animatable.View animation={"fadeInUpBig"} style={styles.bottomContainer}>
-                {
-                    loading ?
-                        <View style={{ flex: 1, paddingTop: 40, paddingBottom: 20, justifyContent: 'space-between', alignItems: 'center' }}>
-                            {/* <Text style={{ alignSelf: 'center', marginBottom: 15, fontFamily: 'Montserrat_700Bold', fontSize: moderateScale(15, Dimensions.SCALING_FACTOR) }}>Sign Up using your email</Text> */}
-                            <Text style={{ alignSelf: 'center', marginBottom: 15, fontFamily: 'Montserrat_700Bold', fontSize: moderateScale(18, Dimensions.SCALING_FACTOR) }}>Check your inbox</Text>
-                            <Text style={{ alignSelf: 'center', marginBottom: 15, marginHorizontal: 50, textAlign: 'center', fontFamily: 'Montserrat_500Medium', fontSize: moderateScale(15, Dimensions.SCALING_FACTOR) }}>Click on the verification link sent to your email to continue</Text>
-                            <LottieView
-                                autoPlay
-                                ref={animation}
-                                style={{
-                                    width: 150,
-                                    height: 150,
-                                }}
-                                source={require('../../assets/lottie/email-1.json')}
-                            />
-                            <Text style={{ alignSelf: 'center', marginBottom: 15, marginHorizontal: 30, textAlign: 'center', fontFamily: 'Montserrat_500Medium', fontSize: moderateScale(12, Dimensions.SCALING_FACTOR) }}>Didn't receive email yet? <Text style={{ fontFamily: 'Montserrat_700Bold' }}>Resend</Text></Text>
-                        </View> :
-                        <ScrollView
-                            contentContainerStyle={{ flexGrow: 1, paddingBottom: 20, justifyContent: 'space-around', alignItems: 'center', paddingTop: 20 }}
-                            showsVerticalScrollIndicator={false}
-                        >
+                <Animatable.View animation={"fadeInUpBig"} style={styles.bottomContainer}>
+                    {
+                        loading ?
+                            <View style={{ flex: 1, paddingTop: 40, paddingBottom: 20, justifyContent: 'space-between', alignItems: 'center' }}>
+                                {/* <Text style={{ alignSelf: 'center', marginBottom: 15, fontFamily: 'Montserrat_700Bold', fontSize: moderateScale(15, Dimensions.SCALING_FACTOR) }}>Sign Up using your email</Text> */}
+                                <Text style={{ alignSelf: 'center', marginBottom: 15, fontFamily: 'Montserrat_700Bold', fontSize: moderateScale(18, Dimensions.SCALING_FACTOR) }}>Check your inbox</Text>
+                                <Text style={{ alignSelf: 'center', marginBottom: 15, marginHorizontal: 50, textAlign: 'center', fontFamily: 'Montserrat_500Medium', fontSize: moderateScale(15, Dimensions.SCALING_FACTOR) }}>Click on the verification link sent to your email to continue</Text>
+                                <LottieView
+                                    autoPlay
+                                    ref={animation}
+                                    style={{
+                                        width: 150,
+                                        height: 150,
+                                    }}
+                                    source={require('../../assets/lottie/email-1.json')}
+                                />
+                                <Text style={{ alignSelf: 'center', marginBottom: 15, marginHorizontal: 30, textAlign: 'center', fontFamily: 'Montserrat_500Medium', fontSize: moderateScale(12, Dimensions.SCALING_FACTOR) }}>Didn't receive email yet? <Text style={{ fontFamily: 'Montserrat_700Bold' }}>Resend</Text></Text>
+                            </View> :
+                            <ScrollView
+                                contentContainerStyle={{ flexGrow: 1, paddingBottom: 20, justifyContent: 'space-around', alignItems: 'center', paddingTop: 20 }}
+                                showsVerticalScrollIndicator={false}
+                            >
 
-                            <Text style={{ alignSelf: 'center', marginBottom: 15, fontFamily: 'Montserrat_700Bold', fontSize: moderateScale(15, Dimensions.SCALING_FACTOR) }}>Sign Up using your email</Text>
-                            <View>
-                                <View style={styles.inputField}>
+                                <Text style={{ alignSelf: 'center', marginBottom: 15, fontFamily: 'Montserrat_700Bold', fontSize: moderateScale(15, Dimensions.SCALING_FACTOR) }}>Sign Up using your email</Text>
+                                <View>
                                     <Input
                                         placeholder='Enter your email'
                                         keyboardType='email-address'
                                         autoCapitalize='none'
+                                        containerStyle={{ paddingHorizontal: 0, width: Dimensions.SCREEN_WIDTH * 0.8 }}
                                         inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: '#fff', paddingHorizontal: 15, borderRadius: 50 }}
                                         leftIcon={{ type: 'font-awesome', name: 'user', color: 'grey', size: 20, style: { marginRight: 10 } }}
                                         rightIcon={data.check_emailInputChange ? <Animatable.View animation={"bounceIn"}><Icon type='feather' name='check-circle' color='green' size={20} /></Animatable.View> : null}
                                         onChangeText={(val) => emailInputChange(val)}
                                     />
-                                </View>
-                                <View style={styles.inputField}>
                                     <Input
                                         placeholder='Enter your password'
+                                        keyboardType='default'
+                                        autoCapitalize='none'
+                                        containerStyle={{ paddingHorizontal: 0, width: Dimensions.SCREEN_WIDTH * 0.8 }}
                                         secureTextEntry={data.secureTextEntry ? true : false}
                                         inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: '#fff', paddingHorizontal: 15, borderRadius: 50 }}
                                         leftIcon={{ type: 'font-awesome', name: 'lock', color: 'grey', size: 20, style: { marginRight: 10 } }}
                                         rightIcon={data.secureTextEntry ? <TouchableOpacity onPress={updateSecureTextEntry}><Icon type='feather' name='eye-off' color='grey' size={20} /></TouchableOpacity> : <TouchableOpacity onPress={updateSecureTextEntry}><Icon type='feather' name='eye' color='grey' size={20} /></TouchableOpacity>}
                                         onChangeText={(val) => handlePasswordChange(val)}
                                     />
-                                </View>
-                                <View style={styles.inputField}>
                                     <Input
                                         placeholder='Confirm your password'
-                                        secureTextEntry={true}
+                                        keyboardType='default'
+                                        autoCapitalize='none'
+                                        secureTextEntry={data.confirmSecureTextEntry ? true : false}
+                                        containerStyle={{ paddingHorizontal: 0, width: Dimensions.SCREEN_WIDTH * 0.8 }}
                                         inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: '#fff', paddingHorizontal: 15, borderRadius: 50 }}
                                         leftIcon={{ type: 'font-awesome', name: 'lock', color: 'grey', size: 20, style: { marginRight: 10 } }}
                                         rightIcon={data.confirmSecureTextEntry ? <TouchableOpacity onPress={updateConfirmSecureTextEntry}><Icon type='feather' name='eye-off' color='grey' size={20} /></TouchableOpacity> : <TouchableOpacity onPress={updateConfirmSecureTextEntry}><Icon type='feather' name='eye' color='grey' size={20} /></TouchableOpacity>}
                                         onChangeText={(val) => handleConfirmPasswordChange(val)}
                                     />
-                                </View>
-                                <View style={{ alignItems: 'center' }}>
-                                    <TouchableOpacity style={styles.continueButton} onPress={() => registerUser(email, password)} >
+                                    <TouchableOpacity
+                                        style={[styles.continueButton]}
+                                        onPress={() => registerUser(data.email, data.password)}
+                                        // disabled={data.check_emailInputChange}
+                                        disabled={data.check_emailInputChange && (data.password === data.confirmPassword) ? false : true}
+                                    >
+                                        {/* <TouchableOpacity style={styles.continueButton} onPress={() => navigation.navigate('PersonalDetailsScreen')} > */}
                                         <Text style={{ color: '#fff', fontSize: moderateScale(15, Dimensions.SCALING_FACTOR), fontFamily: 'Montserrat_700Bold' }}>CONTINUE</Text>
                                     </TouchableOpacity>
                                 </View>
-                            </View>
-                            <View style={{ marginTop: 10, padding: 15 }}>
-                                <Text style={styles.policyText}>By tapping Sign in/ Create Account, you agree to
-                                    our Terms or Service. Learn how we process your data
-                                    in our Privacy Policy and Cookies Policy
-                                </Text>
-                            </View>
-                        </ScrollView>
-
-                }
-            </Animatable.View>
-            {/* </KeyboardAvoidingView> */}
+                                <View style={{ marginTop: 10, padding: 15 }}>
+                                    <Text style={styles.policyText}>By tapping Sign in/ Create Account, you agree to
+                                        our Terms or Service. Learn how we process your data
+                                        in our Privacy Policy and Cookies Policy
+                                    </Text>
+                                </View>
+                            </ScrollView>
+                    }
+                </Animatable.View>
+            </KeyboardAvoidingView>
         </SafeAreaView >
     )
 }
@@ -261,15 +268,6 @@ const styles = StyleSheet.create({
     //     marginVertical: 10,
     //     fontFamily: 'Montserrat_600SemiBold',
     // },
-    inputField: {
-        borderRadius: 10,
-        // borderWidth: 1,
-        // borderColor: COLORS.white,
-        // padding: 10,
-        // backgroundColor: COLORS.white,
-        width: Dimensions.SCREEN_WIDTH * 0.8,
-        // marginVertical: 10,
-    },
     continueButton: {
         backgroundColor: COLORS.primary,
         paddingVertical: 15,
