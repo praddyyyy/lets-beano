@@ -2,10 +2,12 @@ import { StyleSheet, KeyboardAvoidingView, View, ScrollView } from 'react-native
 import { useState, useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import FilterDateSort from '../components/Global/FilterDateSort/FilterDateSort'
-// import ClubFlatlist from '../components/ClubScreen/ClubFlatlist'
-// import Fab from '../components/global/Fab'
+import Fab from '../components/Global/FAB'
 import TopBar from '../components/Global/Topbar'
 import { COLORS } from '../utils/ThemeColors'
+import ClubFlatlist from '../components/ClubsScreen/ClubFlatlist'
+
+import { clubsData } from '../utils/test-data'
 
 // import { db } from '../../firebase-config'
 // import { collection, getDocs } from "firebase/firestore";
@@ -73,6 +75,7 @@ const ClubsScreen = () => {
             <TopBar />
             {/* <SearchBarReanimated handleSearch={handleSearch} placeholder="Search here..." /> */}
             <FilterDateSort type='clubs' />
+            <ClubFlatlist data={clubsData} />
             {/* {
                 loading ? (
                     <View style={{ flex: 1, padding: 15 }}>
@@ -89,10 +92,10 @@ const ClubsScreen = () => {
                 ) : (
 
                     <ClubFlatlist data={clubs} />
-                )}
+                )} */}
             <KeyboardAvoidingView behavior='height'>
                 <Fab current='Club' bottom={40} />
-            </KeyboardAvoidingView> */}
+            </KeyboardAvoidingView>
         </SafeAreaView>
     )
 }
