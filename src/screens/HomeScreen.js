@@ -15,6 +15,16 @@ import { StatusBar } from 'expo-status-bar'
 import { moderateScale } from 'react-native-size-matters'
 import CustomSearchBar from '../components/Global/CustomSearchBar'
 import AdFlatList from '../components/HomeScreen/AdFlatList/AdFlatList'
+import Fab from '../components/Global/FAB'
+import HomeOfferCards from '../components/HomeScreen/HomeOfferCards'
+
+import { homeCarousel, homeOffers, homeTrending, homeExclusive, homePopularLocations, EventsData } from '../utils/test-data'
+import HomeBookCards from '../components/HomeScreen/HomeBookCards'
+import HomeTrendingSection from '../components/HomeScreen/HomeTrendingSection'
+import HomeExclusiveSection from '../components/HomeScreen/HomeExclusiveSection'
+import HomePopularLocations from '../components/HomeScreen/HomePopularLocations'
+import HomeEventSection from '../components/HomeScreen/HomeEventSection'
+import HomeExploreCuisine from '../components/HomeScreen/HomeExploreCuisine'
 // import { collection, getDocs } from 'firebase/firestore'
 // import { db } from '../../firebase-config'
 // import SkeletonCarouselCard from '../components/HomeScreen/SkeletonCarouselCard'
@@ -28,27 +38,13 @@ const HomeScreen = () => {
     const [searchValue, setSearchValue] = useState('')
     // const [homeCarousel, setHomeCarousel] = useState([])
     const [homeCarouselLoading, sethomeCarouselLoading] = useState(true)
-    const [homeOffers, setHomeOffers] = useState([])
+    // const [homeOffers, setHomeOffers] = useState([])
     const [homeOffersLoading, setHomeOffersLoading] = useState(true)
-    const [homeTrending, setHomeTrending] = useState([])
+    // const [homeTrending, setHomeTrending] = useState([])
     const [homeTrendingLoading, setHomeTrendingLoading] = useState(true)
-    const [homeExclusive, setHomeExclusive] = useState([])
+    // const [homeExclusive, setHomeExclusive] = useState([])
     const [homeExclusiveLoading, setHomeExclusiveLoading] = useState(true)
 
-    const homeCarousel = [
-        {
-            id: 1,
-            src: require('../assets/images/Ad-Slider-Top-1.jpg'),
-        },
-        {
-            id: 2,
-            src: require('../assets/images/Ad-Slider-Top-2.jpg'),
-        },
-        {
-            id: 3,
-            src: require('../assets/images/Ad-Slider-Top-3.jpg'),
-        },
-    ]
     // const fetchHomeCarouselData = async () => {
     //     const carouselArr = []
     //     const querySnapshot = await getDocs(collection(db, "home_carousel"));
@@ -147,6 +143,13 @@ const HomeScreen = () => {
                 <TopBar />
                 <CustomSearchBar handleSearch={handleSearch} placeholder="Search Events, Clubs, DJs..." />
                 <AdFlatList data={homeCarousel} />
+                <HomeOfferCards data={homeOffers} />
+                <HomeBookCards />
+                <HomeTrendingSection data={homeTrending} />
+                <HomeExclusiveSection data={homeExclusive} />
+                <HomePopularLocations data={homePopularLocations} />
+                <HomeEventSection data={EventsData} />
+                <HomeExploreCuisine />
                 {/*
                 {
                     (homeCarouselLoading && !refreshing) ? <SkeletonCarouselCard /> : <AdFlatList data={homeCarousel} />
@@ -154,7 +157,6 @@ const HomeScreen = () => {
                 {
                     (homeOffersLoading && !refreshing) ? <SkeletonOffersCard /> : <HomeOfferCards data={homeOffers} />
                 }
-                <HomeBookCards />
                 {
                     (homeTrendingLoading && !refreshing) ? <SkeletonTrendingCard /> : <HomeTrendingSection data={homeTrending} />
                 }
@@ -163,7 +165,7 @@ const HomeScreen = () => {
                 }
                 <HomeHotspotCard /> */}
             </ScrollView>
-            {/* <Fab current='Home' bottom={40} /> */}
+            <Fab current='Home' bottom={40} />
         </SafeAreaView>
     )
 }
