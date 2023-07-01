@@ -18,16 +18,20 @@ const CustomSearchBar = (props) => {
                 borderBottomWidth: 0,
                 borderTopWidth: 0,
                 paddingHorizontal: moderateScale(10, Dimensions.SCALING_FACTOR),
-                paddingVertical: 10
+                paddingVertical: 10,
             }}
             inputContainerStyle={{
-                borderRadius: 50,
+                borderRadius: 15,
+                height: 40,
+                width: '85%',
+                alignSelf: 'center',
+                backgroundColor: COLORS.white,
             }}
             placeholder={props.placeholder}
             onChangeText={searchHandler}
             value={search}
             lightTheme={false}
-            searchIcon={{ color: COLORS.white, size: 24 }}
+            searchIcon={{ color: COLORS.background, size: 24 }}
         />
 
 
