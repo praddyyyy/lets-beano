@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { COLORS } from '../utils/ThemeColors'
@@ -7,30 +7,28 @@ import { Icon, Input } from '@rneui/themed';
 import { StatusBar } from 'expo-status-bar'
 import { moderateScale } from 'react-native-size-matters'
 import DateTimePicker from '@react-native-community/datetimepicker';
-// import { addDoc, collection } from 'firebase/firestore';
-// import { db } from '../../firebase-config';
-// import { signOut, getAuth, updateProfile } from 'firebase/auth';
-// import COLORS from '../constants/Colors';
-// import Dimensions from '../constants/Dimensions';
-// import Icon, { Icons } from '../components/global/Icons';
+import { addDoc, collection } from 'firebase/firestore';
+import { db } from '../../firebase-config';
+import { signOut, getAuth, updateProfile } from 'firebase/auth';
+
 
 // TODO change ui of dob input & validate date & save as timestamp in firestore
 // TODO add validation to all inputs
 // TODO add max and min dob
 
-// const auth = getAuth()
+const auth = getAuth()
 
 const PersonalDetailsScreen = ({ navigation }) => {
     const [firstName, onChangeFirstName] = useState('');
     const [lastName, onChangeLastName] = useState('');
     const [selectedGender, setSelectedGender] = useState(null);
-    const [number, onChangeNumber] = useState('');
+    const [phoneNumber, onChangePhoneNumber] = useState('');
 
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
 
-    const [bday, setBday] = useState('DD/MM/YYYY')
+    const [dob, setDob] = useState('DD/MM/YYYY')
 
     const genderData = [
         {
@@ -57,7 +55,7 @@ const PersonalDetailsScreen = ({ navigation }) => {
 
         let tempDate = new Date(currentDate);
         let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
-        setBday(fDate)
+        setDob(fDate)
     }
 
     const showMode = (currentMode) => {
@@ -82,11 +80,11 @@ const PersonalDetailsScreen = ({ navigation }) => {
         await addDoc(collection(db, "users"), {
             firstName: firstName,
             lastName: lastName,
-            number: number,
+            number: phoneNumber,
             email: auth.currentUser.email,
             emailVerified: auth.currentUser.emailVerified,
             gender: selectedGender,
-            dob: bday,
+            dob: dob,
         }).then((docRef) => {
             console.log("Document written with ID: ", docRef.id);
             signOut(auth).then(() => {
@@ -123,7 +121,7 @@ const PersonalDetailsScreen = ({ navigation }) => {
                 <Input
                     placeholder='Enter your phone number'
                     containerStyle={{ paddingHorizontal: 0, width: Dimensions.SCREEN_WIDTH * 0.8 }}
-                    inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: '#fff', paddingHorizontal: 15, borderRadius: 50 }}
+                    inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: '#fff', paddingHorizontal: 15, borderRadius: 8 }}
                     keyboardType='numeric'
                     maxLength={10}
                 />
@@ -131,7 +129,7 @@ const PersonalDetailsScreen = ({ navigation }) => {
                 <TouchableOpacity style={{ marginTop: 15 }} onPress={() => CalendarPressHandler()}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Icon type='material-community' name='calendar-month' color='white' size={20} style={{ marginRight: 10 }} />
-                        <Text style={{ fontSize: 18, fontFamily: 'Blinker_600SemiBold', color: 'white' }}>{bday}</Text>
+                        <Text style={{ fontSize: 18, fontFamily: 'Blinker_600SemiBold', color: 'white' }}>{dob}</Text>
                     </View>
                 </TouchableOpacity>
                 {show && (
@@ -162,8 +160,10 @@ const PersonalDetailsScreen = ({ navigation }) => {
                     <Icon type='material-community' name='shield-lock' color='white' size={20} />
                     <Text style={{ marginLeft: 5, color: 'white', fontFamily: 'Blinker_300Light', fontSize: moderateScale(10, Dimensions.SCALING_FACTOR) }}>Your information is 100% secure with us. We never share your information with third party</Text>
                 </View>
-                {/* <TouchableOpacity onPress={() => submitHandler()} style={styles.createAccountButton}> */}
-                <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')} style={styles.createAccountButton}>
+                <TouchableOpacity
+                    onPress={() => submitHandler()} style={styles.createAccountButton}
+                >
+                    {/* <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')} style={styles.createAccountButton}> */}
                     <Text style={{ color: 'white', textAlign: 'center', fontFamily: 'Montserrat_600SemiBold', fontSize: 16 }}>CREATE ACCOUNT</Text>
                 </TouchableOpacity>
             </View>
