@@ -1,9 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font';
-import { Montserrat_500Medium, Montserrat_600SemiBold, Montserrat_700Bold, Montserrat_800ExtraBold } from '@expo-google-fonts/montserrat';
+import { Montserrat_300Light, Montserrat_400Regular, Montserrat_500Medium, Montserrat_600SemiBold, Montserrat_700Bold, Montserrat_800ExtraBold } from '@expo-google-fonts/montserrat';
 import { MontserratAlternates_900Black } from '@expo-google-fonts/montserrat-alternates';
-import { Blinker_300Light, Blinker_600SemiBold } from '@expo-google-fonts/blinker'
+import { Blinker_300Light, Blinker_400Regular, Blinker_600SemiBold, Blinker_700Bold } from '@expo-google-fonts/blinker'
 import * as SplashScreen from 'expo-splash-screen';
 import { useCallback } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -19,13 +19,17 @@ const IndexScreen = ({ navigation }) => {
 
     // Load any resources or data that we need prior to rendering the app
     let [fontsLoaded] = useFonts({
+        Montserrat_300Light,
+        Montserrat_400Regular,
         Montserrat_500Medium,
         MontserratAlternates_900Black,
         Montserrat_600SemiBold,
         Montserrat_700Bold,
         Montserrat_800ExtraBold,
         Blinker_300Light,
-        Blinker_600SemiBold
+        Blinker_400Regular,
+        Blinker_600SemiBold,
+        Blinker_700Bold
     });
 
     // Once the fonts are loaded, hide the splash screen
@@ -58,7 +62,8 @@ const IndexScreen = ({ navigation }) => {
                 <TouchableOpacity style={styles.joinNowButton} onPress={() => navigation.navigate('IntroStoryScreen')} activeOpacity={0.7}>
                     <Text style={styles.joinNowText}>JOIN NOW</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.signInButton} onPress={() => navigation.navigate('LoginScreen')} >
+                {/* <TouchableOpacity style={styles.signInButton} onPress={() => navigation.navigate('HomeScreen')} > */}
+                <TouchableOpacity style={styles.signInButton} onPress={() => navigation.navigate('SignUpScreen')} >
                     <Text style={styles.signInText}>Sign In</Text>
                 </TouchableOpacity>
             </View>
@@ -91,9 +96,9 @@ const styles = StyleSheet.create({
 
     titleSubText: {
         color: COLORS.primary,
-        fontSize: moderateScale(20, Dimensions.SCALING_FACTOR),
+        fontSize: moderateScale(18, Dimensions.SCALING_FACTOR),
         textAlign: 'center',
-        fontFamily: 'Montserrat_800ExtraBold'
+        fontFamily: 'Montserrat_600SemiBold'
     },
 
     bottomContainer: {
@@ -105,7 +110,8 @@ const styles = StyleSheet.create({
     policyText: {
         color: COLORS.gray,
         textAlign: 'center',
-        fontSize: moderateScale(10, Dimensions.SCALING_FACTOR),
+        fontSize: moderateScale(12, Dimensions.SCALING_FACTOR),
+        // fontSize: 12,
         fontFamily: 'Blinker_600SemiBold'
     },
 
@@ -116,8 +122,8 @@ const styles = StyleSheet.create({
 
     joinNowButton: {
         backgroundColor: COLORS.primary,
-        paddingVertical: moderateScale(10, Dimensions.SCALING_FACTOR),
-        paddingHorizontal: moderateScale(60, Dimensions.SCALING_FACTOR),
+        paddingVertical: moderateScale(12, Dimensions.SCALING_FACTOR),
+        paddingHorizontal: moderateScale(75, Dimensions.SCALING_FACTOR),
         borderRadius: 50,
         justifyContent: 'center',
         alignItems: 'center',
