@@ -24,11 +24,11 @@ const HomeTrendingSection = (props) => {
                         renderItem={({ item, index }) => {
                             return (
                                 <TouchableOpacity>
-                                    <Image style={{ height: Dimensions.SCREEN_HEIGHT * 0.1, width: Dimensions.SCREEN_WIDTH * 0.6, borderRadius: 10, marginRight: 10 }} source={item.image} />
+                                    <Image style={{ height: Dimensions.SCREEN_HEIGHT * 0.1, width: Dimensions.SCREEN_WIDTH * 0.6, borderRadius: 10, marginRight: 10 }} source={{ uri: item.image }} />
                                 </TouchableOpacity>
                             )
                         }}
-                        keyExtractor={(item) => item.id}
+                        keyExtractor={(item) => item.key}
                     />
                 </View>
                 <View style={{ marginTop: 15, marginHorizontal: 15 }}>
