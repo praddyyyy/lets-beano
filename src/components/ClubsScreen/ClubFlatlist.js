@@ -17,7 +17,7 @@ const ClubFlatlist = (props) => {
     return (
         <View style={{ flex: 1, alignItems: 'center' }}>
             <FlatList
-                contentContainerStyle={{ paddingBottom: 50 }}
+                contentContainerStyle={{ paddingBottom: 200 }}
                 refreshControl={
                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} progressViewOffset={40} />
                 }
