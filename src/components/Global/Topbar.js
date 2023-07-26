@@ -4,7 +4,8 @@ import { useNavigation } from '@react-navigation/native'
 import { Icon } from '@rneui/themed'
 import { moderateScale } from 'react-native-size-matters'
 
-const TopBar = () => {
+const TopBar = (props) => {
+    const { type, length } = props
     const navigation = useNavigation()
     return (
         <View style={styles.container}>
@@ -25,7 +26,6 @@ const TopBar = () => {
                 <View>
                     <TouchableOpacity onPress={() => navigation.navigate('SearchScreen')}>
                         <Icon type='ionicon' name='search-outline' color='white' size={moderateScale(20, Dimensions.SCALING_FACTOR)} />
-
                     </TouchableOpacity>
                 </View>
             </View>
@@ -44,9 +44,13 @@ const TopBar = () => {
 
                     <Text style={{ color: 'white', fontFamily: 'Montserrat_700Bold', fontSize: moderateScale(13, Dimensions.SCALING_FACTOR) }}>Kalavakkam, Chennai</Text>
                 </View>
-                {/* TODO change no of places dynamically */}
                 <View>
-                    <Text style={{ color: 'white', fontFamily: 'Montserrat_700Bold', fontSize: moderateScale(13, Dimensions.SCALING_FACTOR) }}>6 Places Listed</Text>
+                    {
+                        type == 'clubs' ?
+                            <Text style={{ color: 'white', fontFamily: 'Montserrat_700Bold', fontSize: moderateScale(13, Dimensions.SCALING_FACTOR) }}>{length} Clubs Listed</Text>
+                            :
+                            <Text style={{ color: 'white', fontFamily: 'Montserrat_700Bold', fontSize: moderateScale(13, Dimensions.SCALING_FACTOR) }}>{length} Events Listed</Text>
+                    }
                 </View>
             </View>
 
