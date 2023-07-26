@@ -18,9 +18,6 @@ import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/
 
 const SignUpScreen = ({ navigation }) => {
     const animation = useRef(null);
-
-    console.log(auth)
-
     const [loading, setLoading] = useState(false)
     const [verified, setVerified] = useState(false)
 
