@@ -4,17 +4,23 @@ import * as Animatable from 'react-native-animatable'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import Dimensions from '../utils/Dimensions';
+import { ScrollView } from 'react-native';
+import { moderateScale } from 'react-native-size-matters';
+import { Icon, Input } from '@rneui/themed';
 
 
 const LoginScreen = () => {
     const auth = getAuth();
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-
+    const [data, setData] = useState({
+        email: '',
+        password: '',
+        check_emailInputChange: false,
+        secureTextEntry: true,
+    });
 
     const submitHandler = async () => {
-        signInWithEmailAndPassword(auth, email, password)
+        signInWithEmailAndPassword(auth, data.email, data.password)
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
@@ -30,6 +36,38 @@ const LoginScreen = () => {
             });
     }
 
+    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+
+    const emailInputChange = (val) => {
+        if (val.match(emailRegex)) {
+            setData({
+                ...data,
+                email: val,
+                check_emailInputChange: true
+            });
+        } else {
+            setData({
+                ...data,
+                email: val,
+                check_emailInputChange: false
+            });
+        }
+    }
+
+    const handlePasswordChange = (val) => {
+        setData({
+            ...data,
+            password: val,
+        });
+    }
+
+    const updateSecureTextEntry = () => {
+        setData({
+            ...data,
+            secureTextEntry: !data.secureTextEntry
+        });
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.topContainer}>
@@ -40,37 +78,50 @@ const LoginScreen = () => {
             </View>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
                 <Animatable.View animation={"fadeInUpBig"} style={styles.bottomContainer}>
-                    <View>
-                        <Text style={{ alignSelf: 'center', marginBottom: 15, marginTop: 40, fontFamily: 'Montserrat_600SemiBold', fontSize: 18 }}>Login to Your Account</Text>
-                        <TextInput
-                            placeholder="Email"
-                            autoCapitalize='none'
-                            keyboardType='email-address'
-                            textContentType='emailAddress'
-                            autoComplete='email'
-                            style={styles.inputField}
-                            onChangeText={(text) => setEmail(text)}
-                        />
-                        <TextInput
-                            placeholder="Password"
-                            autoCapitalize='none'
-                            keyboardType='default'
-                            textContentType='password'
-                            style={styles.inputField}
-                            onChangeText={(text) => setPassword(text)}
-                        />
-                        <View style={{ alignItems: 'center' }}>
-                            <TouchableOpacity style={styles.continueButton} onPress={() => submitHandler()} >
-                                <Text style={{ color: '#fff', fontSize: 18, fontFamily: 'Montserrat_700Bold' }}>CONTINUE</Text>
+                    <ScrollView
+                        contentContainerStyle={{ flexGrow: 1, paddingBottom: 20, justifyContent: 'space-around', alignItems: 'center', paddingTop: 20 }}
+                        showsVerticalScrollIndicator={false}
+                    >
+
+                        <Text style={{ alignSelf: 'center', marginBottom: 15, fontFamily: 'Montserrat_700Bold', fontSize: moderateScale(15, Dimensions.SCALING_FACTOR) }}>Login to your Account</Text>
+                        <View>
+                            <Input
+                                placeholder='Enter your email'
+                                keyboardType='email-address'
+                                autoCapitalize='none'
+                                containerStyle={{ paddingHorizontal: 0, width: Dimensions.SCREEN_WIDTH * 0.8 }}
+                                inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: '#fff', paddingHorizontal: 15, borderRadius: 50 }}
+                                leftIcon={{ type: 'font-awesome', name: 'user', color: 'grey', size: 20, style: { marginRight: 10 } }}
+                                rightIcon={data.check_emailInputChange ? <Animatable.View animation={"bounceIn"}><Icon type='feather' name='check-circle' color='green' size={20} /></Animatable.View> : null}
+                                onChangeText={(val) => emailInputChange(val)}
+                            />
+                            <Input
+                                placeholder='Enter your password'
+                                keyboardType='default'
+                                autoCapitalize='none'
+                                containerStyle={{ paddingHorizontal: 0, width: Dimensions.SCREEN_WIDTH * 0.8 }}
+                                secureTextEntry={data.secureTextEntry ? true : false}
+                                inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: '#fff', paddingHorizontal: 15, borderRadius: 50 }}
+                                leftIcon={{ type: 'font-awesome', name: 'lock', color: 'grey', size: 20, style: { marginRight: 10 } }}
+                                rightIcon={data.secureTextEntry ? <TouchableOpacity onPress={updateSecureTextEntry}><Icon type='feather' name='eye-off' color='grey' size={20} /></TouchableOpacity> : <TouchableOpacity onPress={updateSecureTextEntry}><Icon type='feather' name='eye' color='grey' size={20} /></TouchableOpacity>}
+                                onChangeText={(val) => handlePasswordChange(val)}
+                            />
+                            <TouchableOpacity
+                                style={[styles.continueButton]}
+                                onPress={() => submitHandler()}
+                                disabled={data.check_emailInputChange && data.password ? false : true}
+                            >
+                                {/* <TouchableOpacity style={styles.continueButton} onPress={() => navigation.navigate('PersonalDetailsScreen')} > */}
+                                <Text style={{ color: '#fff', fontSize: moderateScale(15, Dimensions.SCALING_FACTOR), fontFamily: 'Montserrat_700Bold' }}>CONTINUE</Text>
                             </TouchableOpacity>
                         </View>
-                        {/* <View style={{ marginTop: 10, padding: 15 }}>
-                    <Text style={styles.policyText}>By tapping Sign in/ Create Account, you agree to
-                            our Terms or Service. Learn how we process your data
-                            in our Privacy Policy and Cookies Policy
-                        </Text>
-                    </View> */}
-                    </View>
+                        <View style={{ marginTop: 10, padding: 15 }}>
+                            <Text style={styles.policyText}>By tapping Sign in/ Create Account, you agree to
+                                our Terms or Service. Learn how we process your data
+                                in our Privacy Policy and Cookies Policy
+                            </Text>
+                        </View>
+                    </ScrollView>
 
                 </Animatable.View>
             </KeyboardAvoidingView>
