@@ -6,45 +6,42 @@ import Fab from '../components/Global/FAB'
 import TopBar from '../components/Global/Topbar'
 import { COLORS } from '../utils/ThemeColors'
 import ClubFlatlist from '../components/ClubsScreen/ClubFlatlist'
-
-import { clubsData } from '../utils/test-data'
-
-// import { db } from '../../firebase-config'
-// import { collection, getDocs } from "firebase/firestore";
+import { db } from '../../firebase-config'
+import { collection, getDocs } from "firebase/firestore";
 // import SkeletonClubCard from '../components/ClubScreen/SkeletonClubCard'
 
 const ClubsScreen = () => {
     // const [searchValue, setSearchValue] = useState('')
 
 
-    // const [clubs, setClubs] = useState([])
+    const [clubs, setClubs] = useState([])
 
-    // const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true)
 
-    // useEffect(() => {
-    //     let unsubscribed = false;
+    useEffect(() => {
+        let unsubscribed = false;
 
-    //     getDocs(collection(db, "clubs"))
-    //         .then((querySnapshot) => {
-    //             if (unsubscribed) return; // unsubscribed? do nothing.
+        getDocs(collection(db, "clubs"))
+            .then((querySnapshot) => {
+                if (unsubscribed) return; // unsubscribed? do nothing.
 
-    //             const newClubDataArray = querySnapshot.docs
-    //                 .map((doc) => ({ ...doc.data(), id: doc.id }));
+                const newClubDataArray = querySnapshot.docs
+                    .map((doc) => ({ ...doc.data(), id: doc.id }));
 
-    //             setClubs(newClubDataArray);
-    //             if (loading) {
-    //                 setLoading(false)
-    //             }
-    //         })
-    //         .catch((err) => {
-    //             if (unsubscribed) return; // unsubscribed? do nothing.
+                setClubs(newClubDataArray);
+                if (loading) {
+                    setLoading(false)
+                }
+            })
+            .catch((err) => {
+                if (unsubscribed) return; // unsubscribed? do nothing.
 
-    //             // TODO: Handle errors
-    //             console.error("Failed to retrieve data", err);
-    //         });
+                // TODO: Handle errors
+                console.error("Failed to retrieve data", err);
+            });
 
-    //     return () => unsubscribed = true;
-    // }, []);
+        return () => unsubscribed = true;
+    }, []);
 
     // console.log(clubs)
 
@@ -72,10 +69,18 @@ const ClubsScreen = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <TopBar />
+            <TopBar type='clubs' length={clubs.length} />
             {/* <SearchBarReanimated handleSearch={handleSearch} placeholder="Search here..." /> */}
             <FilterDateSort type='clubs' />
-            <ClubFlatlist data={clubsData} />
+            {
+                loading ? <></> :
+                    <>
+                        <ClubFlatlist data={clubs} />
+                        <KeyboardAvoidingView behavior='height'>
+                            <Fab current='Club' bottom={40} />
+                        </KeyboardAvoidingView>
+                    </>
+            }
             {/* {
                 loading ? (
                     <View style={{ flex: 1, padding: 15 }}>
@@ -93,9 +98,6 @@ const ClubsScreen = () => {
 
                     <ClubFlatlist data={clubs} />
                 )} */}
-            <KeyboardAvoidingView behavior='height'>
-                <Fab current='Club' bottom={40} />
-            </KeyboardAvoidingView>
         </SafeAreaView>
     )
 }
