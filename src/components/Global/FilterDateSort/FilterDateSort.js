@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 import { useState } from 'react'
 import Dimensions from '../../../utils/Dimensions'
 import FilterModalComponent from './FilterModalComponent'
