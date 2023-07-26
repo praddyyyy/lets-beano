@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     expandingCircle: {
         // ...CircleStyle,
         // transform: [{ scale: 8 }],
-        backgroundColor: 'rgba(0,0,0,0.7)',
+        backgroundColor: 'rgba(0,0,0,0.9)',
         height: Dimensions.SCREEN_HEIGHT,
         width: Dimensions.SCREEN_WIDTH,
         // width: FAB_SIZE,
