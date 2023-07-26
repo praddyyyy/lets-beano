@@ -4,8 +4,46 @@ import { StyleSheet, Text, View, ScrollView } from 'react-native'
 import { Rating } from 'react-native-elements'
 import RatingProgress from './RatingProgress'
 import UserReview from './UserReview'
+import { useEffect, useState } from 'react'
+import { collection, doc, getDocs, query, where } from 'firebase/firestore'
+import { db } from '../../../firebase-config'
 
-const ReviewTab = () => {
+const ReviewTab = (props) => {
+    const { clubId, currIndex } = props
+
+    const [reviews, setReviews] = useState([])
+    const [loading, setLoading] = useState(true); // Set loading to true on component mount for fetching reviews
+
+
+    const fetchReviews = async () => {
+        try {
+            const clubRef = doc(db, "clubs", clubId);
+            const q = query(collection(db, "reviews"), where("clubRef", "==", clubRef));
+            const querySnapshot = await getDocs(q);
+
+            const reviewsArr = []
+            querySnapshot.forEach((doc) => {
+                const { review, reviewedOn, reviewedBy, rating } = doc.data();
+                reviewsArr.push({
+                    key: doc.id,
+                    review,
+                    reviewedOn,
+                    reviewedBy,
+                    rating
+                })
+            });
+
+            setReviews(reviewsArr)
+            // console.log(reviews)
+            setLoading(false);
+        } catch (error) {
+            console.log('Error fetching reviews:', error)
+        }
+    }
+
+    useEffect(() => {
+        fetchReviews()
+    }, [])
 
     const ratingData = [
         { description: "Excellent", rating: 50 },
@@ -62,7 +100,7 @@ const ReviewTab = () => {
                         <Rating
                             type='star'
                             tintColor='black'
-                            startingValue={1.6}
+                            startingValue={4.3}
                             ratingCount={5}
                             readonly
                             style={{ paddingVertical: 10 }}
@@ -78,12 +116,21 @@ const ReviewTab = () => {
                 </View>
 
                 <Text style={{ color: '#fff', fontFamily: 'Montserrat_700Bold', fontSize: 20, marginTop: 10 }}>Reviews</Text>
-                {reviewData.map((item, index) => {
+                {/* {reviewData.map((item, index) => {
                     return <UserReview key={index} name={item.name} rating={item.rating} reviewdOn={item.reviewdOn} review={item.review} profilePic={item.profilePic} />
-                })}
+                })} */}
 
+                {
+                    loading ? <></> :
+                        // reviews.map((item, index) => {
+                        //     return <Text style={{ color: '#fff' }} key={index}>{item.review}</Text>
+                        // })
+                        reviews.map((item, index) => {
+                            return <UserReview key={index} name={item.reviewedBy} rating={item.rating} reviewdOn={item.reviewdOn} review={item.review} profilePic={item.profilePic} />
+                        })
+                }
             </View>
-        </ScrollView>
+        </ScrollView >
     )
 }
 
