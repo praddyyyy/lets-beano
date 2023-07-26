@@ -32,7 +32,7 @@ const AdFlatList = (props) => {
                     renderItem={({ item, index }) => {
                         return (
                             <TouchableOpacity onPress={() => navigation.navigate('ClubsScreen')}>
-                                <AdCarouselCard source={item.image} scrollX={scrollX} index={index} />
+                                <AdCarouselCard source={item.image} scrollX={scrollX} index={index} dataLength={data.length} />
                             </TouchableOpacity>
                         )
                     }}
