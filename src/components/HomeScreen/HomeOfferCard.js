@@ -4,7 +4,7 @@ import Dimensions from '../../utils/Dimensions'
 const HomeOfferCard = (props) => {
     return (
         <TouchableOpacity activeOpacity={0.5}>
-            <Image style={styles.ImageStyle} source={props.url} />
+            <Image style={styles.ImageStyle} source={{ uri: props.url }} />
         </TouchableOpacity>
     )
 }
