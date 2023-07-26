@@ -11,6 +11,7 @@ const QuickLookTab = (props) => {
     const clubHighlights = props.clubHighlights
     const clubPriceForTwo = props.clubPriceForTwo
     const clubFeatures = props.clubFeatures
+    const clubRating = props.clubRating
     // TODO add list of timings for clubs opening and closing
     return (
         <View>
@@ -37,7 +38,7 @@ const QuickLookTab = (props) => {
                             <View style={{ flex: 1, justifyContent: 'space-evenly', alignItems: 'center' }}>
                                 <View style={{ backgroundColor: '#1f1f1f', justifyContent: 'center', alignItems: 'center', borderRadius: 15, width: Dimensions.isLargeScreen() ? '30%' : '60%' }}>
                                     <View style={{ backgroundColor: '#FF4C68', width: '100%', alignItems: 'center', borderTopLeftRadius: 15, borderTopRightRadius: 15 }}>
-                                        <Text style={{ color: 'white', fontSize: 20, fontFamily: 'Blinker_600SemiBold' }}>4.3</Text>
+                                        <Text style={{ color: 'white', fontSize: 20, fontFamily: 'Blinker_600SemiBold' }}>{clubRating}</Text>
                                     </View>
                                     <View style={{ alignItems: 'center' }}>
                                         <Text style={{ color: 'white', fontSize: 16, marginTop: 10, marginHorizontal: 15, fontFamily: 'Blinker_600SemiBold' }}>435</Text>
@@ -83,12 +84,16 @@ const QuickLookTab = (props) => {
                         <Text style={{ fontFamily: 'Montserrat_700Bold', color: '#fff', fontSize: 16, marginHorizontal: 10, marginVertical: 10 }}>Locate and Contact</Text>
                         <View>
                             {/* TODO Add animation as in https://blog.logrocket.com/react-native-maps-introduction/ */}
-                            <MapView style={{ width: '100%', height: 200 }} initialRegion={{
-                                latitude: 37.78825,
-                                longitude: -122.4324,
-                                latitudeDelta: 0.0922,
-                                longitudeDelta: 0.0421,
-                            }}>
+                            <MapView
+                                style={{ width: '100%', height: 200 }}
+                                initialRegion={{
+                                    latitude: 37.78825,
+                                    longitude: -122.4324,
+                                    latitudeDelta: 0.0922,
+                                    longitudeDelta: 0.0421,
+                                }}
+                                scrollEnabled={false}
+                            >
                                 <Marker coordinate={{
                                     latitude: 37.78825,
                                     longitude: -122.4324,
