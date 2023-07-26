@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image, StatusBar, useWindowDimensions, TouchableOpacity } from 'react-native'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import { Icon } from '@rneui/themed'
 import Dimensions from '../utils/Dimensions';
@@ -9,6 +9,8 @@ import { useNavigation } from '@react-navigation/native';
 import OffersTab from '../components/ClubDetailScreen/OffersTab';
 import ReviewTab from '../components/ClubDetailScreen/ReviewTab';
 import { moderateScale } from 'react-native-size-matters';
+import { collection, doc, getDocs, query, where } from 'firebase/firestore';
+import { db } from '../../firebase-config';
 
 
 
@@ -63,7 +65,7 @@ const ClubDetailScreen = ({ route }) => {
 
     const QuickLookRoute = () => (
         // TODO send club location
-        <QuickLookTab clubName={clubName} clubLocation={clubLocation} clubHighlights={clubHighlights} clubPriceForTwo={clubPriceForTwo} clubFeatures={clubFeatures} />
+        <QuickLookTab clubName={clubName} clubLocation={clubLocation} clubRating={clubRating} clubHighlights={clubHighlights} clubPriceForTwo={clubPriceForTwo} clubFeatures={clubFeatures} />
     );
 
     const MenuRoute = () => (
@@ -82,7 +84,7 @@ const ClubDetailScreen = ({ route }) => {
 
     const ReviewRoute = () => (
         <>
-            <ReviewTab />
+            <ReviewTab clubId={clubId} currIndex={index} />
         </>
     );
 
@@ -110,7 +112,7 @@ const ClubDetailScreen = ({ route }) => {
             <StatusBar hidden={true} />
             <View style={{ height: index != 1 ? Dimensions.SCREEN_HEIGHT * 0.22 : 0, width: index != 1 ? '100%' : 0 }} >
                 {/* <Image source={{ uri: clubImage }} style={{ height: '100%', width: '100%' }} /> */}
-                <Image source={clubImage} style={{ height: '100%', width: '100%' }} />
+                <Image source={{ uri: clubImage }} style={{ height: '100%', width: '100%' }} />
                 <TouchableOpacity style={{ position: 'absolute', top: 20, left: 20 }} onPress={() => navigation.goBack()}>
                     <Icon type='ionicon' name='chevron-back-circle' color='white' size={moderateScale(25, Dimensions.SCALING_FACTOR)} />
                     {/* <Icon type={Icons.Ionicons} name='chevron-back-circle' color='white' size={Dimensions.SCREEN_HEIGHT * 0.035} /> */}
@@ -129,6 +131,7 @@ const ClubDetailScreen = ({ route }) => {
                 </View>
             </View>
             <TabView
+                lazy
                 swipeEnabled={index == 1 ? false : true}
                 navigationState={{ index, routes }}
                 renderScene={renderScene}
