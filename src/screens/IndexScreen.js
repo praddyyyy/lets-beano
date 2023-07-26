@@ -63,7 +63,7 @@ const IndexScreen = ({ navigation }) => {
                     <Text style={styles.joinNowText}>JOIN NOW</Text>
                 </TouchableOpacity>
                 {/* <TouchableOpacity style={styles.signInButton} onPress={() => navigation.navigate('HomeScreen')} > */}
-                <TouchableOpacity style={styles.signInButton} onPress={() => navigation.navigate('SignUpScreen')} >
+                <TouchableOpacity style={styles.signInButton} onPress={() => navigation.navigate('LoginScreen')} >
                     <Text style={styles.signInText}>Sign In</Text>
                 </TouchableOpacity>
             </View>
