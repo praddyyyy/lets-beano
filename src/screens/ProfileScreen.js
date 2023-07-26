@@ -6,9 +6,9 @@ import Dimensions from '../utils/Dimensions'
 import Fab from '../components/Global/FAB'
 import { Divider } from 'react-native-elements'
 import { moderateScale } from 'react-native-size-matters'
-// import { signOut, getAuth } from 'firebase/auth'
+import { signOut, getAuth } from 'firebase/auth'
 
-// const auth = getAuth()
+const auth = getAuth()
 
 const ProfileScreen = ({ navigation }) => {
     const activites = [
@@ -65,29 +65,31 @@ const ProfileScreen = ({ navigation }) => {
         },
     ]
 
-    // const logOutHandler = () => {
-    //     signOut(auth).then(() => {
-    //         // Sign-out successful.
-    //         console.log('signed out from profile screen')
-    //     }).catch((error) => {
-    //         // An error happened.
-    //         console.log(error)
-    //     });
-    // }
+    const logOutHandler = () => {
+        signOut(auth).then(() => {
+            // Sign-out successful.
+            console.log('signed out from profile screen')
+        }).catch((error) => {
+            // An error happened.
+            console.log(error)
+        });
+    }
 
-    // const [user, setUser] = useState(auth.currentUser)
-    // const [name, setName] = useState(user.displayName)
-    // const [email, setEmail] = useState(user.email)
-    // const [dateCreated, setDateCreated] = useState(user.metadata.creationTime)
-    // const [formattedDate, setFormattedDate] = useState('')
-    // useEffect(() => {
-    //     const date = new Date(dateCreated);
-    //     const options = { month: 'long', year: 'numeric' };
-    //     console.log(date.getMonth())
-    //     setFormattedDate(date.toDateString('en-US', options).replace(/^[a-z]+\s/, '')
-    //         .replace(/,\s\d{4}/, ''))
-    //     // setFormattedDate(date.format)
-    // }, [])
+    const [user, setUser] = useState(auth.currentUser)
+    const [name, setName] = useState(user.displayName)
+    const [email, setEmail] = useState(user.email)
+    const [dateCreated, setDateCreated] = useState(user.metadata.creationTime)
+    const [formattedDate, setFormattedDate] = useState('')
+    useEffect(() => {
+        const date = new Date(dateCreated);
+        // const options = { month: 'long', year: 'numeric' };
+        // setFormattedDate(date.toDateString('en-US', options).replace(/^[a-z]+\s/, '')
+        //     .replace(/,\s\d{4}/, ''))
+        const options = { month: 'short', day: '2-digit', year: 'numeric' };
+        const formattedDateCustom = date.toLocaleDateString('en-US', options);
+        setFormattedDate(formattedDateCustom)
+        // setFormattedDate(date.format)
+    }, [])
 
 
     return (
@@ -130,12 +132,12 @@ const ProfileScreen = ({ navigation }) => {
                             <Icon type='antdesign' name='star' color='gold' size={moderateScale(18, Dimensions.SCALING_FACTOR)} />
                             <Text style={{ color: 'black', fontSize: 18, fontFamily: 'Blinker_600SemiBold', bottom: 2 }}>4.8</Text>
                         </View>
-                        {/* <Text style={{ color: '#fff', fontSize: 8, fontFamily: 'Alata' }}>Member since {formattedDate}</Text> */}
-                        <Text style={{ color: '#fff', fontSize: 16, fontFamily: 'Blinker_600SemiBold' }}>Member since 10th Dec</Text>
+                        <Text style={{ color: '#fff', fontSize: 16, fontFamily: 'Blinker_600SemiBold' }}>Member since {formattedDate}</Text>
+                        {/* <Text style={{ color: '#fff', fontSize: 16, fontFamily: 'Blinker_600SemiBold' }}>Member since 10th Dec</Text> */}
                     </View>
                     <View style={{ marginHorizontal: 15, marginBottom: 25 }}>
-                        <Text style={{ color: '#fff', fontSize: 18, fontFamily: 'Blinker_600SemiBold' }}>Pradeeshwar</Text>
-                        <Text style={{ color: '#fff', fontSize: 15, marginVertical: 5, fontFamily: 'Blinker_600SemiBold' }}>pradeeshxdev@gmail.com</Text>
+                        <Text style={{ color: '#fff', fontSize: 18, fontFamily: 'Blinker_600SemiBold' }}>{name}</Text>
+                        <Text style={{ color: '#fff', fontSize: 15, marginVertical: 5, fontFamily: 'Blinker_600SemiBold' }}>{email}</Text>
                         <Text style={{ color: '#fff', fontSize: 15, fontFamily: 'Blinker_600SemiBold' }}>9958545037 (TODO)</Text>
                     </View>
                     <View style={styles.editProfileBtn}>
