@@ -28,10 +28,9 @@ const ClubCard = (props) => {
                 </View>
                 <TouchableOpacity
                     // TODO Send club location to club detail screen
-                    onPress={() => navigation.navigate('ClubDetailScreen', { 'title': clubName, 'imageSrc': image, 'clubHighlights': clubHighlights, 'clubRating': clubRating, 'clubPhone': clubPhone, 'clubEmail': clubEmail, 'clubFeatures': clubFeatures, 'clubPriceForTwo': clubPriceForTwo })}
+                    onPress={() => navigation.navigate('ClubDetailScreen', { 'clubId': clubId, 'title': clubName, 'imageSrc': image, 'clubHighlights': clubHighlights, 'clubRating': clubRating, 'clubPhone': clubPhone, 'clubEmail': clubEmail, 'clubFeatures': clubFeatures, 'clubPriceForTwo': clubPriceForTwo })}
                 >
-                    {/* <Image style={{ height: 170, width: '100%', resizeMode: 'stretch', borderTopLeftRadius: 15, borderTopRightRadius: 15 }} source={{ uri: image }} /> */}
-                    <Image style={{ height: 170, width: '100%', resizeMode: 'stretch', borderTopLeftRadius: 15, borderTopRightRadius: 15 }} source={image} />
+                    <Image style={{ height: 170, width: '100%', resizeMode: 'stretch', borderTopLeftRadius: 15, borderTopRightRadius: 15 }} source={{ uri: image }} />
                 </TouchableOpacity>
             </View>
             {/* TODO Add TouchableOpacity to navigate to club detail screen */}
