@@ -6,76 +6,95 @@ import Fab from '../components/Global/FAB'
 import TopBar from '../components/Global/Topbar'
 import { COLORS } from '../utils/ThemeColors'
 import ClubFlatlist from '../components/ClubsScreen/ClubFlatlist'
-import { db } from '../../firebase-config'
-import { collection, getDocs } from "firebase/firestore";
+// import { db } from '../../firebase-config'
+// import { collection, getDocs } from "firebase/firestore";
 // import SkeletonClubCard from '../components/ClubScreen/SkeletonClubCard'
 
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchClubDataFromFirestore } from '../redux/features/clubDataSlice'
+
 const ClubsScreen = () => {
-    // const [searchValue, setSearchValue] = useState('')
+    const dispatch = useDispatch()
+    const { clubData, loading, error } = useSelector(state => state.clubData)
 
-
-    const [clubs, setClubs] = useState([])
-
-    const [loading, setLoading] = useState(true)
+    const { priceFilter } = useSelector(state => state.clubFilter)
+    const { sortBy, sortOrder } = useSelector((state) => state.clubSort);
 
     useEffect(() => {
-        let unsubscribed = false;
+        dispatch(fetchClubDataFromFirestore())
+    }, [priceFilter, sortBy, sortOrder])
 
-        getDocs(collection(db, "clubs"))
-            .then((querySnapshot) => {
-                if (unsubscribed) return; // unsubscribed? do nothing.
-
-                const newClubDataArray = querySnapshot.docs
-                    .map((doc) => ({ ...doc.data(), id: doc.id }));
-
-                setClubs(newClubDataArray);
-                if (loading) {
-                    setLoading(false)
+    // Helper function to apply filtering based on filter options
+    const applyFilters = (data) => {
+        return data.filter((item) => {
+            // Apply price filter
+            if (priceFilter && priceFilter.length === 2) {
+                const [minPrice, maxPrice] = priceFilter;
+                if (item.price < minPrice || item.price > maxPrice) {
+                    return false;
                 }
-            })
-            .catch((err) => {
-                if (unsubscribed) return; // unsubscribed? do nothing.
+            }
 
-                // TODO: Handle errors
-                console.error("Failed to retrieve data", err);
-            });
+            // // Apply rating filter
+            // if (ratingFilter && item.rating !== parseFloat(ratingFilter)) {
+            //     return false;
+            // }
 
-        return () => unsubscribed = true;
-    }, []);
+            // // Apply tags filter
+            // if (tagsFilter.length > 0) {
+            //     // Check if any tag from tagsFilter exists in item.tags array
+            //     const matchedTags = item.tags.filter((tag) =>
+            //         tagsFilter.includes(tag)
+            //     );
+            //     if (matchedTags.length === 0) {
+            //         return false;
+            //     }
+            // }
 
-    // console.log(clubs)
+            return true; // If all filters match, include the item in the filtered data
+        });
+    };
 
+    const applySorting = (data) => {
+        return data.sort((a, b) => {
+            const aValue = a[sortBy];
+            const bValue = b[sortBy];
 
-    // const loc = fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyDr27dLjec3h6AZ_uyfhRXzAmZmEyh7MGA`)
-    //     .then((response) => response.json())
-    //     .then((json) => {
-    //         console.log(json)
-    //     })
-    //     .catch((error) => {
-    //         console.error(error);
-    //     });
+            // Check if the values are numeric
+            const isNumeric =
+                !isNaN(aValue) && !isNaN(bValue) && typeof aValue === 'number' && typeof bValue === 'number';
 
-    // const handleSearch = (value) => {
-    //     setSearchValue(value);
-    //     if (value === '') {
-    //         setData(DATA)
-    //         return;
-    //     }
-    //     let tempList = DATA.filter((item) => {
-    //         return item.name.toLowerCase().indexOf(value.toLowerCase()) > -1;
-    //     });
-    //     setData(tempList);
-    // };
+            if (isNumeric) {
+                if (sortOrder === 'asc') {
+                    return aValue - bValue;
+                } else if (sortOrder === 'desc') {
+                    return bValue - aValue;
+                }
+            } else {
+                // For non-numeric values, use localeCompare for string comparison
+                if (sortOrder === 'asc') {
+                    return String(aValue).localeCompare(String(bValue));
+                } else if (sortOrder === 'desc') {
+                    return String(bValue).localeCompare(String(aValue));
+                }
+            }
+
+            return 0; // If values are equal or not comparable, maintain their original order
+        });
+    };
+
+    const filteredClubData = applyFilters(clubData);
+    const sortedClubData = applySorting(filteredClubData);
 
     return (
         <SafeAreaView style={styles.container}>
-            <TopBar type='clubs' length={clubs.length} />
+            <TopBar type='clubs' length={sortedClubData.length} />
             {/* <SearchBarReanimated handleSearch={handleSearch} placeholder="Search here..." /> */}
             <FilterDateSort type='clubs' />
             {
                 loading ? <></> :
                     <>
-                        <ClubFlatlist data={clubs} />
+                        <ClubFlatlist data={sortedClubData} />
                         <KeyboardAvoidingView behavior='height'>
                             <Fab current='Club' bottom={40} />
                         </KeyboardAvoidingView>
