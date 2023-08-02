@@ -1,15 +1,36 @@
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, StatusBar } from 'react-native'
 import { useState } from 'react'
 import { Icon } from '@rneui/themed'
-import { Slider } from '@rneui/themed';
+// import { Slider } from '@rneui/themed';
 import Dimensions from '../../../utils/Dimensions'
 import FilterSectionButton from '../../Global/FilterDateSort/FilterSectionButton'
 import { moderateScale } from 'react-native-size-matters';
 import { COLORS } from '../../../utils/ThemeColors';
+import MultiSlider from '@ptomasroos/react-native-multi-slider';
 
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { setPriceFilter, resetFilter } from '../../../redux/features/clubFilterSlice';
 
 const ClubFilterModalContent = (props) => {
-    const [sliderValue, setSliderValue] = useState(0)
+    const dispatch = useDispatch();
+    const priceFilter = useSelector(state => state.clubFilter.priceFilter);
+
+    // const handleResetFilter = () => {
+    //     dispatch(resetFilter());
+    // };
+
+    const [sliderValues, setSliderValues] = useState(priceFilter ? priceFilter : [0, 5000]);
+
+    const handleApplyFilter = () => {
+        dispatch(setPriceFilter(sliderValues));
+        props.setIsFilterVisible(!props.isFilterVisible)
+    };
+
+    const onSliderValuesChange = (values) => {
+        setSliderValues(values);
+    };
+
     return (
         <SafeAreaView style={styles.modal}>
             <StatusBar />
@@ -36,18 +57,36 @@ const ClubFilterModalContent = (props) => {
             </View>
             {/* TODO custom slider thumb icon */}
             <View style={{ marginHorizontal: 15, borderWidth: 1, borderColor: '#fff', borderRadius: 15 }}>
-                <Text style={{ color: '#fff', marginHorizontal: 15, marginTop: 10 }}>COST FOR TWO (INR {sliderValue})</Text>
+                <Text style={{ color: '#fff', marginHorizontal: 15, marginTop: 10 }}>COST FOR TWO (INR {sliderValues[0]} - INR {sliderValues[1]})</Text>
                 <View style={{ marginHorizontal: 15 }}>
-                    <Slider
+                    {/* <Slider
                         value={sliderValue}
-                        onValueChange={value => {
-                            setSliderValue(Math.round(value))
+                        onValueChange={(value) => {
+                            setSliderValue(Math.round(value));
                         }}
                         minimumValue={0}
                         maximumValue={5000}
                         thumbTintColor={'#fff'}
                         thumbStyle={{ width: 20, height: 20 }}
                         step={500}
+                    /> */}
+                    <MultiSlider
+                        values={sliderValues}
+                        onValuesChange={onSliderValuesChange}
+                        min={0}
+                        max={5000}
+                        step={500}
+                        sliderLength={280} // Adjust the length of the slider as needed
+                        allowOverlap={false} // Set to true if you want the ranges to overlap
+                        snapped={true} // Set to true to snap the values to the step
+                        selectedStyle={{
+                            backgroundColor: COLORS.primary,
+                        }}
+                        markerStyle={{
+                            height: 15,
+                            width: 15,
+                            backgroundColor: COLORS.primary,
+                        }}
                     />
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
                         <Text style={{ color: '#fff' }}>INR 0</Text>
@@ -91,13 +130,11 @@ const ClubFilterModalContent = (props) => {
                     <FilterSectionButton text='Cafe' />
                 </View>
             </View>
-            <TouchableOpacity style={styles.applyButton} onPress={() => {
-                props.setIsFilterVisible(!props.isFilterVisible)
-            }}
+            <TouchableOpacity style={styles.applyButton} onPress={handleApplyFilter}
             >
                 <Text style={{ color: '#fff', fontSize: 18 }}>APPLY</Text>
             </TouchableOpacity>
-        </SafeAreaView >
+        </SafeAreaView>
     )
 }
 
