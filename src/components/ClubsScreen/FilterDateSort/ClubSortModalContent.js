@@ -5,9 +5,52 @@ import { CheckBox, Divider } from 'react-native-elements'
 import Dimensions from '../../../utils/Dimensions'
 import { moderateScale } from 'react-native-size-matters'
 
+// Redux
+import { useDispatch, useSelector } from 'react-redux'
+import { setSortBy, setSortOrder, setSortByIndex } from '../../../redux/features/clubSortSlice'
 
 const ClubSortModalContent = (props) => {
-    const [selectedIndex, setIndex] = useState(0);
+    const dispatch = useDispatch();
+    const sortByIndex = useSelector(state => state.clubSort.sortByIndex);
+
+    // const [selectedIndex, setIndex] = useState(0);
+    const [selectedIndex, setIndex] = useState(sortByIndex ? sortByIndex : 0);
+
+
+
+    const handleApplyPress = () => {
+        switch (selectedIndex) {
+            case 0:
+                dispatch(setSortBy('popularity'));
+                dispatch(setSortOrder('desc'));
+                dispatch(setSortByIndex(0));
+                break;
+            case 1:
+                dispatch(setSortBy('rating'));
+                dispatch(setSortOrder('desc'));
+                dispatch(setSortByIndex(1));
+                break;
+            case 2:
+                dispatch(setSortBy('price'));
+                dispatch(setSortOrder('desc'));
+                dispatch(setSortByIndex(2));
+                break;
+            case 3:
+                dispatch(setSortBy('price'));
+                dispatch(setSortOrder('asc'));
+                dispatch(setSortByIndex(3));
+                break;
+            case 4:
+                dispatch(setSortBy('distance'));
+                dispatch(setSortOrder('asc'));
+                dispatch(setSortByIndex(5));
+                break;
+            default:
+                break;
+        }
+        props.setIsSortVisible(!props.isSortVisible)
+    };
+
     return (
         <SafeAreaView style={styles.modal}>
             <StatusBar />
@@ -26,7 +69,7 @@ const ClubSortModalContent = (props) => {
             <View style={{ flex: 1, justifyContent: 'space-between' }}>
                 <View>
                     <View style={{ flexDirection: 'row', marginLeft: 15, justifyContent: 'space-between', alignItems: 'center' }}>
-                        <Text style={{ color: '#fff', fontSize: 24 }}>Relevance</Text>
+                        <Text style={{ color: '#fff', fontSize: 24 }}>Popularity</Text>
 
                         <CheckBox
                             checked={selectedIndex === 0}
@@ -40,7 +83,7 @@ const ClubSortModalContent = (props) => {
                     <Divider />
 
                     <View style={{ flexDirection: 'row', marginLeft: 15, justifyContent: 'space-between', alignItems: 'center' }}>
-                        <Text style={{ color: '#fff', fontSize: 24 }}>Popularity</Text>
+                        <Text style={{ color: '#fff', fontSize: 24 }}>Ratings: High to Low</Text>
 
                         <CheckBox
                             checked={selectedIndex === 1}
@@ -54,7 +97,7 @@ const ClubSortModalContent = (props) => {
                     <Divider />
 
                     <View style={{ flexDirection: 'row', marginLeft: 15, justifyContent: 'space-between', alignItems: 'center' }}>
-                        <Text style={{ color: '#fff', fontSize: 24 }}>Ratings: High to Low</Text>
+                        <Text style={{ color: '#fff', fontSize: 24 }}>Price: High to Low</Text>
 
                         <CheckBox
                             checked={selectedIndex === 2}
@@ -68,7 +111,7 @@ const ClubSortModalContent = (props) => {
                     <Divider />
 
                     <View style={{ flexDirection: 'row', marginLeft: 15, justifyContent: 'space-between', alignItems: 'center' }}>
-                        <Text style={{ color: '#fff', fontSize: 24 }}>Price: High to Low</Text>
+                        <Text style={{ color: '#fff', fontSize: 24 }}>Price: Low to High</Text>
 
                         <CheckBox
                             checked={selectedIndex === 3}
@@ -82,7 +125,7 @@ const ClubSortModalContent = (props) => {
                     <Divider />
 
                     <View style={{ flexDirection: 'row', marginLeft: 15, justifyContent: 'space-between', alignItems: 'center' }}>
-                        <Text style={{ color: '#fff', fontSize: 24 }}>Price: Low to High</Text>
+                        <Text style={{ color: '#fff', fontSize: 24 }}>Distance: Nearest First</Text>
 
                         <CheckBox
                             checked={selectedIndex === 4}
@@ -94,25 +137,9 @@ const ClubSortModalContent = (props) => {
                     </View>
 
                     <Divider />
-
-                    <View style={{ flexDirection: 'row', marginLeft: 15, justifyContent: 'space-between', alignItems: 'center' }}>
-                        <Text style={{ color: '#fff', fontSize: 24 }}>Distance: Nearest First</Text>
-
-                        <CheckBox
-                            checked={selectedIndex === 5}
-                            onPress={() => setIndex(5)}
-                            checkedIcon="dot-circle-o"
-                            uncheckedIcon="circle-o"
-                            checkedColor='#fff'
-                        />
-                    </View>
-
-                    <Divider />
                 </View>
 
-                <TouchableOpacity style={styles.applyButton} onPress={() => {
-                    props.setIsSortVisible(!props.isSortVisible)
-                }}
+                <TouchableOpacity style={styles.applyButton} onPress={handleApplyPress}
                 >
                     <Text style={{ color: '#fff', fontSize: 18 }}>APPLY</Text>
                 </TouchableOpacity>
