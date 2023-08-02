@@ -1,4 +1,4 @@
-import { FlatList, TouchableOpacity, View } from 'react-native'
+import { FlatList, Pressable, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import Dimensions from '../../../utils/Dimensions'
 import { useState } from 'react'
@@ -31,9 +31,9 @@ const AdFlatList = (props) => {
                     pagingEnabled={true}
                     renderItem={({ item, index }) => {
                         return (
-                            <TouchableOpacity onPress={() => navigation.navigate('ClubsScreen')}>
+                            <Pressable onPress={() => navigation.navigate('ClubsScreen')}>
                                 <AdCarouselCard source={item.image} scrollX={scrollX} index={index} dataLength={data.length} />
-                            </TouchableOpacity>
+                            </Pressable>
                         )
                     }}
                     keyExtractor={(item) => item.key}
