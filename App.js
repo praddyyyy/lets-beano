@@ -13,6 +13,9 @@ import ProfileScreen from './src/screens/ProfileScreen';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native';
 import Navigation from './src/navigation';
+// React Redux
+import { Provider } from 'react-redux';
+import store from './src/redux/store';
 
 export default function App() {
 
@@ -21,7 +24,9 @@ export default function App() {
   return (
 
     <SafeAreaView style={styles.container}>
-      <Navigation />
+      <Provider store={store}>
+        <Navigation />
+      </Provider>
     </SafeAreaView>
     // <NavigationContainer>
     //   <Stack.Navigator initialRouteName='IndexScreen' screenOptions={{
