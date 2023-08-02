@@ -26,12 +26,12 @@ const ClubCard = (props) => {
                         <Icon type='material-community' name='heart-plus' color={COLORS.primary} size={moderateScale(20, Dimensions.SCALING_FACTOR)} />
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     // TODO Send club location to club detail screen
                     onPress={() => navigation.navigate('ClubDetailScreen', { 'clubId': clubId, 'title': clubName, 'imageSrc': image, 'clubHighlights': clubHighlights, 'clubRating': clubRating, 'clubPhone': clubPhone, 'clubEmail': clubEmail, 'clubFeatures': clubFeatures, 'clubPriceForTwo': clubPriceForTwo })}
                 >
-                    <Image style={{ height: 170, width: '100%', resizeMode: 'stretch', borderTopLeftRadius: 15, borderTopRightRadius: 15 }} source={{ uri: image }} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
+                <Image style={{ height: 170, width: '100%', resizeMode: 'stretch', borderTopLeftRadius: 15, borderTopRightRadius: 15 }} source={{ uri: image }} />
             </View>
             {/* TODO Add TouchableOpacity to navigate to club detail screen */}
             <View style={styles.bottomContainer}>
@@ -64,9 +64,9 @@ const ClubCard = (props) => {
                     </View>
                 </View>
                 <View style={{ alignItems: 'center' }}>
-                    <View style={styles.reserveTableButton}>
+                    <TouchableOpacity onPress={() => console.log('book press')} style={styles.reserveTableButton}>
                         <Text style={{ color: 'white', fontSize: 18, fontFamily: 'Montserrat_700Bold' }}>BOOK TABLE</Text>
-                    </View>
+                    </TouchableOpacity>
                 </View>
             </View>
         </View >
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        height: moderateScale(30, Dimensions.SCALING_FACTOR),
+        height: moderateScale(25, Dimensions.SCALING_FACTOR),
         paddingHorizontal: 10,
     },
     rate: {
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-around',
         backgroundColor: 'white',
-        height: moderateScale(20, Dimensions.SCALING_FACTOR),
+        height: moderateScale(18, Dimensions.SCALING_FACTOR),
         width: moderateScale(40, Dimensions.SCALING_FACTOR),
         borderRadius: 50,
         paddingHorizontal: moderateScale(2, Dimensions.SCALING_FACTOR),
