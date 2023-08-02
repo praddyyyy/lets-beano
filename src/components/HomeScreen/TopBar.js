@@ -14,11 +14,11 @@ const TopBar = () => {
                 <Text style={{ color: 'white', fontFamily: 'Blinker_600SemiBold', fontSize: moderateScale(15, Dimensions.SCALING_FACTOR), marginLeft: 5 }}>Kalavakkam, Chennai</Text>
             </View>
             <View style={{ flexDirection: 'row' }}>
-                <View style={{ marginRight: moderateScale(14, Dimensions.SCALING_FACTOR) }}>
+                {/* <View style={{ marginRight: moderateScale(14, Dimensions.SCALING_FACTOR) }}>
                     <TouchableOpacity onPress={() => { navigation.navigate('QRScannerScreen') }}>
                         <Icon type='material-icon' name='qr-code-scanner' color='white' size={moderateScale(24, Dimensions.SCALING_FACTOR)} />
                     </TouchableOpacity>
-                </View>
+                </View> */}
                 <View>
                     <TouchableOpacity onPress={() => { navigation.navigate('ProfileScreen') }}>
                         <Icon type='font-awesome' name='user-circle-o' color='white' size={moderateScale(24, Dimensions.SCALING_FACTOR)} />
