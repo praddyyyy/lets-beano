@@ -15,8 +15,8 @@ const circleScale = (SCREEN_WIDTH / FAB_SIZE).toFixed(1)
 const circleSize = circleScale * FAB_SIZE;
 const dist = circleSize / 2 - FAB_SIZE;
 const middleDist = dist / 1.41;
-const firstSplitX = dist * 0.866;
-const firstSplitY = dist * 0.5;
+const firstSplitX = dist * 0.7;
+const firstSplitY = dist * 0.65;
 const secondSplitX = dist * 0.5;
 const secondSplitY = dist * 0.866;
 // TODO make icon size dynamic
@@ -145,10 +145,10 @@ export default function Fab(props) {
                 <ActionButton style={translationStyles(false, true, dist, dist)} color={props.current == 'Home' ? COLORS.red : 'white'} icon="home" goto='HomeScreen' text='Home' />
                 <ActionButton style={translationStyles(true, true, firstSplitX, firstSplitY)} color={props.current == 'DJ' ? COLORS.red : 'white'} icon="user-friends" goto='DJScreen' text='DJs' />
                 <ActionButton style={translationStyles(true, false, dist, dist)} color={props.current == 'Profile' ? COLORS.red : 'white'} icon="user-alt" goto='ProfileScreen' text='Profile' />
-                <ActionButton style={translationStyles(true, true, secondSplitX, secondSplitY)} color={props.current == 'Club' ? COLORS.red : 'white'} icon="headphones-alt" goto='ClubsScreen' text='Clubs' />
-                <ActionButton style={translationStyles(true, true, -firstSplitX, firstSplitY)} color={props.current == 'Media' ? COLORS.red : 'white'} icon="play" goto='HomeScreen' text='Media' />
-                <ActionButton style={translationStyles(true, false, -dist, dist)} color={props.current == 'Rewards' ? COLORS.red : 'white'} icon="trophy" text='Rewards' />
-                <ActionButton style={translationStyles(true, true, -secondSplitX, secondSplitY)} color={props.current == 'Events' ? COLORS.red : 'white'} icon="newspaper" goto='EventsScreen' text='Events' />
+                <ActionButton style={translationStyles(true, true, -firstSplitX, firstSplitY)} color={props.current == 'Club' ? COLORS.red : 'white'} icon="headphones-alt" goto='ClubsScreen' text='Clubs' />
+                {/* <ActionButton style={translationStyles(true, true, -firstSplitX, firstSplitY)} color={props.current == 'Media' ? COLORS.red : 'white'} icon="play" goto='HomeScreen' text='Media' />
+                <ActionButton style={translationStyles(true, false, -dist, dist)} color={props.current == 'Rewards' ? COLORS.red : 'white'} icon="trophy" text='Rewards' /> */}
+                <ActionButton style={translationStyles(true, false, -dist, dist)} color={props.current == 'Events' ? COLORS.red : 'white'} icon="newspaper" goto='EventsScreen' text='Events' />
             </View>
         </View>
     )
