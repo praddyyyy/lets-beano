@@ -44,8 +44,8 @@ export default HomeExclusiveSection
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: Dimensions.SCREEN_HEIGHT * 0.25,
-        marginHorizontal: 15,
-        marginTop: 15
+        height: Dimensions.SCREEN_HEIGHT * 0.22,
+        marginHorizontal: 5,
+        marginTop: 15,
     }
 })

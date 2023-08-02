@@ -5,7 +5,7 @@ import SubTitleComponent from './SubTitleComponent'
 
 const HomeBookCards = () => {
     return (
-        <View style={{ marginTop: 35, marginBottom: 35 }}>
+        <View style={{ marginTop: 25, marginBottom: 20 }}>
             <SubTitleComponent text={'Book'} />
             <View style={styles.container}>
                 <View style={{ flexDirection: 'row', flex: 1 }}>
@@ -31,6 +31,6 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'flex-start'
+        alignItems: 'flex-start',
     }
 })

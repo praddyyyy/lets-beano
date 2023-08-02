@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     container: {
         height: Dimensions.SCREEN_HEIGHT * 0.17,
         marginHorizontal: 15,
-        marginVertical: 20,
+        marginBottom: 20,
         borderWidth: 1,
         borderColor: 'white',
         borderRadius: 15,

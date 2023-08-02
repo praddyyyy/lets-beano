@@ -6,7 +6,7 @@ import SubTitleComponent from './SubTitleComponent'
 const HomeTrendingSection = (props) => {
     const [data, setData] = useState(props.data)
     return (
-        <View>
+        <View >
             <SubTitleComponent text={'Trending'} />
             <View style={styles.container}>
                 <View style={{ marginHorizontal: 15 }}>
@@ -49,8 +49,8 @@ export default HomeTrendingSection
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: Dimensions.SCREEN_HEIGHT * 0.4,
-        marginHorizontal: 15,
-        marginTop: 15
+        height: Dimensions.SCREEN_HEIGHT * 0.35,
+        marginHorizontal: 5,
+        marginTop: 15,
     }
 })
