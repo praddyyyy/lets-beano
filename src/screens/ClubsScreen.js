@@ -11,7 +11,7 @@ import ClubFlatlist from '../components/ClubsScreen/ClubFlatlist'
 // import SkeletonClubCard from '../components/ClubScreen/SkeletonClubCard'
 
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchClubDataFromFirestore } from '../redux/features/clubDataSlice'
+import { fetchClubDataFromFirestore } from '../redux/features/clubs/clubDataSlice'
 
 const ClubsScreen = () => {
     const dispatch = useDispatch()
