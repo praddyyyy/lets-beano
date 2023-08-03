@@ -10,7 +10,7 @@ import MultiSlider from '@ptomasroos/react-native-multi-slider';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { setPriceFilter, resetFilter } from '../../../redux/features/clubFilterSlice';
+import { setPriceFilter, resetFilter } from '../../../redux/features/clubs/clubFilterSlice';
 
 const ClubFilterModalContent = (props) => {
     const dispatch = useDispatch();

@@ -7,7 +7,7 @@ import { moderateScale } from 'react-native-size-matters'
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
-import { setSortBy, setSortOrder, setSortByIndex } from '../../../redux/features/clubSortSlice'
+import { setSortBy, setSortOrder, setSortByIndex } from '../../../redux/features/clubs/clubSortSlice'
 
 const ClubSortModalContent = (props) => {
     const dispatch = useDispatch();
