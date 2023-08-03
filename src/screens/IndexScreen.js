@@ -1,50 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { useFonts } from 'expo-font';
-import { Montserrat_300Light, Montserrat_400Regular, Montserrat_500Medium, Montserrat_600SemiBold, Montserrat_700Bold, Montserrat_800ExtraBold } from '@expo-google-fonts/montserrat';
-import { MontserratAlternates_900Black } from '@expo-google-fonts/montserrat-alternates';
-import { Blinker_300Light, Blinker_400Regular, Blinker_600SemiBold, Blinker_700Bold } from '@expo-google-fonts/blinker'
-import * as SplashScreen from 'expo-splash-screen';
-import { useCallback } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { COLORS } from '../utils/ThemeColors';
 import { moderateScale } from 'react-native-size-matters';
 import Dimensions from '../utils/Dimensions';
 
-// Keep the splash screen visible while we fetch resources
-SplashScreen.preventAutoHideAsync();
-
 const IndexScreen = ({ navigation }) => {
 
-
-    // Load any resources or data that we need prior to rendering the app
-    let [fontsLoaded] = useFonts({
-        Montserrat_300Light,
-        Montserrat_400Regular,
-        Montserrat_500Medium,
-        MontserratAlternates_900Black,
-        Montserrat_600SemiBold,
-        Montserrat_700Bold,
-        Montserrat_800ExtraBold,
-        Blinker_300Light,
-        Blinker_400Regular,
-        Blinker_600SemiBold,
-        Blinker_700Bold
-    });
-
-    // Once the fonts are loaded, hide the splash screen
-    const onLayoutRootView = useCallback(async () => {
-        if (fontsLoaded) {
-            await SplashScreen.hideAsync();
-        }
-    }, [fontsLoaded]);
-
-    if (!fontsLoaded) {
-        return null;
-    }
-
     return (
-        <SafeAreaView style={styles.container} onLayout={onLayoutRootView}>
+        <SafeAreaView style={styles.container}>
             <StatusBar style='light' />
             <View style={styles.topContainer}>
                 <View style={styles.titleTextView}>
