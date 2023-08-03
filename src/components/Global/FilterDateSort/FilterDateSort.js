@@ -54,9 +54,12 @@ const FilterDateSort = (props) => {
                 <View style={{ flex: 1, alignItems: 'center', borderRightWidth: 1, borderColor: '#fff' }}>
                     <FilterDateSortButtons icon='tune' iconType='mater-community' text='Filter' pressHandler={FilterPressHandler} />
                 </View>
-                <View style={{ flex: 1, alignItems: 'center', borderRightWidth: 1, borderColor: '#fff' }}>
-                    <FilterDateSortButtons icon='calendar-month' iconType='material-community' text={date.toDateString().slice(4, 10)} pressHandler={CalendarPressHandler} />
-                </View>
+                {
+                    type === 'events' &&
+                    <View style={{ flex: 1, alignItems: 'center', borderRightWidth: 1, borderColor: '#fff' }}>
+                        <FilterDateSortButtons icon='calendar-month' iconType='material-community' text={date.toDateString().slice(4, 10)} pressHandler={CalendarPressHandler} />
+                    </View>
+                }
                 <View style={{ flex: 1, alignItems: 'center' }}>
                     <FilterDateSortButtons icon='swap-vertical' iconType='ionicon' text='Sort' pressHandler={SortPressHandler} />
                 </View>
