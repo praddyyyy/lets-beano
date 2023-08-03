@@ -12,9 +12,9 @@ const HomeBookCards = () => {
                     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                         <HomeBookCard goto={'EventsScreen'} text={'EVENTS'} url={require('../../assets/images/Book-Image-1.jpg')} style={{ height: Dimensions.SCREEN_HEIGHT * 0.27, width: Dimensions.SCREEN_WIDTH * 0.44 }} />
                     </View>
-                    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                    <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-evenly' }}>
                         <HomeBookCard goto={'ClubsScreen'} text={'TABLE'} url={require('../../assets/images/Book-Image-2.jpg')} style={{ height: Dimensions.SCREEN_HEIGHT * 0.12, width: Dimensions.SCREEN_WIDTH * 0.44 }} />
-                        <HomeBookCard goto={'DJScreen'} text={'DJs'} url={require('../../assets/images/Book-Image-3.jpg')} style={{ height: Dimensions.SCREEN_HEIGHT * 0.12, width: Dimensions.SCREEN_WIDTH * 0.44, marginTop: 20 }} />
+                        <HomeBookCard goto={'DJScreen'} text={'ARTISTS'} url={require('../../assets/images/Book-Image-3.jpg')} style={{ height: Dimensions.SCREEN_HEIGHT * 0.12, width: Dimensions.SCREEN_WIDTH * 0.44 }} />
                     </View>
                 </View>
             </View>
