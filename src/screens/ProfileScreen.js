@@ -80,6 +80,7 @@ const ProfileScreen = ({ navigation }) => {
     const [email, setEmail] = useState(user.email)
     const [dateCreated, setDateCreated] = useState(user.metadata.creationTime)
     const [formattedDate, setFormattedDate] = useState('')
+    console.log(user)
     useEffect(() => {
         const date = new Date(dateCreated);
         // const options = { month: 'long', year: 'numeric' };
@@ -124,7 +125,7 @@ const ProfileScreen = ({ navigation }) => {
                 </View>
 
                 {/* Profile */}
-                <View style={{ backgroundColor: '#202121', width: '100%', borderRadius: 15, marginTop: 30, borderColor: '#FF4C68', borderWidth: 1 }}>
+                <View style={{ backgroundColor: '#202121', width: '100%', borderRadius: 15, marginTop: 30, borderColor: '#FF4C68', borderWidth: 0.3 }}>
                     <View style={{ flexDirection: 'row', marginHorizontal: 15, marginTop: 15, alignItems: 'center' }}>
                         <Image source={require('../assets/images/user-1.png')} style={{ width: 75, height: 75, borderRadius: 15 }} />
                         <View style={styles.rate}>
@@ -152,7 +153,7 @@ const ProfileScreen = ({ navigation }) => {
                     <View style={{ backgroundColor: '#FF4C68', width: '40%', justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}>
                         <Text style={{ color: '#fff', fontSize: 16, fontFamily: 'Montserrat_700Bold' }}>Activites</Text>
                     </View>
-                    <Divider color='#FF4C68' width={1} />
+                    <Divider color='#FF4C68' width={0.7} />
                     <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
                         {
                             activites.map((item) => (
@@ -171,7 +172,7 @@ const ProfileScreen = ({ navigation }) => {
                     <View style={{ backgroundColor: '#FF4C68', width: '40%', justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}>
                         <Text style={{ color: '#fff', fontSize: 16, fontFamily: 'Montserrat_700Bold' }}>More</Text>
                     </View>
-                    <Divider color='#FF4C68' width={1} />
+                    <Divider color='#FF4C68' width={0.7} />
                     <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
                         {
                             more.map((item) => (
