@@ -31,7 +31,7 @@ const HomeExclusiveSection = (props) => {
                                 </TouchableOpacity>
                             )
                         }}
-                        keyExtractor={(item) => item.key}
+                        keyExtractor={(item) => item.id}
                     />
                 </View>
             </View>

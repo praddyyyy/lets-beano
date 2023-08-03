@@ -28,7 +28,7 @@ const HomeTrendingSection = (props) => {
                                 </TouchableOpacity>
                             )
                         }}
-                        keyExtractor={(item) => item.key}
+                        keyExtractor={(item) => item.id}
                     />
                 </View>
                 <View style={{ marginTop: 15, marginHorizontal: 15 }}>

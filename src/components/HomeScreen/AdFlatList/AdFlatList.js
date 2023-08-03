@@ -36,7 +36,7 @@ const AdFlatList = (props) => {
                             </Pressable>
                         )
                     }}
-                    keyExtractor={(item) => item.key}
+                    keyExtractor={(item) => item.id}
                     onScroll={(event) => {
                         setScrollX(event.nativeEvent.contentOffset.x)
                     }}
