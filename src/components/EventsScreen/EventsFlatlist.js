@@ -12,11 +12,10 @@ const EventsFlatlist = (props) => {
             showsHorizontalScrollIndicator={false}
             horizontal={false}
             bounces={false}
-            renderItem={({ item, index }) => {
+            renderItem={({ item }) => {
                 return (
-                    <>
-                        <EventCard eventName={item.name} imageUri={item.image} eventAddress={item.address} eventPrice={item.price} />
-                    </>
+                    <EventCard eventName={item.name} imageUri={item.image} eventAddress={item.address} eventPrice={item.price} eventOrganizedBy={item.organized_by}
+                        start_time={item.start_time} end_time={item.end_time} eventKeywords={item.keywords} eventLocation={item.location} eventContact={item.contact} />
                 )
             }}
         />
