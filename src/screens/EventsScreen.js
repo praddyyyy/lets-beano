@@ -1,5 +1,5 @@
 import { StyleSheet, StatusBar, Text, View } from 'react-native'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import FilterDateSort from '../components/Global/FilterDateSort/FilterDateSort'
@@ -10,9 +10,19 @@ import OrganizerFlatList from '../components/EventsScreen/OrganizerFlatlist'
 import TopBar from '../components/Global/Topbar'
 import Fab from '../components/Global/FAB'
 
+// Redux
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchEventDataFromFirestore } from '../redux/features/events/eventDataSlice'
+
 import { EventsData, OrganizerData } from '../utils/test-data'
 
 const EventsScreen = () => {
+    const dispatch = useDispatch()
+    const { eventData, loading, error } = useSelector(state => state.eventData)
+
+    useEffect(() => {
+        dispatch(fetchEventDataFromFirestore())
+    }, [])
 
     const [index, setIndex] = useState(0);;
     const [routes] = useState([
@@ -33,11 +43,20 @@ const EventsScreen = () => {
         />
     );
 
-    const EventsRoute = () => (
-        <View style={{ paddingHorizontal: 15, alignItems: 'center', paddingBottom: 15, backgroundColor: '#000' }}>
-            <EventsFlatlist data={EventsData} />
-        </View>
-    )
+    const EventsRoute = () => {
+        if (loading) {
+            return (
+                <View>
+                    <Text style={{ color: '#fff' }}>Loading</Text>
+                </View>
+            )
+        }
+        return (
+            <View View style={{ paddingHorizontal: 15, alignItems: 'center', paddingBottom: 15, backgroundColor: '#000' }}>
+                <EventsFlatlist data={eventData} />
+            </View>
+        )
+    }
 
     const OrganizersRoute = () => (
         <View style={{ paddingHorizontal: 15, alignItems: 'center', paddingVertical: 15, backgroundColor: '#000', flex: 1 }}>
