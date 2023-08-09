@@ -20,7 +20,7 @@ export const fetchClubDataFromFirestore = createAsyncThunk(
     async () => {
         try {
             const querySnapshot = await getDocs(collection(db, 'clubs'));
-            const clubData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id, location: serializeGeoLocation(doc.location) }));
+            const clubData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id, location: serializeGeoLocation(doc.data().location) }));
             return clubData;
         } catch (error) {
             console.error('Failed to retrieve data', error);
