@@ -8,8 +8,23 @@ import { Divider } from 'react-native-elements'
 import BookNowButton from './BookNowButton'
 import { TouchableOpacity } from 'react-native'
 import { Linking } from 'react-native'
+import moment from 'moment'
+import { event } from 'react-native-reanimated'
 
-const QuickLookTab = () => {
+const QuickLookTab = (props) => {
+    const { eventKeywords, start_time, end_time, eventPrice, eventOrganizedBy, eventContact } = props;
+    
+    const formattedEventKeywords = eventKeywords.join(' . ');
+
+    const convertISODateToCustomFormat = (isoDateString) => {
+        const formattedDate = moment(isoDateString).format("dddd, Do MMM h:mm A");
+        return formattedDate;
+    };
+
+    const formattedStartTime = convertISODateToCustomFormat(start_time);
+    const formattedEndTime = convertISODateToCustomFormat(end_time);
+
+
     const [number, onChangeNumber] = useState('');
 
     const onShare = async () => {
@@ -46,7 +61,7 @@ const QuickLookTab = () => {
                                 <Icon type='font-awesome-5' name='headphones-alt' color='white' size={moderateScale(20, Dimensions.SCALING_FACTOR)} />
                             </View>
                             <View style={{ flex: 6, alignItems: 'flex-start', justifyContent: 'center' }}>
-                                <Text style={{ fontFamily: 'Blinker_600SemiBold', color: '#fff' }}>New Year Party . DJ Night . Exclusive Experience </Text>
+                                <Text style={{ fontFamily: 'Blinker_600SemiBold', color: '#fff' }}>{formattedEventKeywords}</Text>
                             </View>
                         </View>
                         <View style={{ flexDirection: 'row', marginVertical: 5, marginRight: 10 }}>
@@ -55,7 +70,7 @@ const QuickLookTab = () => {
                                 <Icon type='font-awesome-5' name='calendar-alt' color='white' size={moderateScale(20, Dimensions.SCALING_FACTOR)} />
                             </View>
                             <View style={{ flex: 6, alignItems: 'flex-start', justifyContent: 'center' }}>
-                                <Text style={{ fontFamily: 'Blinker_600SemiBold', color: '#fff' }}>Saturday, 15th Nov 8:00 PM - {"\n"} Sunday, 16th Nov 2:00 AM</Text>
+                                <Text style={{ fontFamily: 'Blinker_600SemiBold', color: '#fff' }}>{formattedStartTime} - {"\n"}{formattedEndTime}</Text>
                             </View>
                         </View>
                         <View style={{ flexDirection: 'row', marginVertical: 5, marginRight: 10 }}>
@@ -64,7 +79,7 @@ const QuickLookTab = () => {
                                 <Icon type='font-awesome' name='rupee' color='white' size={moderateScale(20, Dimensions.SCALING_FACTOR)} />
                             </View>
                             <View style={{ flex: 6, alignItems: 'flex-start', justifyContent: 'center' }}>
-                                <Text style={{ fontFamily: 'Blinker_600SemiBold', color: '#fff' }}>5499 INR</Text>
+                                <Text style={{ fontFamily: 'Blinker_600SemiBold', color: '#fff' }}>{eventPrice} INR</Text>
                             </View>
                         </View>
                         <View style={{ flexDirection: 'row', marginVertical: 5, marginRight: 10 }}>
@@ -73,7 +88,7 @@ const QuickLookTab = () => {
                                 <Icon type='material' name='person-outline' color='white' size={moderateScale(20, Dimensions.SCALING_FACTOR)} />
                             </View>
                             <View style={{ flex: 6, alignItems: 'flex-start', justifyContent: 'center' }}>
-                                <Text style={{ fontFamily: 'Blinker_600SemiBold', color: '#fff' }}>Organized By: VB Events</Text>
+                                <Text style={{ fontFamily: 'Blinker_600SemiBold', color: '#fff' }}>Organized By: {eventOrganizedBy}</Text>
                             </View>
                         </View>
                         <View style={{ flexDirection: 'row', marginVertical: 5, marginRight: 10, marginBottom: 15 }}>
@@ -88,73 +103,99 @@ const QuickLookTab = () => {
                     </View>
                     {/* Contact Details */}
                     <View style={{ borderWidth: 1, marginBottom: 10, borderRadius: 15, borderColor: '#fff' }}>
-                        <Text style={{ fontFamily: 'Blinker_600SemiBold', color: '#fff', fontSize: 18, marginTop: 10, marginLeft: 10 }}>CLUB</Text>
-                        <View style={{ flexDirection: 'row' }}>
-                            <View style={{ flex: 6 }}>
-                                <View style={{ flexDirection: 'row', marginVertical: 5, marginRight: 10 }}>
-                                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                        {/* <Icon type={Icons.MaterialIcons} color='#fff' name='phone' /> */}
-                                        <Icon type='material' name='phone' color='white' size={moderateScale(20, Dimensions.SCALING_FACTOR)} />
+                        {
+                            eventContact['club'] && (
+                                <View>
+                                    <Text style={{ fontFamily: 'Blinker_600SemiBold', color: '#fff', fontSize: 18, marginTop: 10, marginLeft: 10 }}>CLUB</Text>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <View style={{ flex: 6 }}>
+                                            {
+                                                eventContact['club']['phone'] && (
+                                                    <View style={{ flexDirection: 'row', marginVertical: 5, marginRight: 10 }}>
+                                                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                                            {/* <Icon type={Icons.MaterialIcons} color='#fff' name='phone' /> */}
+                                                            <Icon type='material' name='phone' color='white' size={moderateScale(20, Dimensions.SCALING_FACTOR)} />
+                                                        </View>
+                                                        <View style={{ flex: 6, alignItems: 'flex-start', justifyContent: 'center' }}>
+                                                            <Text style={{ fontFamily: 'Blinker_600SemiBold', color: '#fff', fontSize: 18 }}>+91  {eventContact['club']['phone']}</Text>
+                                                        </View>
+                                                    </View>
+                                                )
+                                            }
+                                            {
+                                                eventContact['club']['email'] && (
+                                                    <View style={{ flexDirection: 'row', marginVertical: 5, marginRight: 10, marginBottom: 15 }}>
+                                                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                                            {/* <Icon type={Icons.MaterialIcons} color='#fff' name='mail' /> */}
+                                                            <Icon type='material' name='mail' color='white' size={moderateScale(20, Dimensions.SCALING_FACTOR)} />
+                                                        </View>
+                                                        <View style={{ flex: 6, alignItems: 'flex-start', justifyContent: 'center' }}>
+                                                            <Text style={{ fontFamily: 'Blinker_600SemiBold', color: '#fff', fontSize: 18, color: '#FF4C68' }}>{eventContact['club']['email']}</Text>
+                                                        </View>
+                                                    </View>
+                                                )
+                                            }
+                                        </View>
+                                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                            <TouchableOpacity onPress={() => {
+                                                Linking.openURL(`tel:${eventContact['club']['phone']}`)
+                                            }} style={{ borderWidth: 1, borderRadius: 5, borderColor: '#FF4C68' }}>
+                                                {/* <Icon type={Icons.MaterialIcons} color='#FF4C68' name='phone' style={{ padding: 2 }} /> */}
+                                                <Icon type='material' name='phone' color='#FF4C68' style={{ padding: 2 }} size={moderateScale(20, Dimensions.SCALING_FACTOR)} />
+                                            </TouchableOpacity>
+                                        </View>
                                     </View>
-                                    <View style={{ flex: 6, alignItems: 'flex-start', justifyContent: 'center' }}>
-                                        <Text style={{ fontFamily: 'Blinker_600SemiBold', color: '#fff', fontSize: 18 }}>+91  9958545037</Text>
-                                    </View>
+                                    <Divider />
                                 </View>
-                                <View style={{ flexDirection: 'row', marginVertical: 5, marginRight: 10, marginBottom: 15 }}>
-                                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                        {/* <Icon type={Icons.MaterialIcons} color='#fff' name='mail' /> */}
-                                        <Icon type='material' name='mail' color='white' size={moderateScale(20, Dimensions.SCALING_FACTOR)} />
-                                    </View>
-                                    <View style={{ flex: 6, alignItems: 'flex-start', justifyContent: 'center' }}>
-                                        <Text style={{ fontFamily: 'Blinker_600SemiBold', color: '#fff', fontSize: 18, color: '#FF4C68' }}>danushgopinath8502@gmail.com</Text>
-                                    </View>
-                                </View>
-                            </View>
-                            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                <TouchableOpacity onPress={() => {
-                                    Linking.openURL('tel:04426262626')
-                                }} style={{ borderWidth: 1, borderRadius: 5, borderColor: '#FF4C68' }}>
-                                    {/* <Icon type={Icons.MaterialIcons} color='#FF4C68' name='phone' style={{ padding: 2 }} /> */}
-                                    <Icon type='material' name='phone' color='#FF4C68' style={{ padding: 2 }} size={moderateScale(20, Dimensions.SCALING_FACTOR)} />
-                                </TouchableOpacity>
-                            </View>
-                        </View>
+                            )
+                        }
 
-                        <Divider />
                         {/* ORGANIZER */}
-
-                        <Text style={{ fontFamily: 'Blinker_600SemiBold', color: '#fff', fontSize: 18, marginTop: 10, marginLeft: 10 }}>ORGANIZER</Text>
-
-                        <View style={{ flexDirection: 'row' }}>
-                            <View style={{ flex: 6 }}>
-                                <View style={{ flexDirection: 'row', marginVertical: 5, marginRight: 10 }}>
-                                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                        {/* <Icon type={Icons.MaterialIcons} color='#fff' name='phone' /> */}
-                                        <Icon type='material' name='phone' color='white' size={moderateScale(20, Dimensions.SCALING_FACTOR)} />
-                                    </View>
-                                    <View style={{ flex: 6, alignItems: 'flex-start', justifyContent: 'center' }}>
-                                        <Text style={{ fontFamily: 'Blinker_600SemiBold', color: '#fff', fontSize: 18 }}>+91  9958545037</Text>
+                        {
+                            eventContact['organizer'] && (
+                                <View>
+                                    <Text style={{ fontFamily: 'Blinker_600SemiBold', color: '#fff', fontSize: 18, marginTop: 10, marginLeft: 10 }}>ORGANIZER</Text>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <View style={{ flex: 6 }}>
+                                            {
+                                                eventContact['organizer']['phone'] && (
+                                                    <View style={{ flexDirection: 'row', marginVertical: 5, marginRight: 10 }}>
+                                                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                                            {/* <Icon type={Icons.MaterialIcons} color='#fff' name='phone' /> */}
+                                                            <Icon type='material' name='phone' color='white' size={moderateScale(20, Dimensions.SCALING_FACTOR)} />
+                                                        </View>
+                                                        <View style={{ flex: 6, alignItems: 'flex-start', justifyContent: 'center' }}>
+                                                            <Text style={{ fontFamily: 'Blinker_600SemiBold', color: '#fff', fontSize: 18 }}>+91  {eventContact['organizer']['phone']}</Text>
+                                                        </View>
+                                                    </View>
+                                                )
+                                            }
+                                            {
+                                                eventContact['organizer']['email'] && (
+                                                    <View style={{ flexDirection: 'row', marginVertical: 5, marginRight: 10, marginBottom: 15 }}>
+                                                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                                            {/* <Icon type={Icons.MaterialIcons} color='#fff' name='mail' /> */}
+                                                            <Icon type='material' name='mail' color='white' size={moderateScale(20, Dimensions.SCALING_FACTOR)} />
+                                                        </View>
+                                                        <View style={{ flex: 6, alignItems: 'flex-start', justifyContent: 'center' }}>
+                                                            <Text style={{ fontFamily: 'Blinker_600SemiBold', color: '#fff', fontSize: 18, color: '#FF4C68' }}>{eventContact['organizer']['email']}</Text>
+                                                        </View>
+                                                    </View>
+                                                )
+                                            }
+                                        </View>
+                                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                            <TouchableOpacity onPress={() => {
+                                                Linking.openURL(`tel:${eventContact['organizer']['phone']}`)
+                                            }} style={{ borderWidth: 1, borderRadius: 5, borderColor: '#FF4C68' }}>
+                                                {/* <Icon type={Icons.MaterialIcons} color='#FF4C68' name='phone' style={{ padding: 2 }} /> */}
+                                                <Icon type='material' name='phone' color='#FF4C68' style={{ padding: 2 }} size={moderateScale(20, Dimensions.SCALING_FACTOR)} />
+                                            </TouchableOpacity>
+                                        </View>
                                     </View>
                                 </View>
-                                <View style={{ flexDirection: 'row', marginVertical: 5, marginRight: 10, marginBottom: 15 }}>
-                                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                        {/* <Icon type={Icons.MaterialIcons} color='#fff' name='mail' /> */}
-                                        <Icon type='material' name='mail' color='white' size={moderateScale(20, Dimensions.SCALING_FACTOR)} />
-                                    </View>
-                                    <View style={{ flex: 6, alignItems: 'flex-start', justifyContent: 'center' }}>
-                                        <Text style={{ fontFamily: 'Blinker_600SemiBold', color: '#fff', fontSize: 18, color: '#FF4C68' }}>danushgopinath8502@gmail.com</Text>
-                                    </View>
-                                </View>
-                            </View>
-                            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                <TouchableOpacity onPress={() => {
-                                    Linking.openURL('tel:04426262626')
-                                }} style={{ borderWidth: 1, borderRadius: 5, borderColor: '#FF4C68' }}>
-                                    {/* <Icon type={Icons.MaterialIcons} color='#FF4C68' name='phone' style={{ padding: 2 }} /> */}
-                                    <Icon type='material' name='phone' color='#FF4C68' style={{ padding: 2 }} size={moderateScale(20, Dimensions.SCALING_FACTOR)} />
-                                </TouchableOpacity>
-                            </View>
-                        </View>
+                            )
+                        }
                     </View>
 
                     {/* Invite your friends */}
