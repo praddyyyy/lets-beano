@@ -10,12 +10,27 @@ import QuickLookTab from '../components/EventDetailScreen/QuickLookTab';
 import VenueTab from '../components/EventDetailScreen/VenueTab';
 import ArtistTab from '../components/EventDetailScreen/ArtistTab';
 import TnCTab from '../components/EventDetailScreen/TnCTab';
+import moment from 'moment';
 
 const EventDetailScreen = ({ route }) => {
     const eventName = route.params.eventName;
     const eventImage = route.params.imageUri;
     const eventAddress = route.params.eventAddress;
     const eventPrice = route.params.eventPrice;
+    const eventKeywords = route.params.eventKeywords;
+    const eventLocation = route.params.eventLocation;
+    const eventContact = route.params.eventContact;
+    const start_time = route.params.start_time;
+    const end_time = route.params.end_time;
+    const eventOrganizedBy = route.params.eventOrganizedBy;
+
+    const convertISODateToCustomFormat = (isoDateString) => {
+        const formattedDate = moment(isoDateString).format("Do MMM");
+        const formattedTime = moment(isoDateString).format("h:mm A");
+        return { formattedDate, formattedTime };
+    };
+
+    const { formattedDate, formattedTime } = convertISODateToCustomFormat(start_time);
 
     const navigation = useNavigation()
 
@@ -44,7 +59,7 @@ const EventDetailScreen = ({ route }) => {
 
     const QuickLookRoute = () => (
         <>
-            <QuickLookTab />
+            <QuickLookTab eventKeywords={eventKeywords} start_time={start_time} end_time={end_time} eventPrice={eventPrice} eventOrganizedBy={eventOrganizedBy} eventContact={eventContact} />
         </>
     )
 
@@ -102,18 +117,18 @@ const EventDetailScreen = ({ route }) => {
                 <View style={{ alignItems: 'center' }}>
                     {/* <Icon type={Icons.FontAwesome5} name='calendar-alt' color='white' size={Dimensions.SCREEN_HEIGHT * 0.03} /> */}
                     <Icon type='font-awesome-5' name='calendar-alt' color='white' size={moderateScale(20, Dimensions.SCALING_FACTOR)} />
-                    <Text style={{ color: '#fff', fontFamily: 'Montserrat_400Regular', marginVertical: 5 }}>15th Nov</Text>
+                    <Text style={{ color: '#fff', fontFamily: 'Montserrat_400Regular', marginVertical: 5 }}>{formattedDate}</Text>
                 </View>
                 <View style={{ alignItems: 'center' }}>
                     {/* <Icon type={Icons.FontAwesome5} name='clock' color='white' size={Dimensions.SCREEN_HEIGHT * 0.03} /> */}
                     <Icon type='font-awesome-5' name='clock' color='white' size={moderateScale(20, Dimensions.SCALING_FACTOR)} />
-                    <Text style={{ color: '#fff', fontFamily: 'Montserrat_400Regular', marginVertical: 5 }}>8:00 PM</Text>
+                    <Text style={{ color: '#fff', fontFamily: 'Montserrat_400Regular', marginVertical: 5 }}>{formattedTime}</Text>
                 </View>
                 <View style={{ alignItems: 'center' }}>
                     {/* <Icon type={Icons.Ionicons} name='location' color='white' size={Dimensions.SCREEN_HEIGHT * 0.03} /> */}
                     <Icon type='ionicon' name='location' color='white' size={moderateScale(20, Dimensions.SCALING_FACTOR)} />
                     {/* #TODO get address from prop */}
-                    <Text style={{ color: '#fff', fontFamily: 'Montserrat_400Regular', marginVertical: 5 }}>Academy LA</Text>
+                    <Text style={{ color: '#fff', fontFamily: 'Montserrat_400Regular', marginVertical: 5 }}>{eventAddress.split(',')[0].trim()}</Text>
                 </View>
             </View>
 
