@@ -1,15 +1,3 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import IndexScreen from './src/screens/IndexScreen';
-import IntroStoryScreen from './src/screens/IntroStoryScreen';
-import SignUpScreen from './src/screens/SignUpScreen';
-import PersonalDetailsScreen from './src/screens/PersonalDetailsScreen';
-import HomeScreen from './src/screens/HomeScreen';
-import ClubsScreen from './src/screens/ClubsScreen';
-import ClubDetailScreen from './src/screens/ClubDetailScreen';
-import EventsScreen from './src/screens/EventsScreen';
-import EventDetailScreen from './src/screens/EventDetailScreen';
-import ProfileScreen from './src/screens/ProfileScreen';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native';
 import Navigation from './src/navigation';
@@ -18,8 +6,6 @@ import { Provider } from 'react-redux';
 import store from './src/redux/store';
 
 export default function App() {
-
-  const Stack = createNativeStackNavigator()
 
   return (
 
