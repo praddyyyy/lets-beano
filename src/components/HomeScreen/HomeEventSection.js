@@ -38,8 +38,8 @@ const HomeEventSection = (props) => {
                 />
             </View>
             <TouchableOpacity onPress={() => navigation.navigate('EventsScreen')} style={{ alignItems: 'center', marginVertical: 15, flexDirection: 'row', justifyContent: 'center' }}>
-                <Text style={{ color: '#fff', fontSize: 20, fontFamily: 'Montserrat_700Bold', marginRight: 10 }}>View All</Text>
-                <Icon type='antdesign' name='doubleright' color='white' size={moderateScale(18, Dimensions.SCALING_FACTOR)} />
+                <Text style={{ color: '#fff', fontSize: 16, fontFamily: 'Montserrat_700Bold', marginRight: 10 }}>View All</Text>
+                <Icon type='antdesign' name='doubleright' color='#fff' size={moderateScale(16, Dimensions.SCALING_FACTOR)} />
             </TouchableOpacity>
         </View>
     )
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     container: {
         display: 'flex',
         flex: 1,
-        height: Dimensions.SCREEN_HEIGHT * 0.35,
+        height: Dimensions.SCREEN_HEIGHT * 0.33,
         marginHorizontal: 15,
         marginTop: 15,
     }
