@@ -12,12 +12,11 @@ import AdFlatList from '../components/HomeScreen/AdFlatList/AdFlatList'
 import Fab from '../components/Global/FAB'
 import HomeOfferCards from '../components/HomeScreen/HomeOfferCards'
 
-import { homePopularLocations, EventsData } from '../utils/test-data'
+import { homePopularLocations, EventsData, homeClubsData } from '../utils/test-data'
 import HomeBookCards from '../components/HomeScreen/HomeBookCards'
 import HomeTrendingSection from '../components/HomeScreen/HomeTrendingSection'
 import HomeExclusiveSection from '../components/HomeScreen/HomeExclusiveSection'
 import HomePopularLocations from '../components/HomeScreen/HomePopularLocations'
-import HomeEventSection from '../components/HomeScreen/HomeEventSection'
 import HomeExploreCuisine from '../components/HomeScreen/HomeExploreCuisine'
 
 import LottieView from 'lottie-react-native';
@@ -28,6 +27,9 @@ import { fetchHomeCarouselDataFromFirestore } from '../redux/features/home/homeC
 import { fetchHomeOffersDataFromFirestore } from '../redux/features/home/homeOffersSlice'
 import { fetchHomeTrendingDataFromFirestore } from '../redux/features/home/homeTrendingSlice'
 import { fetchHomeExclusiveDataFromFirestore } from '../redux/features/home/homeExclusiveSlice'
+import HomeClubsSection from '../components/HomeScreen/HomeClubSection/HomeClubsSection'
+import HomeEventSection from '../components/HomeScreen/HomeEventSection/HomeEventSection'
+import HomeArtistsSection from '../components/HomeScreen/HomeArtistsSection.js/HomeArtistsSection'
 
 const HomeScreen = () => {
     const animation = useRef(null);
@@ -66,7 +68,7 @@ const HomeScreen = () => {
     }
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar hidden />
+            <StatusBar style='light' backgroundColor='#000' />
             <ScrollView stickyHeaderIndices={[1]} contentContainerStyle={styles.scrollView} showsVerticalScrollIndicator={false}
                 refreshControl={
                     <RefreshControl progressViewOffset={moderateScale(130, Dimensions.SCALING_FACTOR)} refreshing={refreshing} onRefresh={onRefresh} />
@@ -92,11 +94,13 @@ const HomeScreen = () => {
                             <AdFlatList data={homeCarousel} />
                             <HomeOfferCards data={homeOffers} />
                             <HomeTrendingSection data={homeTrending} />
-                            <HomeExclusiveSection data={homeExclusive} />
                             <HomeBookCards />
+                            <HomeExclusiveSection data={homeExclusive} />
                             <HomePopularLocations data={homePopularLocations} />
                             <HomeEventSection data={EventsData} />
                             <HomeExploreCuisine />
+                            <HomeClubsSection data={homeClubsData} />
+                            <HomeArtistsSection />
                         </>
                 }
             </ScrollView>
