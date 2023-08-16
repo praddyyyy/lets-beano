@@ -109,7 +109,7 @@ const ClubDetailScreen = ({ route }) => {
 
     return (
         <View style={styles.container}>
-            <StatusBar hidden={true} />
+            <StatusBar style='light' backgroundColor='#000' />
             <View style={{ height: index != 1 ? Dimensions.SCREEN_HEIGHT * 0.22 : 0, width: index != 1 ? '100%' : 0 }} >
                 {/* <Image source={{ uri: clubImage }} style={{ height: '100%', width: '100%' }} /> */}
                 <Image source={{ uri: clubImage }} style={{ height: '100%', width: '100%' }} />
