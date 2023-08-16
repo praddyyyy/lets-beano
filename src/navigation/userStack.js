@@ -17,6 +17,8 @@ import { Linking } from 'react-native'
 // import QRScannerScreen from '../screens/QRScannerScreen'
 
 import * as Notifications from 'expo-notifications';
+import ArtistsScreen from '../screens/ArtistsScreen'
+import ArtistDetailScreen from '../screens/ArtistDetailScreen'
 
 const Stack = createNativeStackNavigator()
 
@@ -95,10 +97,13 @@ const userStack = () => {
                 }} />
                 <Stack.Screen name='EventTicketBasketScreen' component={EventTicketBasketScreen} options={{
                     animation: 'slide_from_bottom'
-                }} />
-                <Stack.Screen name='DJScreen' component={DJScreen} options={{
+                }} />*/}
+                <Stack.Screen name='ArtistsScreen' component={ArtistsScreen} options={{
                     animation: 'slide_from_left'
-                }} /> */}
+                }} />
+                <Stack.Screen name='ArtistDetailScreen' component={ArtistDetailScreen} options={{
+                    animation: 'slide_from_right'
+                }} />
                 <Stack.Screen name='ProfileScreen' component={ProfileScreen} options={{
                     animation: 'slide_from_left'
                 }} />
