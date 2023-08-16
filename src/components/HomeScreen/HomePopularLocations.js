@@ -10,7 +10,7 @@ const HomePopularLocations = (props) => {
     return (
         <View style={styles.container}>
             <View>
-                <Text style={{ color: 'white', fontFamily: 'Montserrat_700Bold', fontSize: 22, margin: 10 }}>Popular Locations</Text>
+                <Text style={{ color: 'white', fontFamily: 'Montserrat_700Bold', fontSize: 18, margin: 10 }}>Popular Locations</Text>
             </View>
             {/* <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'flex-start' }}>
                 {data.map((item, index) =>
@@ -46,11 +46,13 @@ export default HomePopularLocations
 
 const styles = StyleSheet.create({
     container: {
-        height: Dimensions.SCREEN_HEIGHT * 0.17,
+        height: Dimensions.SCREEN_HEIGHT * 0.15,
         marginHorizontal: 15,
         marginBottom: 20,
         borderWidth: 1,
         borderColor: 'white',
         borderRadius: 15,
+        paddingLeft: 5,
+        paddingRight: 10,
     }
 })
