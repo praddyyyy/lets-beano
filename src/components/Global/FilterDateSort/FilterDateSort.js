@@ -1,4 +1,4 @@
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, Text, View } from 'react-native'
 import { useState } from 'react'
 import Dimensions from '../../../utils/Dimensions'
 import FilterModalComponent from './FilterModalComponent'
@@ -51,8 +51,11 @@ const FilterDateSort = (props) => {
             <FilterModalComponent type={type} isFilterVisible={isFilterVisible} setIsFilterVisible={setIsFilterVisible} />
             <SortModalComponent isSortVisible={isSortVisible} setIsSortVisible={setIsSortVisible} />
             <View style={{ flex: 1, flexDirection: 'row', borderWidth: 1, borderColor: '#fff' }}>
-                <View style={{ flex: 1, alignItems: 'center', borderRightWidth: 1, borderColor: '#fff' }}>
+                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRightWidth: 1, borderColor: '#fff' }}>
                     <FilterDateSortButtons icon='tune' iconType='mater-community' text='Filter' pressHandler={FilterPressHandler} />
+                    <View style={{ backgroundColor: '#fff', borderRadius: 10, height: 20, width: 20, justifyContent: 'center', alignItems: 'center', marginLeft: 10 }}>
+                        <Text style={{ color: '#000', fontSize: 14 }}>3</Text>
+                    </View>
                 </View>
                 {
                     type === 'events' &&
@@ -83,8 +86,8 @@ export default FilterDateSort
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        height: Dimensions.SCREEN_HEIGHT * 0.07,
         justifyContent: 'space-around',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginVertical: 10
     }
 })
