@@ -89,6 +89,10 @@ export const homePopularLocations = [
         id: 4,
         image: require('../assets/images/Exclusive-4.jpg'),
     },
+    {
+        id: 5,
+        image: require('../assets/images/Exclusive-4.jpg'),
+    },
 ]
 
 export const clubsData = [
@@ -193,6 +197,62 @@ export const EventsData = [
         address: 'Address 5',
         price: 'Price 5',
         image: 'https://picsum.photos/200/300'
+    }
+]
+
+export const homeClubsData = [
+    {
+        id: 1,
+        name: 'Dance Again on Floor',
+        image: require('../assets/images/Club-1.jpg'),
+        contact: {
+            email: 'dance@gmail.com',
+            phone: '9988776655'
+        },
+        features: [
+            'Dance Floor',
+            'Live Music',
+            'Outdoor Seating',
+            'Smoking Area',
+            'Wifi',
+            'Valet Parking',
+            'Nightlife',
+        ],
+        highlights: [
+            'Dance Floor',
+            'Live Music',
+            'Outdoor Seating'
+        ],
+        location: {
+            latitude: 28.7041,
+            longitude: 77.1025,
+        },
+        price: 1500,
+        rating: 4.5,
+    },
+
+    {
+        id: 2,
+        name: 'La Havana',
+        image: require('../assets/images/Club-2.jpg'),
+        contact: {
+            email: 'havana@gmail.com',
+            phone: '9988776655'
+        },
+        features: [
+            'Dance Floor',
+            'Live Music',
+        ],
+        highlights: [
+            'Smoking Area',
+            'Wifi',
+        ],
+        location: {
+            latitude: 28.7041,
+            longitude: 77.1025,
+        },
+        price: 1500,
+        rating: 4.5,
     }
 ]
 
