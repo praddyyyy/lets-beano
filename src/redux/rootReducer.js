@@ -11,6 +11,8 @@ import homeExclusiveSlice from './features/home/homeExclusiveSlice';
 
 import eventDataSlice from './features/events/eventDataSlice';
 
+import artistDataSlice from './features/artists/artistDataSlice';
+
 const rootReducer = combineReducers({
     clubData: clubDataReducer,
     clubFilter: clubFilterReducer,
@@ -22,6 +24,8 @@ const rootReducer = combineReducers({
     homeExclusive: homeExclusiveSlice,
 
     eventData: eventDataSlice,
+
+    artistsData: artistDataSlice,
 });
 
 export default rootReducer;
