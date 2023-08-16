@@ -31,19 +31,31 @@ const ClubFilterModalContent = (props) => {
         setSliderValues(values);
     };
 
+    const handleClearFilterPress = () => {
+        dispatch(resetFilter());
+        setSliderValues([0, 5000]);
+    };
+
     return (
         <SafeAreaView style={styles.modal}>
             <StatusBar />
-            <View style={{ alignItems: 'center' }}>
-                <Text style={{ color: '#fff', fontSize: 24 }}>FILTER</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                <TouchableOpacity
+                    onPress={() => {
+                        props.setIsFilterVisible(!props.isFilterVisible)
+                    }}
+                    activeOpacity={0.5}
+                >
+                    <Icon type='ionicon' name='close-circle-outline' color='white' size={moderateScale(24, Dimensions.SCALING_FACTOR)} />
+                </TouchableOpacity>
+                <Text style={{ color: '#fff', fontSize: 24, fontFamily: 'Montserrat_600SemiBold' }}>FILTER</Text>
+                <TouchableOpacity
+                    onPress={handleClearFilterPress}
+                    activeOpacity={0.5}
+                >
+                    <Icon type='ionicon' name='trash-outline' color='white' size={moderateScale(24, Dimensions.SCALING_FACTOR)} />
+                </TouchableOpacity>
             </View>
-            <TouchableOpacity onPress={() => {
-                props.setIsFilterVisible(!props.isFilterVisible)
-            }}
-                style={{ position: 'absolute', top: moderateScale(8, Dimensions.SCALING_FACTOR), left: 20 }}
-            >
-                <Icon type='ionicon' name='close-circle-outline' color='white' size={moderateScale(24, Dimensions.SCALING_FACTOR)} />
-            </TouchableOpacity>
             <View style={{ marginHorizontal: 15, marginVertical: 15, borderWidth: 1, borderColor: '#fff', borderRadius: 15 }}>
                 <Text style={{ color: '#fff', marginHorizontal: 15, marginTop: 10 }}>CATEGORIES</Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15, marginVertical: 10 }}>
@@ -59,33 +71,22 @@ const ClubFilterModalContent = (props) => {
             <View style={{ marginHorizontal: 15, borderWidth: 1, borderColor: '#fff', borderRadius: 15 }}>
                 <Text style={{ color: '#fff', marginHorizontal: 15, marginTop: 10 }}>COST FOR TWO (INR {sliderValues[0]} - INR {sliderValues[1]})</Text>
                 <View style={{ marginHorizontal: 15 }}>
-                    {/* <Slider
-                        value={sliderValue}
-                        onValueChange={(value) => {
-                            setSliderValue(Math.round(value));
-                        }}
-                        minimumValue={0}
-                        maximumValue={5000}
-                        thumbTintColor={'#fff'}
-                        thumbStyle={{ width: 20, height: 20 }}
-                        step={500}
-                    /> */}
                     <MultiSlider
                         values={sliderValues}
                         onValuesChange={onSliderValuesChange}
                         min={0}
                         max={5000}
-                        step={500}
+                        step={100}
                         sliderLength={280} // Adjust the length of the slider as needed
                         allowOverlap={false} // Set to true if you want the ranges to overlap
                         snapped={true} // Set to true to snap the values to the step
                         selectedStyle={{
-                            backgroundColor: COLORS.primary,
+                            backgroundColor: COLORS.white,
                         }}
                         markerStyle={{
                             height: 15,
                             width: 15,
-                            backgroundColor: COLORS.primary,
+                            backgroundColor: COLORS.white,
                         }}
                     />
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
