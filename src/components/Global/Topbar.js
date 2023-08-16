@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Pressable } from 'react-native'
 import Dimensions from '../../utils/Dimensions'
 import { useNavigation } from '@react-navigation/native'
 import { Icon } from '@rneui/themed'
@@ -20,9 +20,9 @@ const TopBar = (props) => {
                         <Icon type='ionicon' name='chevron-back-circle' color='white' size={moderateScale(20, Dimensions.SCALING_FACTOR)} />
                     </TouchableOpacity>
                 </View>
-                <View>
+                <Pressable onPress={() => navigation.navigate('HomeScreen')}>
                     <Text style={{ color: '#FF4C68', fontFamily: 'Montserrat_700Bold', fontSize: moderateScale(20, Dimensions.SCALING_FACTOR) }}>Let's Beano</Text>
-                </View>
+                </Pressable>
                 <View>
                     <TouchableOpacity onPress={() => navigation.navigate('SearchScreen')}>
                         <Icon type='ionicon' name='search-outline' color='white' size={moderateScale(20, Dimensions.SCALING_FACTOR)} />
