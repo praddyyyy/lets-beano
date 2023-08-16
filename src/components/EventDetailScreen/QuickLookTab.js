@@ -9,7 +9,6 @@ import BookNowButton from './BookNowButton'
 import { TouchableOpacity } from 'react-native'
 import { Linking } from 'react-native'
 import moment from 'moment'
-import { event } from 'react-native-reanimated'
 
 const QuickLookTab = (props) => {
     const { eventKeywords, start_time, end_time, eventPrice, eventOrganizedBy, eventContact } = props;
