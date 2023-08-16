@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "726334210249",
+    "firebase_url": "https://lets-beano-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "lets-beano",
+    "storage_bucket": "lets-beano.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:726334210249:android:03bc43f2b1771e7e7c0d18",
+        "android_client_info": {
+          "package_name": "com.company.lets_beano"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "726334210249-afemhnl8gefs11mv4ei1of6ni73mj8kj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDNNieJAncwcUfj-hoAjnzSGipjonR0BE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "726334210249-afemhnl8gefs11mv4ei1of6ni73mj8kj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
