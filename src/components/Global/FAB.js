@@ -35,9 +35,11 @@ const ActionButton = ({ color, icon, style, goto, text }) => {
                     navigation.navigate(`${goto}`)
                 }}>
                 {/* <Icon type={Icons.FontAwesome5} name={icon} size={22} color={color} /> */}
-                <Icon type='font-awesome-5' name={icon} color={color} size={moderateScale(22, Dimensions.SCALING_FACTOR)} />
+                <>
+                    <Icon type='font-awesome-5' name={icon} color={color} size={moderateScale(22, Dimensions.SCALING_FACTOR)} />
+                    <Text style={styles.iconText}>{text}</Text>
+                </>
             </TouchableHighlight>
-            <Text style={styles.iconText}>{text}</Text>
         </Animated.View>
     )
 }
@@ -143,12 +145,12 @@ export default function Fab(props) {
                     </Animated.View>
                 </TouchableWithoutFeedback>
                 <ActionButton style={translationStyles(false, true, dist, dist)} color={props.current == 'Home' ? COLORS.red : 'white'} icon="home" goto='HomeScreen' text='Home' />
-                <ActionButton style={translationStyles(true, true, firstSplitX, firstSplitY)} color={props.current == 'DJ' ? COLORS.red : 'white'} icon="user-friends" goto='DJScreen' text='DJs' />
-                <ActionButton style={translationStyles(true, false, dist, dist)} color={props.current == 'Profile' ? COLORS.red : 'white'} icon="user-alt" goto='ProfileScreen' text='Profile' />
-                <ActionButton style={translationStyles(true, true, -firstSplitX, firstSplitY)} color={props.current == 'Club' ? COLORS.red : 'white'} icon="headphones-alt" goto='ClubsScreen' text='Clubs' />
+                <ActionButton style={translationStyles(true, false, dist, dist)} color={props.current == 'Artists' ? COLORS.red : 'white'} icon="user-friends" goto='ArtistsScreen' text='Artists' />
+                <ActionButton style={translationStyles(true, false, -dist, dist)} color={props.current == 'Profile' ? COLORS.red : 'white'} icon="user-alt" goto='ProfileScreen' text='Profile' />
+                <ActionButton style={translationStyles(true, true, firstSplitX, firstSplitY)} color={props.current == 'Club' ? COLORS.red : 'white'} icon="headphones-alt" goto='ClubsScreen' text='Clubs' />
                 {/* <ActionButton style={translationStyles(true, true, -firstSplitX, firstSplitY)} color={props.current == 'Media' ? COLORS.red : 'white'} icon="play" goto='HomeScreen' text='Media' />
                 <ActionButton style={translationStyles(true, false, -dist, dist)} color={props.current == 'Rewards' ? COLORS.red : 'white'} icon="trophy" text='Rewards' /> */}
-                <ActionButton style={translationStyles(true, false, -dist, dist)} color={props.current == 'Events' ? COLORS.red : 'white'} icon="newspaper" goto='EventsScreen' text='Events' />
+                <ActionButton style={translationStyles(true, true, -firstSplitX, firstSplitY)} color={props.current == 'Events' ? COLORS.red : 'white'} icon="newspaper" goto='EventsScreen' text='Events' />
             </View>
         </View>
     )
@@ -208,6 +210,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Blinker_400Regular',
         color: 'white',
         fontSize: 16,
-        top: Dimensions.isLargeScreen() ? 30 : 20
+        top: Dimensions.isLargeScreen() ? 15 : 5
     }
 })
