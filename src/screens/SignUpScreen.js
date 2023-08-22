@@ -12,6 +12,10 @@ import LottieView from 'lottie-react-native';
 import { auth } from '../../firebase-config';
 
 import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+
+// form handling
+import { Formik } from 'formik'
+import * as yup from 'yup'
 // import { getAuth } from 'firebase/auth';
 
 // const auth = getAuth();
@@ -20,12 +24,24 @@ const SignUpScreen = ({ navigation }) => {
     const animation = useRef(null);
     const [loading, setLoading] = useState(false)
     const [verified, setVerified] = useState(false)
+    const [firebaseError, setFirebaseError] = useState(null)
+
+    const signupValidationSchema = yup.object().shape({
+        email: yup
+            .string()
+            .matches(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, "Please enter valid email!")
+            .required('Email Address is Required!'),
+        password: yup
+            .string()
+            .min(6, ({ min }) => `Password must be at least ${min} characters!`)
+            .required('Password is required!'),
+        confirmPassword: yup
+            .string()
+            .oneOf([yup.ref('password')], 'Passwords do not match!')
+            .required('Confirm Password is required!'),
+    })
 
     const [data, setData] = useState({
-        email: '',
-        password: '',
-        confirmPassword: '',
-        check_emailInputChange: false,
         secureTextEntry: true,
         confirmSecureTextEntry: true,
     });
@@ -38,13 +54,24 @@ const SignUpScreen = ({ navigation }) => {
                     .then(() => {
                         setLoading(true)
                     }).catch((error) => {
-                        console.log(error);
+                        setFirebaseError(error.message)
                     })
             })
             .catch((error) => {
-                console.log(error)
+                if (error.code === 'auth/email-already-in-use') {
+                    setFirebaseError('The email address is already in use!');
+                } else if (error.code === 'auth/invalid-email') {
+                    setFirebaseError('The email address is invalid!');
+                } else {
+                    setFirebaseError(error.message)
+                }
             });
     }
+    useEffect(() => {
+        navigation.addListener('beforeRemove', (e) => {
+            e.preventDefault();
+        });
+    }, [navigation]);
 
     useEffect(() => {
         if (loading) {
@@ -64,39 +91,6 @@ const SignUpScreen = ({ navigation }) => {
         }
         // return () => clearInterval(intervalId); // clean up the interval when the component unmounts
     }, [loading]);
-
-    const emailRegex =
-        new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
-
-    const emailInputChange = (val) => {
-        if (emailRegex.test(val)) {
-            setData({
-                ...data,
-                email: val,
-                check_emailInputChange: true
-            });
-        } else {
-            setData({
-                ...data,
-                email: val,
-                check_emailInputChange: false
-            });
-        }
-    }
-
-    const handlePasswordChange = (val) => {
-        setData({
-            ...data,
-            password: val,
-        });
-    }
-
-    const handleConfirmPasswordChange = (val) => {
-        setData({
-            ...data,
-            confirmPassword: val,
-        });
-    }
 
     const updateSecureTextEntry = () => {
         setData({
@@ -147,49 +141,87 @@ const SignUpScreen = ({ navigation }) => {
                             >
 
                                 <Text style={{ alignSelf: 'center', marginBottom: 15, fontFamily: 'Montserrat_700Bold', fontSize: moderateScale(15, Dimensions.SCALING_FACTOR) }}>Sign Up using your email</Text>
-                                <View>
-                                    <Input
-                                        placeholder='Enter your email'
-                                        keyboardType='email-address'
-                                        autoCapitalize='none'
-                                        containerStyle={{ paddingHorizontal: 0, width: Dimensions.SCREEN_WIDTH * 0.8 }}
-                                        inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: '#fff', paddingHorizontal: 15, borderRadius: 50 }}
-                                        leftIcon={{ type: 'font-awesome', name: 'user', color: 'grey', size: 20, style: { marginRight: 10 } }}
-                                        rightIcon={data.check_emailInputChange ? <Animatable.View animation={"bounceIn"}><Icon type='feather' name='check-circle' color='green' size={20} /></Animatable.View> : null}
-                                        onChangeText={(val) => emailInputChange(val)}
-                                    />
-                                    <Input
-                                        placeholder='Enter your password'
-                                        keyboardType='default'
-                                        autoCapitalize='none'
-                                        containerStyle={{ paddingHorizontal: 0, width: Dimensions.SCREEN_WIDTH * 0.8 }}
-                                        secureTextEntry={data.secureTextEntry ? true : false}
-                                        inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: '#fff', paddingHorizontal: 15, borderRadius: 50 }}
-                                        leftIcon={{ type: 'font-awesome', name: 'lock', color: 'grey', size: 20, style: { marginRight: 10 } }}
-                                        rightIcon={data.secureTextEntry ? <TouchableOpacity onPress={updateSecureTextEntry}><Icon type='feather' name='eye-off' color='grey' size={20} /></TouchableOpacity> : <TouchableOpacity onPress={updateSecureTextEntry}><Icon type='feather' name='eye' color='grey' size={20} /></TouchableOpacity>}
-                                        onChangeText={(val) => handlePasswordChange(val)}
-                                    />
-                                    <Input
-                                        placeholder='Confirm your password'
-                                        keyboardType='default'
-                                        autoCapitalize='none'
-                                        secureTextEntry={data.confirmSecureTextEntry ? true : false}
-                                        containerStyle={{ paddingHorizontal: 0, width: Dimensions.SCREEN_WIDTH * 0.8 }}
-                                        inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: '#fff', paddingHorizontal: 15, borderRadius: 50 }}
-                                        leftIcon={{ type: 'font-awesome', name: 'lock', color: 'grey', size: 20, style: { marginRight: 10 } }}
-                                        rightIcon={data.confirmSecureTextEntry ? <TouchableOpacity onPress={updateConfirmSecureTextEntry}><Icon type='feather' name='eye-off' color='grey' size={20} /></TouchableOpacity> : <TouchableOpacity onPress={updateConfirmSecureTextEntry}><Icon type='feather' name='eye' color='grey' size={20} /></TouchableOpacity>}
-                                        onChangeText={(val) => handleConfirmPasswordChange(val)}
-                                    />
-                                    <TouchableOpacity
-                                        style={[styles.continueButton]}
-                                        onPress={() => registerUser(data.email, data.password)}
-                                        // disabled={data.check_emailInputChange}
-                                        disabled={data.check_emailInputChange && (data.password === data.confirmPassword) ? false : true}
-                                    >
-                                        {/* <TouchableOpacity style={styles.continueButton} onPress={() => navigation.navigate('PersonalDetailsScreen')} > */}
-                                        <Text style={{ color: '#fff', fontSize: moderateScale(15, Dimensions.SCALING_FACTOR), fontFamily: 'Montserrat_700Bold' }}>CONTINUE</Text>
-                                    </TouchableOpacity>
-                                </View>
+                                <Formik
+                                    validationSchema={signupValidationSchema}
+                                    initialValues={{ email: '', password: '', confirmPassword: '' }}
+                                    onSubmit={values => registerUser(values.email, values.password)}
+                                >
+                                    {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
+                                        <View>
+                                            <Input
+                                                placeholder='Enter your email'
+                                                keyboardType='email-address'
+                                                autoCapitalize='none'
+                                                containerStyle={{ paddingHorizontal: 0, width: Dimensions.SCREEN_WIDTH * 0.8 }}
+                                                inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: '#fff', paddingHorizontal: 15, borderRadius: 50 }}
+                                                leftIcon={{ type: 'font-awesome', name: 'user', color: 'grey', size: 20, style: { marginRight: 10 } }}
+                                                rightIcon={data.check_emailInputChange ? <Animatable.View animation={"bounceIn"}><Icon type='feather' name='check-circle' color='green' size={20} /></Animatable.View> : null}
+                                                // onChangeText={(val) => emailInputChange(val)}
+                                                onChangeText={handleChange('email')}
+                                                onBlur={handleBlur('email')}
+                                                value={values.email}
+                                            />
+                                            <Input
+                                                placeholder='Enter your password'
+                                                keyboardType='default'
+                                                autoCapitalize='none'
+                                                containerStyle={{ paddingHorizontal: 0, width: Dimensions.SCREEN_WIDTH * 0.8 }}
+                                                secureTextEntry={data.secureTextEntry ? true : false}
+                                                inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: '#fff', paddingHorizontal: 15, borderRadius: 50 }}
+                                                leftIcon={{ type: 'font-awesome', name: 'lock', color: 'grey', size: 20, style: { marginRight: 10 } }}
+                                                rightIcon={data.secureTextEntry ? <TouchableOpacity onPress={updateSecureTextEntry}><Icon type='feather' name='eye-off' color='grey' size={20} /></TouchableOpacity> : <TouchableOpacity onPress={updateSecureTextEntry}><Icon type='feather' name='eye' color='grey' size={20} /></TouchableOpacity>}
+                                                // onChangeText={(val) => handlePasswordChange(val)}
+                                                onChangeText={handleChange('password')}
+                                                onBlur={handleBlur('password')}
+                                                value={values.password}
+                                            />
+                                            <Input
+                                                placeholder='Confirm your password'
+                                                keyboardType='default'
+                                                autoCapitalize='none'
+                                                secureTextEntry={data.confirmSecureTextEntry ? true : false}
+                                                containerStyle={{ paddingHorizontal: 0, width: Dimensions.SCREEN_WIDTH * 0.8 }}
+                                                inputContainerStyle={{ borderBottomWidth: 0, backgroundColor: '#fff', paddingHorizontal: 15, borderRadius: 50 }}
+                                                leftIcon={{ type: 'font-awesome', name: 'lock', color: 'grey', size: 20, style: { marginRight: 10 } }}
+                                                rightIcon={data.confirmSecureTextEntry ? <TouchableOpacity onPress={updateConfirmSecureTextEntry}><Icon type='feather' name='eye-off' color='grey' size={20} /></TouchableOpacity> : <TouchableOpacity onPress={updateConfirmSecureTextEntry}><Icon type='feather' name='eye' color='grey' size={20} /></TouchableOpacity>}
+                                                // onChangeText={(val) => handleConfirmPasswordChange(val)}
+                                                onChangeText={handleChange('confirmPassword')}
+                                                onBlur={handleBlur('confirmPassword')}
+                                                value={values.confirmPassword}
+                                            />
+                                            <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: 5 }}>
+                                                {
+                                                    (errors.email && touched.email) &&
+                                                    <Text style={{ color: 'red', fontSize: 14, fontFamily: 'Montserrat_500Medium' }}>{errors.email}</Text>
+                                                }
+                                                {
+                                                    (errors.password && touched.password) &&
+                                                    <Text style={{ color: 'red', fontSize: 14, fontFamily: 'Montserrat_500Medium' }}>{errors.password}</Text>
+                                                }
+                                                {
+                                                    (errors.confirmPassword && touched.confirmPassword) &&
+                                                    <Text style={{ color: 'red', fontSize: 14, fontFamily: 'Montserrat_500Medium' }}>{errors.confirmPassword}</Text>
+                                                }
+                                                {
+                                                    firebaseError && (
+                                                        (firebaseError === 'auth/email-already-in-use') ?
+                                                            <Text style={{ color: 'red', fontSize: 14, fontFamily: 'Montserrat_500Medium' }}>Email already in use</Text>
+                                                            :
+                                                            <Text style={{ color: 'red', fontSize: 14, fontFamily: 'Montserrat_500Medium' }}>{firebaseError}</Text>
+                                                    )
+                                                }
+                                            </View>
+                                            <TouchableOpacity
+                                                style={[styles.continueButton]}
+                                                onPress={handleSubmit}
+                                                disabled={!isValid}
+                                            >
+                                                {/* <TouchableOpacity style={styles.continueButton} onPress={() => navigation.navigate('PersonalDetailsScreen')} > */}
+                                                <Text style={{ color: '#fff', fontSize: moderateScale(15, Dimensions.SCALING_FACTOR), fontFamily: 'Montserrat_700Bold' }}>CONTINUE</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                    )}
+                                </Formik>
                                 <View style={{ marginTop: 10, padding: 15 }}>
                                     <Text style={styles.policyText}>By tapping Sign in/ Create Account, you agree to
                                         our Terms or Service. Learn how we process your data
