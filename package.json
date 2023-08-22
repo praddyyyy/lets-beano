@@ -33,6 +33,7 @@
     "expo-status-bar": "~1.4.4",
     "expo-updates": "~0.16.4",
     "firebase": "^9.23.0",
+    "formik": "^2.4.3",
     "lottie-react-native": "5.1.4",
     "moment": "^2.29.4",
     "react": "18.2.0",
@@ -49,7 +50,10 @@
     "react-native-size-matters": "^0.4.0",
     "react-native-tab-view": "^3.5.2",
     "react-native-web": "~0.18.10",
-    "react-redux": "^8.1.1"
+    "react-redux": "^8.1.1",
+    "yup": "^1.2.0",
+    "expo-dev-client": "~2.2.1",
+    "react-native-pager-view": "6.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
