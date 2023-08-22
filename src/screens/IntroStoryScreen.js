@@ -1,4 +1,5 @@
-import { Animated, Image, Platform, Text, TouchableOpacity, View } from 'react-native'
+import { Animated, Platform, Text, TouchableOpacity, View } from 'react-native'
+import { Image } from 'expo-image';
 import React, { useRef, useState } from 'react'
 import Dimensions from '../utils/Dimensions'
 import { scale } from 'react-native-size-matters'
@@ -6,6 +7,10 @@ import { COLORS } from '../utils/ThemeColors'
 import { StatusBar } from 'expo-status-bar'
 
 // TODO - Try expo-image
+
+const blurhash =
+    '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
+
 
 const IntroStoryScreen = ({ navigation }) => {
     const [current, setCurrent] = useState(0)
@@ -80,10 +85,21 @@ const IntroStoryScreen = ({ navigation }) => {
         <View style={{ flex: 1, backgroundColor: COLORS.background }}>
             {/* TODO Check Status Bar for IOS */}
             <StatusBar hidden />
-            <Image source={content[current].content} onLoadEnd={() => {
+            {/* <Image source={content[current].content} onLoadEnd={() => {
                 progress.setValue(0);
                 start();
-            }} style={{ width: '100%', height: '100%', resizeMode: 'cover' }} />
+            }} style={{ width: '100%', height: '100%', resizeMode: 'cover' }} /> */}
+            <Image
+                style={{ width: '100%', height: '100%', resizeMode: 'cover' }}
+                source={content[current].content}
+                placeholder={blurhash}
+                onLoadEnd={() => {
+                    progress.setValue(0);
+                    start();
+                }}
+                contentFit="cover"
+                transition={1000}
+            />
             <View style={{ width: Dimensions.SCREEN_WIDTH, position: 'absolute', top: Platform.OS === 'ios' ? Dimensions.SCREEN_HEIGHT * 0.1 : Dimensions.SCREEN_HEIGHT * 0.03, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' }}>
                 {content.map((item, index) => {
                     return (
