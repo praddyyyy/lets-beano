@@ -1,4 +1,4 @@
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Icon } from '@rneui/themed'
@@ -113,9 +113,9 @@ const ProfileScreen = ({ navigation }) => {
                             <Icon type='ionicon' name='chevron-back-circle' color='white' size={moderateScale(24, Dimensions.SCALING_FACTOR)} />
                         </TouchableOpacity>
                     </View>
-                    <View>
+                    <Pressable onPress={() => navigation.navigate('HomeScreen')}>
                         <Text style={{ color: '#FF4C68', fontFamily: 'MontserratAlternates_900Black', fontSize: 22 }}>Let's Beano</Text>
-                    </View>
+                    </Pressable>
                     <View>
                         <TouchableOpacity onPress={() => navigation.navigate('SearchScreen')}>
                             {/* <Icon type={Icons.Ionicons} name='search-outline' color='white' size={Dimensions.SCREEN_HEIGHT * 0.035} /> */}
