@@ -32,13 +32,9 @@ import HomeEventSection from '../components/HomeScreen/HomeEventSection/HomeEven
 import HomeArtistsSection from '../components/HomeScreen/HomeArtistsSection.js/HomeArtistsSection'
 
 const HomeScreen = () => {
+    const dispatch = useDispatch()
     const animation = useRef(null);
 
-    const dispatch = useDispatch()
-    const { homeCarousel, loading: homeCarouselLoading, error: homeCarouselError } = useSelector(state => state.homeCarousel)
-    const { homeOffers, loading: homeOffersLoading, error: homeOffersError } = useSelector(state => state.homeOffers)
-    const { homeTrending, loading: homeTrendingLoading, error: homeTrendingError } = useSelector(state => state.homeTrending)
-    const { homeExclusive, loading: homeExclusiveLoading, error: homeExclusiveError } = useSelector(state => state.homeExclusive)
 
     useEffect(() => {
         dispatch(fetchHomeCarouselDataFromFirestore())
@@ -46,6 +42,11 @@ const HomeScreen = () => {
         dispatch(fetchHomeTrendingDataFromFirestore())
         dispatch(fetchHomeExclusiveDataFromFirestore())
     }, [])
+
+    const { homeCarousel, loading: homeCarouselLoading, error: homeCarouselError } = useSelector(state => state.homeCarousel)
+    const { homeOffers, loading: homeOffersLoading, error: homeOffersError } = useSelector(state => state.homeOffers)
+    const { homeTrending, loading: homeTrendingLoading, error: homeTrendingError } = useSelector(state => state.homeTrending)
+    const { homeExclusive, loading: homeExclusiveLoading, error: homeExclusiveError } = useSelector(state => state.homeExclusive)
 
     const [refreshing, setRefreshing] = useState(false);
     const [searchValue, setSearchValue] = useState('')
